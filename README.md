@@ -1,34 +1,54 @@
-# 🔬 ICA Lens
+<h1 align="center">
+  <b>ICA Lens: A fast, compact lens for exploring interpretable directions in language-model activations.</b>
+</h1>
 
-> Mechanistic Interpretability through Independent Component Analysis for Language Models
+<p align="center">
+  <a href="https://liusida.github.io/ica-lens-paper/">
+    <img src="https://img.shields.io/badge/Project-Page-2f80ed?style=flat-square&logo=googlechrome&logoColor=white" alt="Project Page">
+  </a>
+  <a href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">
+    <img src="https://img.shields.io/badge/🤗%20Space-ICA%20Explorer-ffcc4d?style=flat-square" alt="ICA Explorer">
+  </a>
+  <a href="https://huggingface.co/datasets/sida/ica-lens-paper">
+    <img src="https://img.shields.io/badge/🤗%20Dataset-Checkpoints-f9a03f?style=flat-square" alt="Hugging Face Dataset">
+  </a>
+  <a href="docs/quickstart.md">
+    <img src="https://img.shields.io/badge/Docs-Quickstart-4c8eda?style=flat-square&logo=readthedocs&logoColor=white" alt="Docs">
+  </a>
+</p>
 
-Standalone code release for the ICA Lens paper.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776ab?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/PyTorch-supported-ee4c2c?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch">
+  <img src="https://img.shields.io/badge/FastAPI-explorer-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/uv-package%20manager-6f42c1?style=flat-square" alt="uv">
+  <img src="https://img.shields.io/badge/Reproducibility-workflows-2ea44f?style=flat-square" alt="Reproducibility">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Mechanistic%20Interpretability-ICA-111827?style=flat-square" alt="Mechanistic Interpretability">
+  <img src="https://img.shields.io/badge/Independent%20Component%20Analysis-FastICA-7c3aed?style=flat-square" alt="ICA">
+  <img src="https://img.shields.io/badge/Sparse%20Autoencoders-comparison-f97316?style=flat-square" alt="SAE Comparison">
+  <img src="https://img.shields.io/badge/Models-GPT--2%20%7C%20Gemma--2%20%7C%20Qwen3.5-0f766e?style=flat-square" alt="Models">
+</p>
+
+<p align="center">
+  <a href="docs/quickstart.md">Quickstart</a> ·
+  <a href="docs/reproduction.md">Reproduction</a> ·
+  <a href="docs/troubleshooting.md">Troubleshooting</a> ·
+  <a href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Try the Demo</a> ·
+  <a href="https://huggingface.co/datasets/sida/ica-lens-paper">Download Artifacts</a>
+</p>
 
 ---
 
-## 🔗 Quick Links
+**ICA Lens** is the standalone code release for the ICA Lens paper. It provides tools for fitting, browsing, annotating, and evaluating Independent Component Analysis (ICA) directions in language-model activations.
 
-| | |
-|---|---|
-| 🌐 **Project Page** | [ica-lens-paper](https://liusida.github.io/ica-lens-paper/) |
-| 🚀 **Online Demo** | [ICA Explorer](https://huggingface.co/spaces/EEEAILab/ICAExplorer) |
-| 📊 **Checkpoints** | [Hugging Face Dataset](https://huggingface.co/datasets/sida/ica-lens-paper) |
+Large fitted ICA models and explorer databases are hosted on Hugging Face and downloaded into `artifacts/fetched/`. Generated reproductions are written under `results/`.
 
 ---
 
-## 📌 Keywords
-
-**Mechanistic Interpretability** • **Independent Component Analysis** • **Sparse Autoencoders** • **Language Model Representations**
-
----
-
-## 📦 Overview
-
-This repository is code-only. Large fitted ICA models and explorer databases are downloaded from the `sida/ica-lens-paper` Hugging Face dataset into `artifacts/fetched/`. Generated reproductions are written under `results/`.
-
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ### For Explorer Users: Mini Database
 
@@ -67,7 +87,7 @@ Open `http://127.0.0.1:8001`.
 
 ---
 
-## 🔄 Reproduction
+## Reproduction
 
 ### Mini Reproduction
 
@@ -119,7 +139,7 @@ Repeat with `gemma2_2b` and `qwen3_5_2b_base` configs for the other released mod
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 | Directory | Purpose |
 |-----------|---------|
@@ -133,7 +153,7 @@ Repeat with `gemma2_2b` and `qwen3_5_2b_base` configs for the other released mod
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 For more detailed information, see:
 - [`docs/quickstart.md`](docs/quickstart.md) - Quick start guide
@@ -142,30 +162,24 @@ For more detailed information, see:
 
 ---
 
-## 📝 Citation
-
-If you use this code or dataset in your research, please cite the paper:
-
-```bibtex
-@article{ica-lens,
-  title={ICA Lens: Understanding Language Model Representations through Independent Component Analysis},
-  author={...},
-  year={2024}
-}
-```
-
----
-
-## 📄 License
+## License
 
 This project is licensed under [MIT License](LICENSE).
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to open issues or submit pull requests.
 
----
 
-**Made with ❤️ by [liusida](https://github.com/liusida)**
+## Contact
+
+We are also happy to hear from researchers interested in ICA, sparse autoencoders, and mechanistic interpretability more broadly.
+
+| Name | Affiliation | Email |
+|------|-------------|-------|
+| **Sida Liu** | Independent Researcher | [me@liusida.com](mailto:me@liusida.com) |
+| **Feijiang Han** | University of Maryland | [feijhan@umd.edu](mailto:feijhan@umd.edu) |
+
+
