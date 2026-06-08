@@ -22,7 +22,7 @@ const cases = [
     topK: 5,
     cardWidth: 140,
     opacityCutoff: 0.5,
-    components: "273:+",
+    components: "67:-",
     text: bankParagraph,
     highlights: ["bank", "deposit", "cash", "river", "bank", "vaults", "earth"],
     summary:
