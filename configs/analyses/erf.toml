@@ -1,0 +1,4 @@
+[erf]
+max_window = 11
+top_k_recovery = 15
+evidence_threshold_fraction = 0.5

@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SAE Explorer</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --text: #151922;
+      --muted: #647084;
+      --border: #cbd3df;
+      --accent: #1f6feb;
+      --shadow: 0 1px 2px rgb(20 25 34 / .08), 0 10px 30px rgb(20 25 34 / .06);
+      --token-card-width: 140px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 12px 18px;
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    h1 { margin: 0; font-size: 19px; letter-spacing: 0; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav a {
+      color: var(--accent);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .nav a.active { color: #0f172a; }
+    .nav a:hover { text-decoration: underline; }
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .panel {
+      margin-top: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 450px;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .control-stack {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      align-items: center;
+      gap: 10px;
+    }
+    .inline-control {
+      display: grid;
+      grid-template-columns: max-content max-content;
+      align-items: center;
+      column-gap: 8px;
+    }
+    .inline-control > span { white-space: nowrap; }
+    .control-break { flex-basis: 100%; height: 0; }
+    label {
+      display: grid;
+      gap: 5px;
+      color: #435066;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    textarea, select, input, button {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      padding: 8px 10px;
+    }
+    textarea {
+      height: 92px;
+      min-height: 92px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    #topK { width: 58px; min-width: 0; }
+    #cardWidth { width: 78px; min-width: 0; }
+    #weakRatio { width: 58px; min-width: 0; }
+    button {
+      cursor: pointer;
+      min-height: 39px;
+      background: #eef2f7;
+      font-weight: 750;
+    }
+    .run-button {
+      width: auto;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-color: #1458c8;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+    }
+    .memory-control {
+      position: fixed;
+      right: 12px;
+      bottom: 10px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      width: auto;
+      min-height: 24px;
+      padding: 3px 6px;
+      border: 1px solid #d7dee9;
+      border-radius: 6px;
+      background: rgb(255 255 255 / .78);
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .memory-control input { width: auto; margin: 0; padding: 0; accent-color: #94a3b8; }
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--token-card-width), 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .token-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px;
+      background: #fff;
+      min-width: 0;
+      text-align: center;
+    }
+    .token-text {
+      min-height: 25px;
+      font-weight: 850;
+      text-align: center;
+      overflow-wrap: anywhere;
+      margin-bottom: 6px;
+    }
+    .score-row {
+      position: relative;
+      min-height: 24px;
+      margin-top: 3px;
+    }
+    .badge {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 24px;
+      padding: 3px 5px;
+      border: 1px solid #d5dce7;
+      border-radius: 5px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--score-bg, #edf2f7) 0,
+          var(--score-bg, #edf2f7) var(--score-width, 100%),
+          transparent var(--score-width, 100%),
+          transparent 100%
+        );
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+    .badge:hover {
+      border-color: var(--feature-color, var(--accent));
+    }
+    .badge.hot {
+      opacity: 1;
+      border-color: var(--feature-color, var(--accent));
+      --score-bg: color-mix(in srgb, var(--feature-color, var(--accent)) 18%, white);
+      box-shadow: inset 3px 0 0 var(--feature-color, var(--accent));
+    }
+    .badge.weak { opacity: .16; }
+    .badge.weak.hot,
+    .badge.weak:hover { opacity: 1; }
+    .badge-main {
+      min-width: 0;
+      max-width: calc(100% - 35px);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .score {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 9px;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+    }
+    .empty, .error {
+      margin-top: 12px;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .error { color: #a41414; border-color: #f0b9b9; background: #fff7f7; }
+    .request-indicator {
+      position: fixed;
+      left: 14px;
+      top: 62px;
+      z-index: 8;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      color: #435066;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .request-indicator.visible { display: inline-flex; }
+    .request-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #cbd5e1;
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: request-spin .8s linear infinite;
+    }
+    @keyframes request-spin { to { transform: rotate(360deg); } }
+    .meta-line {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    @media (max-width: 760px) {
+      main { padding: 12px; }
+      .controls { grid-template-columns: 1fr; }
+      .top { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <h1>SAE Explorer</h1>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Explorer</a>
+        <a href="/sae-explorer" class="active">SAE Explorer</a>
+        <a href="/stats">Stats</a>
+        <a href="/annotate">Annotate</a>
+        <a href="/random-components">Random</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="panel">
+      <div class="controls">
+        <label>
+          Text
+          <textarea id="probeText" spellcheck="false">Maya stopped at the bank before the trip, waiting in line to deposit a check and withdraw enough cash for the weekend.</textarea>
+        </label>
+        <div class="control-stack">
+          <label class="inline-control">
+            <span>Model</span>
+            <select id="modelSelect"></select>
+          </label>
+          <label class="inline-control">
+            <span>Layer</span>
+            <select id="layerSelect"></select>
+          </label>
+          <span class="control-break" aria-hidden="true"></span>
+          <label class="inline-control">
+            <span>Top K</span>
+            <input id="topK" type="number" min="1" max="128" value="5" />
+          </label>
+          <label class="inline-control">
+            <span>Card Width</span>
+            <input id="cardWidth" type="number" min="100" max="360" step="20" value="140" />
+          </label>
+          <label class="inline-control">
+            <span>Opacity Cutoff</span>
+            <input id="weakRatio" type="number" min="0" max="1" step="0.05" value="0.5" />
+          </label>
+          <button id="runProbe" class="run-button" type="button">Run</button>
+        </div>
+        <label class="memory-control" title="Keep loaded models in VRAM when switching.">
+          <input id="keepModels" type="checkbox" checked />
+          <span>Cache LLMs in VRAM</span>
+        </label>
+      </div>
+      <div id="metaLine" class="meta-line"></div>
+    </div>
+
+    <div id="message" class="empty">Choose a layer and run the SAE probe.</div>
+    <div id="results" class="results"></div>
+  </main>
+  <div id="requestIndicator" class="request-indicator" role="status" aria-live="polite">
+    <span class="request-spinner" aria-hidden="true"></span>
+    <span>Waiting for server...</span>
+  </div>
+
+  <script>
+    const STORAGE_KEYS = {
+      probeText: "saeExplorer.probeText",
+      model: "saeExplorer.model",
+      layer: "saeExplorer.layer",
+      topK: "saeExplorer.topK",
+      cardWidth: "saeExplorer.cardWidth",
+      weakRatio: "saeExplorer.opacityCutoff",
+      keepModels: "saeExplorer.keepModels",
+      highlights: "saeExplorer.selectedFeatures",
+    };
+
+    const state = {
+      models: [],
+      meta: null,
+      requestId: 0,
+      pendingRequests: 0,
+      lastProbeOutput: null,
+      selectedFeatures: new Set(),
+    };
+
+    const els = {
+      text: document.getElementById("probeText"),
+      model: document.getElementById("modelSelect"),
+      layer: document.getElementById("layerSelect"),
+      topK: document.getElementById("topK"),
+      cardWidth: document.getElementById("cardWidth"),
+      weakRatio: document.getElementById("weakRatio"),
+      runProbe: document.getElementById("runProbe"),
+      keepModels: document.getElementById("keepModels"),
+      metaLine: document.getElementById("metaLine"),
+      message: document.getElementById("message"),
+      results: document.getElementById("results"),
+      requestIndicator: document.getElementById("requestIndicator"),
+    };
+
+    async function api(path, options = {}) {
+      beginRequest();
+      try {
+        const res = await fetch(path, {
+          headers: { "content-type": "application/json" },
+          ...options,
+        });
+        if (!res.ok) {
+          let detail = res.statusText;
+          try { detail = (await res.json()).detail || detail; } catch {}
+          throw new Error(detail);
+        }
+        return res.json();
+      } finally {
+        endRequest();
+      }
+    }
+
+    function beginRequest() {
+      state.pendingRequests += 1;
+      els.requestIndicator.classList.toggle("visible", state.pendingRequests > 0);
+    }
+
+    function endRequest() {
+      state.pendingRequests = Math.max(0, state.pendingRequests - 1);
+      els.requestIndicator.classList.toggle("visible", state.pendingRequests > 0);
+    }
+
+    async function init() {
+      restoreControlValues();
+      const savedText = localStorage.getItem(STORAGE_KEYS.probeText);
+      if (savedText !== null) els.text.value = savedText;
+      try {
+        const modelsOut = await api("/api/models");
+        state.models = modelsOut.models || [];
+        els.model.innerHTML = state.models.map(model => `<option value="${escapeAttr(model.model_name)}">${escapeHtml(model.display_name || model.model_name)}</option>`).join("");
+        const savedModel = localStorage.getItem(STORAGE_KEYS.model);
+        if (savedModel && state.models.some(model => model.model_name === savedModel)) els.model.value = savedModel;
+        else if (state.models.some(model => model.model_name === "gpt2")) els.model.value = "gpt2";
+        await loadSaeMeta({ restoreLayer: true });
+        runProbe();
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    async function loadSaeMeta(options = {}) {
+      state.meta = await api(`/api/sae-meta?model=${encodeURIComponent(els.model.value)}`);
+      els.layer.innerHTML = state.meta.layers.map(layer => `<option value="${escapeAttr(layer)}">${escapeHtml(layer)}</option>`).join("");
+      const savedLayer = localStorage.getItem(STORAGE_KEYS.layer);
+      if (options.restoreLayer && savedLayer && state.meta.layers.includes(savedLayer)) els.layer.value = savedLayer;
+      else if (state.meta.layers.includes("layer_05")) els.layer.value = "layer_05";
+      restoreFeatureHighlightsForContext();
+      renderMetaLine();
+    }
+
+    function renderMetaLine() {
+      const sae = state.meta?.sae || {};
+      const parts = [
+        sae.repo_id ? `SAE: ${sae.repo_id}` : "",
+        sae.width ? `width=${sae.width}` : "",
+        sae.top_k ? `SAE top-k=${sae.top_k}` : "",
+        sae.activation ? `activation=${sae.activation}` : "",
+      ].filter(Boolean);
+      els.metaLine.textContent = parts.join(" · ");
+    }
+
+    async function runProbe() {
+      const requestId = ++state.requestId;
+      if (!els.text.value.trim()) {
+        els.results.innerHTML = "";
+        els.message.hidden = false;
+        els.message.className = "empty";
+        els.message.textContent = "Enter text to run the SAE probe.";
+        return;
+      }
+      if (!els.results.children.length) {
+        els.message.hidden = false;
+        els.message.className = "empty";
+        els.message.textContent = "Running SAE probe...";
+      }
+      try {
+        const out = await api("/api/sae-probe", {
+          method: "POST",
+          body: JSON.stringify({
+            text: els.text.value,
+            model_name: els.model.value,
+            layer: els.layer.value,
+            top_k: Number(els.topK.value || 5),
+            keep_models: els.keepModels.checked,
+          }),
+        });
+        if (requestId !== state.requestId) return;
+        renderResults(out);
+      } catch (err) {
+        if (requestId !== state.requestId) return;
+        showError(err.message);
+      }
+    }
+
+    function renderResults(out) {
+      state.lastProbeOutput = out;
+      if (out.truncated) {
+        els.message.hidden = false;
+        els.message.className = "empty";
+        els.message.textContent = `Input was truncated to ${out.max_length} tokens.`;
+      } else {
+        els.message.hidden = true;
+      }
+      els.results.innerHTML = (out.tokens || []).map(token => `
+        <div class="token-card">
+          <div class="token-text" title="${escapeAttr(token.token)}">${escapeHtml(token.token_text || token.token)}</div>
+          ${(token.top || []).map(feature => featureBadge(feature, tokenTopActivation(token))).join("")}
+        </div>
+      `).join("");
+      els.results.querySelectorAll(".badge[data-feature]").forEach(node => {
+        node.addEventListener("click", event => selectFeature(event, Number(node.dataset.feature)));
+      });
+      paintFeatureHighlights();
+    }
+
+    function featureBadge(feature, tokenTop) {
+      const id = Number(feature.feature);
+      const activation = Number(feature.activation || 0);
+      const ratio = tokenTop > 0 ? activation / tokenTop : 0;
+      const width = 100 * Math.max(0, Math.min(1, ratio));
+      const cutoff = Math.max(0, Math.min(1, Number(els.weakRatio.value || 0.5)));
+      const weak = Number.isFinite(tokenTop) && tokenTop > 0 && activation < tokenTop * cutoff;
+      const active = state.selectedFeatures.has(id);
+      return `
+        <div class="score-row">
+          <button class="badge ${active ? "hot" : ""} ${weak ? "weak" : ""}" type="button" data-feature="${id}" aria-pressed="${active ? "true" : "false"}" title="${escapeAttr(`F${id}: activation ${formatScore(activation)}, preactivation ${formatScore(Number(feature.preactivation || 0))}`)}" style="--score-width:${width.toFixed(1)}%;--score-bg:${featureColor(id)}22;--feature-color:${featureColor(id)}">
+            <span class="badge-main">F${id}</span>
+          </button>
+          <span class="score">${formatScore(activation)}</span>
+        </div>
+      `;
+    }
+
+    function tokenTopActivation(token) {
+      const values = (token.top || []).map(item => Number(item.activation || 0));
+      return values.length ? Math.max(...values) : 0;
+    }
+
+    function scheduleProbe() {
+      localStorage.setItem(STORAGE_KEYS.probeText, els.text.value);
+      persistControls();
+    }
+
+    function handleTextKeydown(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        localStorage.setItem(STORAGE_KEYS.probeText, els.text.value);
+        persistControls();
+        runProbe();
+      }
+    }
+
+    function updateCardWidth() {
+      const value = Math.max(100, Math.min(360, Number(els.cardWidth.value || 140)));
+      document.documentElement.style.setProperty("--token-card-width", `${value}px`);
+      localStorage.setItem(STORAGE_KEYS.cardWidth, String(value));
+    }
+
+    function rerenderLastProbe() {
+      if (state.lastProbeOutput) renderResults(state.lastProbeOutput);
+    }
+
+    function selectFeature(event, feature) {
+      const id = Number(feature);
+      if (!Number.isFinite(id)) return;
+      if (event.ctrlKey || event.metaKey) {
+        if (state.selectedFeatures.has(id)) state.selectedFeatures.delete(id);
+        else state.selectedFeatures.add(id);
+      } else if (state.selectedFeatures.size === 1 && state.selectedFeatures.has(id)) {
+        state.selectedFeatures.clear();
+      } else {
+        state.selectedFeatures.clear();
+        state.selectedFeatures.add(id);
+      }
+      persistFeatureHighlights();
+      paintFeatureHighlights();
+    }
+
+    function paintFeatureHighlights() {
+      els.results.querySelectorAll(".badge[data-feature]").forEach(node => {
+        const active = state.selectedFeatures.has(Number(node.dataset.feature));
+        node.classList.toggle("hot", active);
+        node.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
+    function featureHighlightStorageKey(model = els.model.value, layer = els.layer.value) {
+      return `${model}:${layer}`;
+    }
+
+    function readFeatureHighlightStore() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEYS.highlights) || "{}");
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function persistFeatureHighlights() {
+      const store = readFeatureHighlightStore();
+      const key = featureHighlightStorageKey();
+      const values = [...state.selectedFeatures].filter(Number.isFinite).sort((a, b) => a - b);
+      if (values.length) store[key] = values;
+      else delete store[key];
+      localStorage.setItem(STORAGE_KEYS.highlights, JSON.stringify(store));
+    }
+
+    function restoreFeatureHighlightsForContext() {
+      const store = readFeatureHighlightStore();
+      const saved = Array.isArray(store[featureHighlightStorageKey()]) ? store[featureHighlightStorageKey()] : [];
+      state.selectedFeatures = new Set(saved.map(Number).filter(Number.isFinite));
+    }
+
+    function restoreControlValues() {
+      setNumberInputFromStorage(els.topK, STORAGE_KEYS.topK, 1, 128);
+      setNumberInputFromStorage(els.cardWidth, STORAGE_KEYS.cardWidth, 100, 360);
+      setNumberInputFromStorage(els.weakRatio, STORAGE_KEYS.weakRatio, 0, 1);
+      els.keepModels.checked = localStorage.getItem(STORAGE_KEYS.keepModels) !== "0";
+    }
+
+    function setNumberInputFromStorage(input, key, min, max) {
+      const raw = localStorage.getItem(key);
+      if (raw === null) return;
+      const value = Number(raw);
+      if (!Number.isFinite(value)) return;
+      input.value = String(Math.max(min, Math.min(max, value)));
+    }
+
+    function persistControls() {
+      localStorage.setItem(STORAGE_KEYS.model, els.model.value);
+      localStorage.setItem(STORAGE_KEYS.layer, els.layer.value);
+      localStorage.setItem(STORAGE_KEYS.topK, els.topK.value);
+      localStorage.setItem(STORAGE_KEYS.cardWidth, els.cardWidth.value);
+      localStorage.setItem(STORAGE_KEYS.weakRatio, els.weakRatio.value);
+      localStorage.setItem(STORAGE_KEYS.keepModels, els.keepModels.checked ? "1" : "0");
+    }
+
+    function showError(message) {
+      els.message.hidden = false;
+      els.message.className = "error";
+      els.message.textContent = message;
+    }
+
+    function featureColor(featureId) {
+      return `hsl(${(37 * Number(featureId)) % 360} 74% 48%)`;
+    }
+
+    function formatScore(value) {
+      const number = Number(value || 0);
+      const abs = Math.abs(number);
+      if (abs >= 100) return number.toFixed(0);
+      if (abs >= 10) return number.toFixed(1);
+      return number.toFixed(2);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    els.model.addEventListener("change", async () => {
+      persistControls();
+      try {
+        await loadSaeMeta();
+        persistControls();
+        runProbe();
+      } catch (err) {
+        showError(err.message);
+      }
+    });
+    els.layer.addEventListener("change", () => { persistControls(); restoreFeatureHighlightsForContext(); runProbe(); });
+    els.topK.addEventListener("change", () => { persistControls(); runProbe(); });
+    els.topK.addEventListener("input", () => { persistControls(); runProbe(); });
+    els.cardWidth.addEventListener("change", updateCardWidth);
+    els.cardWidth.addEventListener("input", updateCardWidth);
+    els.weakRatio.addEventListener("change", () => { persistControls(); rerenderLastProbe(); });
+    els.weakRatio.addEventListener("input", () => { persistControls(); rerenderLastProbe(); });
+    els.keepModels.addEventListener("change", () => { persistControls(); if (!els.keepModels.checked) runProbe(); });
+    els.text.addEventListener("input", scheduleProbe);
+    els.text.addEventListener("keydown", handleTextKeydown);
+    els.runProbe.addEventListener("click", () => {
+      localStorage.setItem(STORAGE_KEYS.probeText, els.text.value);
+      persistControls();
+      runProbe();
+    });
+    updateCardWidth();
+    init();
+  </script>
+</body>
+</html>

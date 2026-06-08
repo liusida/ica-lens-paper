@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Component Examples - GPT-2 Explorer</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --text: #151922;
+      --muted: #647084;
+      --border: #cbd3df;
+      --accent: #1f6feb;
+      --positive: #b91c1c;
+      --negative: #1d4ed8;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --shadow: 0 1px 2px rgb(20 25 34 / .08), 0 10px 30px rgb(20 25 34 / .06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 12px 18px;
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    h1 { margin: 0; font-size: 19px; letter-spacing: 0; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    a {
+      color: var(--accent);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    main {
+      width: 100%;
+      margin: 0;
+      padding: 12px;
+    }
+    .summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .band {
+      margin-bottom: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .band-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      margin: 0;
+      padding: 9px 12px;
+      border-bottom: 1px solid #e5eaf2;
+      border-left: 0;
+      border-right: 0;
+      border-top: 0;
+      font-size: 14px;
+      font-weight: 850;
+      letter-spacing: 0;
+      background: #fbfcfe;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .band-toggle:hover { background: #f1f5f9; }
+    .band-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .band-title { min-width: 0; overflow-wrap: anywhere; }
+    .band-state { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .band.collapsed .examples { display: none; }
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 0;
+    }
+    .example {
+      min-width: 0;
+      border-right: 1px solid #e5eaf2;
+      border-bottom: 1px solid #e5eaf2;
+      padding: 10px 12px;
+    }
+    .example-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .example-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+    .doc-link { color: var(--accent); text-decoration: none; font-weight: 850; }
+    .doc-link:hover { text-decoration: underline; }
+    .score {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .score.positive { color: var(--positive); }
+    .score.negative { color: var(--negative); }
+    .token {
+      display: inline-block;
+      margin-bottom: 6px;
+      padding: 2px 6px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: #f8fafc;
+      font-weight: 850;
+      font-family: var(--mono);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    .token.positive { color: var(--positive); border-color: #fecaca; background: #fff1f2; }
+    .token.negative { color: var(--negative); border-color: #bfdbfe; background: #eff6ff; }
+    .context {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .context-token {
+      border-radius: 3px;
+      padding: 0 1px;
+    }
+    .context-token.target {
+      box-shadow: inset 0 -2px 0 currentColor;
+      font-weight: 850;
+    }
+    .context-token.positive { color: var(--positive); }
+    .context-token.negative { color: var(--negative); }
+    .empty, .error {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .error { color: #a41414; border-color: #f0b9b9; background: #fff7f7; }
+    @media (max-width: 760px) {
+      main { padding: 8px; }
+      header { padding: 10px 12px; }
+      .top { align-items: flex-start; flex-direction: column; }
+      .examples { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <h1 id="title">Component Examples</h1>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Explorer</a>
+        <a href="/sae-explorer">SAE Explorer</a>
+        <a href="/stats">Stats</a>
+        <a href="/annotate">Annotate</a>
+        <a href="/random-components">Random</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div id="summary" class="summary">Loading component examples...</div>
+    <div id="message" class="empty">Loading...</div>
+    <div id="content" hidden></div>
+  </main>
+
+  <script>
+    const els = {
+      title: document.getElementById("title"),
+      summary: document.getElementById("summary"),
+      message: document.getElementById("message"),
+      content: document.getElementById("content"),
+    };
+
+    async function api(path) {
+      const res = await fetch(path, { headers: { "content-type": "application/json" } });
+      if (!res.ok) {
+        let detail = res.statusText;
+        try { detail = (await res.json()).detail || detail; } catch {}
+        throw new Error(detail);
+      }
+      return res.json();
+    }
+
+    async function init() {
+      const params = new URLSearchParams(location.search);
+      const model = params.get("model") || "gpt2";
+      const layer = params.get("layer") || "";
+      const component = params.get("component") || "";
+      if (!layer || !component) {
+        showError("Missing layer or component.");
+        return;
+      }
+      try {
+        const query = new URLSearchParams({ model, layer, component });
+        const data = await api(`/api/component-examples?${query.toString()}`);
+        render(data);
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    function render(data) {
+      const bands = data.bands || [];
+      const total = bands.reduce((count, band) => count + (band.examples || []).length, 0);
+      const kurtosis = Number.isFinite(Number(data.excess_kurtosis)) ? `kurtosis ${Number(data.excess_kurtosis).toFixed(3)}` : "kurtosis n/a";
+      els.title.textContent = `${data.layer} C${data.component}`;
+      els.summary.textContent = `${data.model_name} - ${data.layer} component ${data.component} - ${kurtosis} - ${bands.length} bands - ${total} examples`;
+      if (!bands.length) {
+        els.message.hidden = false;
+        els.message.className = "empty";
+        els.message.textContent = "No examples found for this component.";
+        els.content.hidden = true;
+        return;
+      }
+      els.message.hidden = true;
+      els.content.hidden = false;
+      els.content.innerHTML = bands.map(renderBand).join("");
+      wireBandToggles();
+    }
+
+    function renderBand(band) {
+      const examples = band.examples || [];
+      const collapsed = shouldCollapseBand(band.region);
+      return `
+        <section class="band ${collapsed ? "collapsed" : ""}">
+          <button class="band-toggle" type="button" aria-expanded="${collapsed ? "false" : "true"}">
+            <span class="band-title">${escapeHtml(band.region)}</span>
+            <span class="band-state">${collapsed ? "show" : "hide"}</span>
+          </button>
+          <div class="examples">${examples.map(renderExample).join("")}</div>
+        </section>
+      `;
+    }
+
+    function wireBandToggles() {
+      els.content.querySelectorAll(".band-toggle").forEach(button => {
+        button.addEventListener("click", () => {
+          const band = button.closest(".band");
+          const collapsed = band.classList.toggle("collapsed");
+          button.setAttribute("aria-expanded", String(!collapsed));
+          const state = button.querySelector(".band-state");
+          if (state) state.textContent = collapsed ? "show" : "hide";
+        });
+      });
+    }
+
+    function shouldCollapseBand(region) {
+      const name = String(region || "").toLowerCase().replace(/[_-]+/g, " ");
+      return name.includes("opposite") || name.includes("near zero") || name.includes("nearzero");
+    }
+
+    function renderExample(example) {
+      const score = Number(example.source_score);
+      const scoreClass = score > 0 ? "positive" : score < 0 ? "negative" : "";
+      return `
+        <article class="example">
+          <div class="example-head">
+            <span class="example-meta"><span>#${escapeHtml(example.rank)}</span>${docPositionLink(example)}</span>
+            <span class="score ${scoreClass}">${formatScore(score)}</span>
+          </div>
+          <div class="token ${scoreClass}">${escapeHtml(visibleToken(example.token))}</div>
+          <p class="context">${renderContext(example)}</p>
+        </article>
+      `;
+    }
+
+    function docPositionLink(example) {
+      if (example.doc_id == null || Number(example.doc_id) < 0) {
+        return example.position == null ? "" : `<span>pos ${escapeHtml(example.position)}</span>`;
+      }
+      const query = new URLSearchParams({ model: state.model, doc_id: String(example.doc_id) });
+      if (example.position != null) query.set("position", String(example.position));
+      const target = visibleToken(example.token);
+      if (target) query.set("target", target);
+      const text = `doc ${example.doc_id}${example.position == null ? "" : ` · pos ${example.position}`}`;
+      return `<a class="doc-link" href="/context?${escapeAttr(query.toString())}" target="_blank" rel="noopener" title="Open full document context">${escapeHtml(text)}</a>`;
+    }
+
+    function renderContext(example) {
+      const tokens = Array.isArray(example.context_token_scores) ? example.context_token_scores : [];
+      if (!tokens.length) return escapeHtml(example.context_to_target || example.context || "");
+      const maxAbs = Math.max(
+        1e-9,
+        Number(example.context_score_max_abs || 0),
+        ...tokens.map(token => Math.abs(Number(token.source_score || 0)))
+      );
+      return tokens.map(token => {
+        const score = Number(token.source_score || 0);
+        const alpha = tokenAlpha(score, maxAbs);
+        const color = alpha === 0 ? "transparent" : score > 0 ? `rgba(220,38,38,${alpha})` : `rgba(37,99,235,${alpha})`;
+        const signClass = score > 0 ? "positive" : score < 0 ? "negative" : "";
+        const title = `score=${formatScore(score)}`;
+        return `<span class="context-token ${token.is_target ? "target" : ""} ${signClass}" style="background:${color}" title="${escapeAttr(title)}">${escapeHtml(visibleContextToken(token.token))}</span>`;
+      }).join("");
+    }
+
+    function tokenAlpha(score, maxAbs) {
+      const magnitude = Math.abs(Number(score || 0));
+      if (magnitude < 1e-6) return 0;
+      return Math.min(0.55, 0.47 * Math.log1p(magnitude) / Math.log1p(maxAbs));
+    }
+
+    function visibleToken(value) {
+      const text = String(value || "");
+      if (text === " ") return "[space]";
+      if (text === "\n") return "[newline]";
+      if (text === "\f") return "\\f";
+      return text.replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\t/g, "\\t").replace(/\f/g, "\\f");
+    }
+
+    function visibleContextToken(value) {
+      return String(value || "").replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\t/g, "\\t").replace(/\f/g, "\\f");
+    }
+
+    function formatScore(value) {
+      return Number.isFinite(value) ? value.toFixed(4).replace(/0+$/, "").replace(/\.$/, "") : "n/a";
+    }
+
+    function showError(message) {
+      els.summary.textContent = "";
+      els.message.hidden = false;
+      els.message.className = "error";
+      els.message.textContent = message;
+      els.content.hidden = true;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    init();
+  </script>
+</body>
+</html>

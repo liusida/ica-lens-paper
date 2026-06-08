@@ -1,0 +1,49 @@
+[model]
+short_name = "qwen3_5_2b_base"
+hidden_size = 2048
+num_hidden_layers = 24
+
+[ica]
+artifact_set = "v3_frozen_ica"
+artifact_root = "artifacts/fetched/models"
+preprocess = "with_normalization"
+
+[sae]
+repo_id = "Qwen/SAE-Res-Qwen3.5-2B-Base-W32K-L0_50"
+activation = "topk"
+checkpoint_template = "layer{layer}.sae.pt"
+checkpoint_format = "torch"
+hook_name_template = "model.layers.{layer}"
+layers = "all_transformer_layers"
+width = 32768
+direction_source = "decoder"
+decoder_key = "W_dec"
+top_k = 50
+
+[direction_overlap]
+top_k = 1
+sae_chunk_size = 4096
+nearest_metric = "maximum_absolute_cosine"
+
+[saebench_tpp]
+enabled = true
+saebench_model_name = "Qwen/Qwen3.5-2B-Base"
+hook_name_template = "blocks.{layer}.hook_resid_post"
+llm_dtype = "bfloat16"
+llm_batch_size = 16
+sae_batch_size = 125
+random_seed = 42
+lower_vram_usage = false
+row_normalize = false
+signed_identity = false
+n_values = [2, 5, 10, 20, 50, 100, 500]
+dataset_names = [
+  "LabHC/bias_in_bios_class_set1",
+  "canrager/amazon_reviews_mcauley_1and5",
+]
+
+[saebench_tpp.sae_baseline]
+source = "custom_checkpoint"
+release_name = "qwen_scope_res_w32k_l0_50_layer_{layer}"
+hook_name_template = "blocks.{layer}.hook_resid_post"
+allow_multiple = false

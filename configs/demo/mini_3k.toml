@@ -1,0 +1,5 @@
+[demo]
+model = "all"
+token_budget = 3000
+n_components = 128
+analysis = ["fit_ica", "sparse_probe", "saebench_tpp"]

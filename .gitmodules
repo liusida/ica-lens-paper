@@ -1,0 +1,9 @@
+[submodule "vendor/SAEBench"]
+	path = vendor/SAEBench
+	url = https://github.com/adamkarvonen/SAEBench.git
+[submodule "vendor/FastICA_torch"]
+	path = vendor/FastICA_torch
+	url = https://github.com/liusida/FastICA_torch.git
+[submodule "vendor/SAEBench-qwen35"]
+	path = vendor/SAEBench-qwen35
+	url = https://github.com/liusida/SAEBench.git

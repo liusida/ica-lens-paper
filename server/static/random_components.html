@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Random ICA Components</title>
+  <style>
+    :root { --bg:#f8fafc; --panel:#fff; --text:#0f172a; --muted:#64748b; --border:#cbd5e1; --accent:#2563eb; --subtle:#f1f5f9; --shadow:0 1px 2px rgb(15 23 42 / .08),0 8px 24px rgb(15 23 42 / .05); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--border); padding:12px 16px; box-shadow:var(--shadow); }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    h1 { margin:0; font-size:20px; }
+    nav { display:flex; gap:6px; }
+    nav a { color:var(--muted); text-decoration:none; padding:7px 10px; border-radius:7px; font-weight:650; }
+    nav a:hover, nav a.active { color:var(--accent); background:#eff6ff; }
+    .toolbar { display:flex; align-items:end; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    label { color:#475569; font-size:12px; font-weight:700; }
+    select,input,button { font:inherit; border:1px solid var(--border); border-radius:7px; padding:7px 9px; background:#fff; color:var(--text); }
+    button { cursor:pointer; background:var(--subtle); font-weight:750; }
+    button:hover { color:var(--accent); border-color:var(--accent); background:#eff6ff; }
+    main { padding:14px; }
+    .panel { background:var(--panel); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); padding:12px; }
+    .summary { color:var(--muted); margin-bottom:10px; }
+    .run { margin-top:14px; }
+    .run h2 { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:0 0 8px; font-size:16px; }
+    .run-meta { color:var(--muted); font-size:12px; font-weight:500; }
+    table { width:100%; border-collapse:collapse; background:#fff; }
+    th,td { border-bottom:1px solid #e2e8f0; padding:8px 9px; text-align:left; vertical-align:top; }
+    th { position:sticky; top:94px; background:#f8fafc; color:#475569; font-size:12px; text-transform:uppercase; letter-spacing:.02em; z-index:1; }
+    tr:hover td { background:#f8fafc; }
+    a { color:var(--accent); text-decoration:none; font-weight:800; }
+    a:hover { text-decoration:underline; }
+    .muted { color:var(--muted); }
+    .pill { display:inline-flex; border:1px solid var(--border); border-radius:999px; padding:1px 7px; color:var(--muted); background:#fff; font-size:12px; font-weight:750; white-space:nowrap; }
+    .label { max-width:360px; color:#334155; }
+    .label-badge { display:inline-flex; align-items:center; border-radius:999px; padding:2px 8px; font-size:12px; font-weight:850; line-height:1.3; }
+    .label-badge.high { color:#166534; background:#dcfce7; border:1px solid #86efac; }
+    .label-badge.medium { color:#854d0e; background:#fef3c7; border:1px solid #fde68a; }
+    .label-badge.low { color:#9f1239; background:#ffe4e6; border:1px solid #f9a8d4; }
+    .label-badge.unclear { color:#475569; background:#e5e7eb; border:1px solid #cbd5e1; }
+    .status { margin-left:auto; color:var(--muted); }
+    .empty,.error { border:1px dashed var(--border); border-radius:8px; padding:18px; color:var(--muted); background:#fff; }
+    .error { color:#991b1b; border-color:#fecaca; background:#fef2f2; }
+    @media(max-width:760px){ th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6){display:none;} }
+  </style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>Random ICA Components</h1>
+    <nav aria-label="Primary">
+      <a href="/">Explorer</a>
+      <a href="/sae-explorer">SAE Explorer</a>
+      <a href="/stats">Stats</a>
+      <a href="/annotate">Annotate</a>
+      <a href="/random-components" class="active">Random</a>
+    </nav>
+  </div>
+  <div class="toolbar">
+    <label>Model<br><select id="model"><option value="">all models</option></select></label>
+    <label style="flex:1;min-width:260px">Selection<br><input id="selection" placeholder="optional: random_components_n50_seed20260524" /></label>
+    <button id="load">Load</button>
+    <span id="status" class="status"></span>
+  </div>
+</header>
+<main>
+  <section class="panel">
+    <div id="summary" class="summary">Loading random component selections...</div>
+    <div id="content"></div>
+  </section>
+</main>
+<script>
+const state = { models: [] };
+const el = Object.fromEntries(["model","selection","load","status","summary","content"].map(id=>[id,document.getElementById(id)]));
+async function api(path){ const r=await fetch(path); if(!r.ok){let msg=await r.text(); try{msg=JSON.parse(msg).detail||msg}catch{} throw new Error(msg)} return r.json(); }
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function setStatus(text){ el.status.textContent = text || ""; }
+async function init(){
+  const params = new URLSearchParams(location.search);
+  el.selection.value = params.get("selection") || "random_components_n50_seed0";
+  const requestedModel = params.get("model") || "qwen3_5_2b_base";
+  try {
+    const models = await api("/api/models");
+    state.models = models.models || [];
+    el.model.innerHTML = `<option value="">all models</option>` + state.models.map(m=>`<option value="${esc(m.model_name)}">${esc(m.display_name || m.model_name)}</option>`).join("");
+    el.model.value = requestedModel;
+  } catch {}
+  el.load.onclick = () => loadRuns(true);
+  el.model.onchange = () => loadRuns(true);
+  el.selection.onkeydown = event => { if(event.key === "Enter") loadRuns(true); };
+  await loadRuns(false);
+}
+async function loadRuns(push){
+  setStatus("Loading...");
+  el.content.innerHTML = "";
+  try {
+    const params = new URLSearchParams();
+    if(el.model.value) params.set("model", el.model.value);
+    if(el.selection.value.trim()) params.set("selection", el.selection.value.trim());
+    if(push) history.replaceState(null, "", `/random-components${params.toString() ? `?${params}` : ""}`);
+    const data = await api(`/api/random-components${params.toString() ? `?${params}` : ""}`);
+    render(data);
+    setStatus("");
+  } catch (error) {
+    el.summary.textContent = "";
+    el.content.innerHTML = `<div class="error">${esc(error.message)}</div>`;
+    setStatus("");
+  }
+}
+function render(data){
+  const runs = data.runs || [];
+  const total = runs.reduce((sum, run) => sum + Number(run.selected_size || 0), 0);
+  el.summary.textContent = `${runs.length} selection file${runs.length===1?"":"s"} - ${total} selected components`;
+  el.content.innerHTML = runs.map(renderRun).join("") || '<div class="empty">No random component selections found.</div>';
+}
+function renderRun(run){
+  const settings = run.settings || {};
+  const rows = run.selected_components || [];
+  return `<section class="run">
+    <h2>
+      <span>${esc(run.model)}</span>
+      <span class="run-meta">n=${esc(settings.n)} seed=${esc(settings.seed)} inventory=${esc(run.inventory_size)} selection=${esc(run.selection_name || "")}</span>
+    </h2>
+    <table>
+      <thead><tr><th>#</th><th>Component</th><th>Annotate</th><th>K</th><th>Current label</th></tr></thead>
+      <tbody>${rows.map((item,index)=>renderRow(item,index)).join("")}</tbody>
+    </table>
+  </section>`;
+}
+function renderRow(item,index){
+  const annotation = item.annotation || {};
+  const sign = Number(item.top_abs_sign) < 0 ? -1 : 1;
+  const rawLabel = sign < 0 ? annotation.negative_label : annotation.positive_label;
+  const confidence = normalizeConfidence(sign < 0 ? annotation.negative_confidence : annotation.positive_confidence);
+  const label = visibleLabel(rawLabel);
+  const labels = label
+    ? `<span class="label-badge ${esc(confidence)}">${label}</span>`
+    : '<span class="label-badge unclear">unlabeled</span>';
+  const k = Number(item.excess_kurtosis);
+  const erf = Number(item.effective_context_mean);
+  const metrics = `${Number.isFinite(erf) ? `<span class="pill">ERF=${erf.toFixed(1)}</span>` : ""} ${Number.isFinite(k) ? `<span class="pill">K=${k.toFixed(1)}</span>` : ""}`;
+  return `<tr>
+    <td class="muted">${index + 1}</td>
+    <td><strong>${esc(item.layer)} C${esc(item.component_index)}</strong><br><span class="muted">${esc(item.component_id || "")}</span></td>
+    <td><a href="${esc(item.annotate_url)}">Annotate</a></td>
+    <td>${metrics || '<span class="muted">?</span>'}</td>
+    <td class="label">${labels}</td>
+  </tr>`;
+}
+function visibleLabel(value){
+  const text = String(value || "").trim();
+  if(!text) return "";
+  return esc(text);
+}
+function normalizeConfidence(value){
+  const text = String(value || "unclear").trim().toLowerCase();
+  return ["high","medium","low","unclear"].includes(text) ? text : "unclear";
+}
+init();
+</script>
+</body>
+</html>

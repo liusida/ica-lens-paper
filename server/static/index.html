@@ -1,0 +1,1546 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ICA Explorer</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --text: #151922;
+      --muted: #647084;
+      --border: #cbd3df;
+      --accent: #1f6feb;
+      --hot: #b42318;
+      --cold: #1e5bb8;
+      --good: #087443;
+      --warn: #a15c00;
+      --shadow: 0 1px 2px rgb(20 25 34 / .08), 0 10px 30px rgb(20 25 34 / .06);
+      --token-card-width: 140px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 12px 18px;
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav a {
+      color: var(--accent);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .nav a:hover { text-decoration: underline; }
+    h1 { margin: 0; font-size: 19px; letter-spacing: 0; }
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    footer {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 18px 22px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    footer a {
+      color: var(--accent);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 450px;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .control-stack {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      align-items: center;
+      gap: 10px;
+    }
+    .inline-control {
+      display: grid;
+      grid-template-columns: max-content max-content;
+      align-items: center;
+      column-gap: 8px;
+    }
+    .inline-control > span { white-space: nowrap; }
+    .model-control { flex: 0 0 auto; }
+    .layer-control { flex: 0 0 auto; }
+    .control-break { flex-basis: 100%; height: 0; }
+    .topk-control,
+    .card-width-control,
+    .opacity-control { flex: 0 0 auto; }
+    .run-button {
+      width: auto;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-color: #1458c8;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+    }
+    .run-button:hover { background: #1458c8; color: #fff; }
+    .memory-control {
+      position: fixed;
+      right: 12px;
+      bottom: 10px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      width: auto;
+      min-height: 24px;
+      padding: 3px 6px;
+      border: 1px solid #d7dee9;
+      border-radius: 6px;
+      background: rgb(255 255 255 / .78);
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .memory-control input { width: auto; margin: 0; padding: 0; accent-color: #94a3b8; }
+    .memory-control:hover { color: #64748b; border-color: #cbd5e1; background: #fff; }
+    #topK { width: 48px; min-width: 0; }
+    #cardWidth { width: 78px; min-width: 0; }
+    #weakRatio { width: 58px; min-width: 0; }
+    .model-control select,
+    .layer-control select { width: 100%; }
+    label {
+      display: grid;
+      gap: 5px;
+      color: #435066;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    textarea, select, input, button {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      padding: 8px 10px;
+    }
+    textarea {
+      height: 92px;
+      min-height: 92px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    button {
+      cursor: pointer;
+      min-height: 39px;
+      background: #eef2f7;
+      font-weight: 750;
+    }
+    button:hover { border-color: var(--accent); color: var(--accent); background: #edf5ff; }
+    button.primary { background: var(--accent); border-color: #1458c8; color: #fff; }
+    button.primary:hover { background: #1458c8; color: #fff; }
+    .panel {
+      margin-top: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--token-card-width), 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .token-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px;
+      background: #fff;
+      min-width: 0;
+      text-align: center;
+    }
+    .token-text {
+      min-height: 25px;
+      font-weight: 850;
+      text-align: center;
+      overflow-wrap: anywhere;
+      margin-bottom: 6px;
+    }
+    .score-row {
+      position: relative;
+      min-height: 24px;
+      margin-top: 3px;
+    }
+    .badge {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 24px;
+      padding: 3px 5px;
+      border: 1px solid #d5dce7;
+      border-radius: 5px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--score-bg, #edf2f7) 0,
+          var(--score-bg, #edf2f7) var(--score-width, 100%),
+          transparent var(--score-width, 100%),
+          transparent 100%
+        );
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 400;
+      text-align: left;
+      cursor: pointer;
+    }
+    .badge:hover {
+      border-color: var(--component-color, var(--accent));
+      color: var(--text);
+    }
+    .badge.hot {
+      border-color: var(--component-color, var(--accent));
+      --score-bg: color-mix(in srgb, var(--component-color, var(--accent)) 16%, white);
+      box-shadow: inset 3px 0 0 var(--component-color, var(--accent));
+    }
+    .badge.hot:hover {
+      color: var(--text);
+    }
+    .badge.weak {
+      opacity: .1;
+    }
+    .badge.weak:hover,
+    .badge.weak.hot {
+      opacity: 1;
+    }
+    .badge-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      min-width: 0;
+      max-width: calc(100% - 28px);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .badge-label {
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .annotation-dot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 13px;
+      height: 13px;
+      border-radius: 4px;
+      flex: 0 0 auto;
+      background: #e5e7eb;
+      box-shadow: 0 0 0 1px rgb(255 255 255 / .85);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 850;
+      line-height: 1;
+    }
+    .annotation-dot.high { background: #16a34a; box-shadow: 0 0 0 1px #15803d; }
+    .annotation-dot.medium { color: #166534; background: #fef3c7; box-shadow: 0 0 0 1px #d9b94e; }
+    .annotation-dot.low { color: #9f1239; background: #ffe4e6; box-shadow: 0 0 0 1px #f9a8d4; }
+    .annotation-dot.unclear { color: #475569; background: #e5e7eb; box-shadow: 0 0 0 1px #cbd5e1; }
+    .score {
+      position: absolute;
+      left: auto;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 9px;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+    }
+    .prediction-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 24px;
+      margin-top: 5px;
+      padding: 3px 5px;
+      border: 1px solid #d8e0eb;
+      border-radius: 5px;
+      background: #f6f8fb;
+      color: #314158;
+      font-size: 10px;
+      font-weight: 650;
+      text-align: left;
+    }
+    .prediction-label {
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .prediction-token {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .empty, .error {
+      margin-top: 12px;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .error { color: #a41414; border-color: #f0b9b9; background: #fff7f7; }
+    .request-indicator {
+      position: fixed;
+      left: 14px;
+      top: 62px;
+      z-index: 8;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      color: #435066;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .request-indicator.visible { display: inline-flex; }
+    .request-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #cbd5e1;
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: request-spin .8s linear infinite;
+    }
+    @keyframes request-spin { to { transform: rotate(360deg); } }
+    .selection-panel {
+      position: fixed;
+      right: 14px;
+      top: 82px;
+      z-index: 6;
+      display: none;
+      width: 500px;
+      max-width: calc(100vw - 28px);
+      max-height: calc(100vh - 104px);
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .selection-panel.visible { display: block; }
+    .selection-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .selection-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      min-height: 18px;
+      padding: 0;
+      border-radius: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1;
+    }
+    .selection-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .selection-export-toggle {
+      display: none;
+      width: auto;
+      min-height: 18px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .selection-export-toggle.visible { display: inline-flex; align-items: center; }
+    .selection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .selection-entry {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 145px;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .selection-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 30px;
+      padding: 7px 10px 5px;
+      color: var(--text);
+      font-weight: 850;
+      text-decoration: none;
+    }
+    .selection-link:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .selection-item {
+      border: 1px solid var(--component-color, var(--accent));
+      border-radius: 7px;
+      background: color-mix(in srgb, var(--component-color, var(--accent)) 5%, white);
+      overflow: hidden;
+      box-shadow: inset 3px 0 0 var(--component-color, var(--accent));
+    }
+    .selection-item .selection-link {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    .selection-score {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .selection-token-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 0 10px 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+    .selection-neighbors {
+      display: grid;
+      grid-template-rows: repeat(2, minmax(58px, auto));
+      gap: 6px;
+    }
+    .neighbor-card {
+      display: grid;
+      gap: 3px;
+      min-height: 58px;
+      padding: 7px;
+      border: 1px solid #d7dee9;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .neighbor-card:hover {
+      border-color: var(--accent);
+      color: var(--text);
+      text-decoration: none;
+    }
+    .neighbor-card.missing {
+      visibility: hidden;
+    }
+    .neighbor-card.loading {
+      color: var(--muted);
+      background: #f8fafc;
+      cursor: default;
+    }
+    .neighbor-target {
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 750;
+    }
+    .neighbor-label {
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.2;
+    }
+    .neighbor-cos {
+      position: relative;
+      min-height: 18px;
+      padding: 2px 5px;
+      border: 1px solid #d7dee9;
+      border-radius: 5px;
+      background:
+        linear-gradient(
+          90deg,
+          color-mix(in srgb, var(--accent) 18%, white) 0,
+          color-mix(in srgb, var(--accent) 18%, white) var(--cos-width, 0%),
+          transparent var(--cos-width, 0%),
+          transparent 100%
+        );
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .neighbor-metrics {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+    .selection-token-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 20px;
+      max-width: 100%;
+      padding: 2px 6px;
+      border: 1px solid #d7dee9;
+      border-radius: 999px;
+      background: #fff;
+      color: #435066;
+      font-size: var(--token-font-size, 11px);
+    }
+    .selection-token-text {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .selection-export {
+      position: fixed;
+      left: 14px;
+      bottom: 10px;
+      z-index: 4;
+      display: none;
+      width: min(520px, calc(100vw - 180px));
+      height: 150px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: rgb(255 255 255 / .94);
+      box-shadow: var(--shadow);
+      color: #334155;
+      font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      resize: vertical;
+    }
+    .selection-export.visible { display: block; }
+    .selection-export-copy {
+      position: fixed;
+      left: 14px;
+      bottom: 164px;
+      z-index: 5;
+      display: none;
+      width: auto;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #64748b;
+      background: rgb(255 255 255 / .92);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .selection-export-copy.visible { display: inline-flex; align-items: center; }
+    @media (max-width: 760px) {
+      main { padding: 12px; }
+      footer { padding: 0 12px 18px; }
+      .controls { grid-template-columns: 1fr; }
+      .control-stack { align-content: flex-start; }
+      .memory-control { right: 8px; bottom: 8px; }
+      .top { align-items: flex-start; flex-direction: column; }
+      .selection-panel {
+        left: 8px;
+        right: 8px;
+        top: auto;
+        bottom: 8px;
+        width: auto;
+      }
+      .selection-entry {
+        grid-template-columns: minmax(0, 1fr) 128px;
+      }
+      .selection-export {
+        left: 8px;
+        bottom: 40px;
+        width: calc(100vw - 16px);
+        height: 120px;
+      }
+      .selection-export-copy {
+        left: 8px;
+        bottom: 164px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <h1>ICA Explorer</h1>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Explorer</a>
+        <a href="/sae-explorer">SAE Explorer</a>
+        <a href="/stats">Stats</a>
+        <a href="/annotate">Annotate</a>
+        <a href="/random-components">Random</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="panel">
+      <div class="controls">
+        <label>
+          Text
+          <textarea id="probeText" spellcheck="false">Maya stopped at the bank before the trip, waiting in line to deposit a check and withdraw enough cash for the weekend.</textarea>
+        </label>
+        <div class="control-stack">
+          <label class="inline-control model-control">
+            <span>Model</span>
+            <select id="modelSelect"></select>
+          </label>
+          <label class="inline-control layer-control">
+            <span>Layer</span>
+            <select id="layerSelect"></select>
+          </label>
+          <span class="control-break" aria-hidden="true"></span>
+          <label class="inline-control topk-control">
+            <span>Top K</span>
+            <input id="topK" type="number" min="1" max="32" value="5" />
+          </label>
+          <label class="inline-control card-width-control">
+            <span>Card Width</span>
+            <input id="cardWidth" type="number" min="100" max="360" step="20" value="140" />
+          </label>
+          <label class="inline-control opacity-control">
+            <span>Opacity Cutoff</span>
+            <input id="weakRatio" type="number" min="0" max="1" step="0.05" value="0.5" />
+          </label>
+          <button id="runProbe" class="run-button" type="button">Run</button>
+        </div>
+        <label class="memory-control" title="Keep loaded models in VRAM when switching.">
+          <input id="keepModels" type="checkbox" checked />
+          <span>Cache LLMs in VRAM</span>
+        </label>
+      </div>
+    </div>
+
+    <div id="message" class="empty">Choose a layer and run the probe.</div>
+    <div id="results" class="results"></div>
+  </main>
+  <aside id="selectionPanel" class="selection-panel" aria-live="polite">
+    <div class="selection-title">
+      <span>Selected components</span>
+      <div class="selection-actions">
+        <button id="selectionExportToggle" class="selection-export-toggle" type="button">Hide text</button>
+        <button id="selectionClose" class="selection-close" type="button" title="Hide selected components" aria-label="Hide selected components">×</button>
+      </div>
+    </div>
+    <div id="selectionList" class="selection-list"></div>
+  </aside>
+  <div id="requestIndicator" class="request-indicator" role="status" aria-live="polite">
+    <span class="request-spinner" aria-hidden="true"></span>
+    <span>Waiting for server...</span>
+  </div>
+  <button id="selectionExportCopy" class="selection-export-copy" type="button">Copy</button>
+  <textarea id="selectionExport" class="selection-export" readonly aria-label="Selected component summary"></textarea>
+
+  <script>
+    const STORAGE_KEYS = {
+      probeText: "icaExplorer.probeText",
+      model: "icaExplorer.model",
+      layer: "icaExplorer.layer",
+      topK: "icaExplorer.topK",
+      cardWidth: "icaExplorer.cardWidth",
+      weakRatio: "icaExplorer.opacityCutoff",
+      keepModels: "icaExplorer.keepModels",
+      highlights: "icaExplorer.selectedComponents",
+    };
+
+    const state = {
+      meta: null,
+      models: [],
+      highlights: new Set(),
+      currentScores: new Map(),
+      tokenStats: new Map(),
+      tokenStatsRetries: new Map(),
+      componentNeighbors: new Map(),
+      componentNeighborsRetries: new Map(),
+      layerComponentMeta: new Map(),
+      layerComponentMetaLoading: new Set(),
+      selectionPanelHidden: false,
+      selectionExportHidden: false,
+      requestId: 0,
+      textTimer: 0,
+      pendingRequests: 0,
+      lastProbeOutput: null,
+    };
+
+    const els = {
+      text: document.getElementById("probeText"),
+      model: document.getElementById("modelSelect"),
+      layer: document.getElementById("layerSelect"),
+      topK: document.getElementById("topK"),
+      cardWidth: document.getElementById("cardWidth"),
+      weakRatio: document.getElementById("weakRatio"),
+      runProbe: document.getElementById("runProbe"),
+      keepModels: document.getElementById("keepModels"),
+      message: document.getElementById("message"),
+      results: document.getElementById("results"),
+      selectionPanel: document.getElementById("selectionPanel"),
+      selectionList: document.getElementById("selectionList"),
+      selectionClose: document.getElementById("selectionClose"),
+      selectionExportCopy: document.getElementById("selectionExportCopy"),
+      selectionExportToggle: document.getElementById("selectionExportToggle"),
+      selectionExport: document.getElementById("selectionExport"),
+      requestIndicator: document.getElementById("requestIndicator"),
+    };
+
+    async function api(path, options = {}) {
+      beginRequest();
+      try {
+        const res = await fetch(path, {
+          headers: { "content-type": "application/json" },
+          ...options,
+        });
+        if (!res.ok) {
+          let detail = res.statusText;
+          try { detail = (await res.json()).detail || detail; } catch {}
+          throw new Error(detail);
+        }
+        return res.json();
+      } finally {
+        endRequest();
+      }
+    }
+
+    function beginRequest() {
+      state.pendingRequests += 1;
+      els.requestIndicator.classList.toggle("visible", state.pendingRequests > 0);
+    }
+
+    function endRequest() {
+      state.pendingRequests = Math.max(0, state.pendingRequests - 1);
+      els.requestIndicator.classList.toggle("visible", state.pendingRequests > 0);
+    }
+
+    async function init() {
+      const savedText = localStorage.getItem(STORAGE_KEYS.probeText);
+      restoreControlValues();
+      if (savedText !== null) els.text.value = savedText;
+      try {
+        const modelsOut = await api("/api/models");
+        state.models = (modelsOut.models || []).filter(model => model.probe_supported);
+        if (!state.models.length) throw new Error("No probe-supported models are available.");
+        els.model.innerHTML = state.models.map(model => `<option value="${escapeAttr(model.model_name)}">${escapeHtml(model.display_name || model.model_name)}</option>`).join("");
+        const savedModel = localStorage.getItem(STORAGE_KEYS.model);
+        if (savedModel && state.models.some(model => model.model_name === savedModel)) els.model.value = savedModel;
+        else if (state.models.some(model => model.model_name === "gpt2")) els.model.value = "gpt2";
+        await loadModelMeta({ restoreLayer: true });
+        runProbe();
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    async function runProbe() {
+      const requestId = ++state.requestId;
+      els.message.className = "empty";
+      if (!els.text.value.trim()) {
+        state.highlights.clear();
+        els.results.innerHTML = "";
+        els.message.hidden = false;
+        els.message.textContent = "Enter text to run the probe.";
+        return;
+      }
+      if (!els.results.children.length) {
+        els.message.hidden = false;
+        els.message.textContent = "Running probe...";
+      }
+      try {
+        const out = await api("/api/probe", {
+          method: "POST",
+          body: JSON.stringify({
+            text: els.text.value,
+            model_name: els.model.value,
+            layer: els.layer.value,
+            top_k: Number(els.topK.value || 5),
+            highlights: [],
+            keep_models: els.keepModels.checked,
+          }),
+        });
+        if (requestId !== state.requestId) return;
+        restoreHighlightsForContext(out);
+        renderResults(out);
+      } catch (err) {
+        if (requestId !== state.requestId) return;
+        showError(err.message);
+      }
+    }
+
+    function scheduleProbe() {
+      localStorage.setItem(STORAGE_KEYS.probeText, els.text.value);
+      persistControls();
+      persistHighlights();
+      renderSelectionExport();
+    }
+
+    function handleTextKeydown(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        localStorage.setItem(STORAGE_KEYS.probeText, els.text.value);
+        persistControls();
+        runProbe();
+      }
+    }
+
+    function updateCardWidth() {
+      const value = Math.max(100, Math.min(360, Number(els.cardWidth.value || 140)));
+      document.documentElement.style.setProperty("--token-card-width", `${value}px`);
+      localStorage.setItem(STORAGE_KEYS.cardWidth, String(value));
+    }
+
+    function rerenderLastProbe() {
+      if (state.lastProbeOutput) renderResults(state.lastProbeOutput);
+    }
+
+    function renderResults(out) {
+      state.lastProbeOutput = out;
+      if (out.truncated) {
+        els.message.hidden = false;
+        els.message.className = "empty";
+        els.message.textContent = `Input was truncated to ${out.max_length} tokens.`;
+      } else {
+        els.message.hidden = true;
+      }
+      const annotationMeta = annotationMetaMap(out.annotated_components || []);
+      state.annotationMeta = annotationMeta;
+      state.currentScores = new Map();
+      (out.tokens || []).forEach(token => (token.top || []).forEach(pair => {
+        const component = Number(pair.component);
+        const score = Math.abs(Number(pair.score || 0));
+        const previous = state.currentScores.get(component);
+        if (!previous || score > Math.abs(Number(previous.score || 0))) {
+          state.currentScores.set(component, { component, score: Number(pair.score || 0) });
+        }
+      }));
+
+      els.results.innerHTML = out.tokens.map(token => `
+        <div class="token-card">
+          <div class="token-text" title="${escapeAttr(token.token)}">${escapeHtml(token.token_text || token.token)}</div>
+          ${token.top.map(pair => scoreBadge(pair, annotationMeta, tokenTopAbsScore(token))).join("")}
+          ${predictionRow(token)}
+        </div>
+      `).join("");
+      els.results.querySelectorAll(".badge").forEach(node => {
+        node.addEventListener("click", event => selectComponent(event, Number(node.dataset.component), node.dataset.selectionKey));
+      });
+      paintHighlights();
+    }
+
+    function predictionRow(token) {
+      const pred = token.prediction;
+      if (!pred) return "";
+      const text = visibleToken(pred.token_text || pred.token || "");
+      return `
+        <div class="prediction-row" title="${escapeAttr(`next token: ${text}`)}">
+          <span class="prediction-label">next</span>
+          <span class="prediction-token">${escapeHtml(text)}</span>
+        </div>
+      `;
+    }
+
+    function scoreBadge(pair, annotationMeta, tokenTopAbs) {
+      const component = Number(pair.component);
+      const score = Number(pair.score || 0);
+      const selectionKey = componentSelectionKey(component, score);
+      const active = state.highlights.has(selectionKey);
+      const ratio = tokenTopAbs > 0 ? Math.abs(score) / tokenTopAbs : 0;
+      const width = 100 * Math.max(0, Math.min(1, ratio));
+      const meta = annotationForScore(annotationMeta.get(component), score);
+      const dot = meta ? `<span class="annotation-dot ${escapeAttr(meta.confidence)}" aria-hidden="true">${escapeHtml(meta.type_letter)}</span>` : "";
+      const label = meta ? meta.label : `C${component}`;
+      const title = meta ? `C${component}: ${annotationHint(meta)}` : `C${component}`;
+      const cutoff = Math.max(0, Math.min(1, Number(els.weakRatio.value || 0.5)));
+      const weak = Number.isFinite(tokenTopAbs) && tokenTopAbs > 0 && Math.abs(score) < tokenTopAbs * cutoff;
+      return `
+        <div class="score-row">
+          <button class="badge ${active ? "hot" : ""} ${weak ? "weak" : ""}" type="button" data-component="${component}" data-selection-key="${escapeAttr(selectionKey)}" data-score="${escapeAttr(score)}" aria-pressed="${active ? "true" : "false"}" title="${escapeAttr(title)}" style="--score-width:${width.toFixed(1)}%;--component-color:${componentColor(component)}">
+            <span class="badge-main">${dot}<b class="badge-label">${escapeHtml(label)}</b></span>
+          </button>
+          <span class="score">${formatScore(pair.score)}</span>
+        </div>
+      `;
+    }
+
+    function tokenTopAbsScore(token) {
+      const scores = (token.top || []).map(pair => Math.abs(Number(pair.score || 0)));
+      return scores.length ? Math.max(...scores) : 0;
+    }
+
+    function selectComponent(event, component, selectionKey) {
+      state.selectionPanelHidden = false;
+      if (event.ctrlKey || event.metaKey) {
+        if (state.highlights.has(selectionKey)) state.highlights.delete(selectionKey);
+        else state.highlights.add(selectionKey);
+      } else {
+        state.highlights.clear();
+        state.highlights.add(selectionKey);
+      }
+      persistHighlights();
+      paintHighlights();
+    }
+
+
+    function highlightStorageKey(model = els.model.value, layer = els.layer.value) {
+      return `${model}:${layer}`;
+    }
+
+    function readHighlightStore() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEYS.highlights) || "{}");
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function persistHighlights() {
+      const store = readHighlightStore();
+      const key = highlightStorageKey();
+      const values = [...state.highlights].filter(isValidSelectionKey).sort(compareSelectionKeys);
+      if (values.length) store[key] = values;
+      else delete store[key];
+      localStorage.setItem(STORAGE_KEYS.highlights, JSON.stringify(store));
+    }
+
+    function restoreHighlightsForContext(out) {
+      const store = readHighlightStore();
+      const saved = Array.isArray(store[highlightStorageKey()]) ? store[highlightStorageKey()] : [];
+      state.highlights = new Set(saved.map(normalizeSelectionKey).filter(Boolean));
+    }
+
+    function paintHighlights() {
+      els.results.querySelectorAll(".badge").forEach(node => {
+        const active = state.highlights.has(node.dataset.selectionKey);
+        node.classList.toggle("hot", active);
+        node.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      renderSelectionPanel();
+      renderSelectionExport();
+    }
+
+    function renderSelectionPanel() {
+      const selections = [...state.highlights].filter(isValidSelectionKey).sort(compareSelectionKeys).map(parseSelectionKey);
+      els.selectionPanel.classList.toggle("visible", selections.length > 0 && !state.selectionPanelHidden);
+      els.selectionList.innerHTML = selections.map(selection => {
+        const component = selection.component;
+        const score = selection.sign * Math.abs(Number(state.currentScores?.get(component)?.score || 1));
+        ensureLayerComponentMeta();
+        ensureTokenStats(component);
+        ensureComponentNeighbors(component);
+        const stats = state.tokenStats.get(selectionStatsKey(component));
+        const neighbors = state.componentNeighbors.get(selectionStatsKey(component));
+        const sourceLabel = sourceSideLabel(componentMeta(component), score);
+        return `
+          <div class="selection-entry" style="--component-color:${componentColor(component)}">
+            <div class="selection-item">
+              <a class="selection-link" href="${escapeAttr(componentAnnotateUrl(component))}">
+                <span>${escapeHtml(els.layer.value)} C${component}${selection.sign < 0 ? " -" : " +"}</span>
+                <span class="selection-score">${selectionMetrics(component)}</span>
+              </a>
+              <div class="selection-token-stats">${renderTokenStats(stats)}</div>
+            </div>
+            ${renderComponentNeighbors(neighbors, score, sourceLabel)}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderSelectionExport() {
+      const selections = [...state.highlights].filter(isValidSelectionKey).sort(compareSelectionKeys).map(parseSelectionKey);
+      if (!selections.length) {
+        els.selectionExport.classList.remove("visible");
+        els.selectionExportCopy.classList.remove("visible");
+        els.selectionExportToggle.classList.remove("visible");
+        els.selectionExport.value = "";
+        return;
+      }
+      const selection = selections[0];
+      els.selectionExport.value = componentExportText(selection);
+      els.selectionExportToggle.classList.add("visible");
+      els.selectionExportToggle.textContent = state.selectionExportHidden ? "Show text" : "Hide text";
+      els.selectionExport.classList.toggle("visible", !state.selectionExportHidden);
+      els.selectionExportCopy.classList.toggle("visible", !state.selectionExportHidden);
+    }
+
+    function componentExportText(selection) {
+      const component = selection.component;
+      const meta = componentMeta(component);
+      const erf = Number(meta?.effective_context_mean);
+      const erfText = Number.isFinite(erf) ? Number(erf).toFixed(1).replace(/\.0$/, "") : "?";
+      const activations = componentTokenActivations(component, selection.sign);
+      const activationLines = activations.length
+        ? activations.map(item => `${item.index}: ${item.token} -> ${item.score.toFixed(1)}`).join("\n")
+        : "(component is not present in the current top-k token activations)";
+      return [
+        `[Component C${component}, Effective Receptive Field=${erfText}]`,
+        "",
+        "INPUT TEXT:",
+        els.text.value,
+        "",
+        "TOKEN ACTIVATIONS:",
+        activationLines,
+        "",
+        "",
+      ].join("\n");
+    }
+
+    function componentTokenActivations(component, sign) {
+      const rows = [];
+      (state.lastProbeOutput?.tokens || []).forEach(token => {
+        const item = (token.top || []).find(pair => Number(pair.component) === Number(component));
+        if (!item) return;
+        const score = Number(item.score || 0);
+        if (!Number.isFinite(score) || score === 0) return;
+        if ((score < 0 ? -1 : 1) !== sign) return;
+        rows.push({ index: Number(token.position), token: exportTokenText(token.token_text || token.token), score });
+      });
+      return rows.sort((a, b) => Math.abs(b.score) - Math.abs(a.score));
+    }
+
+    async function copySelectionExport() {
+      const text = els.selectionExport.value;
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        els.selectionExport.focus();
+        els.selectionExport.select();
+        document.execCommand("copy");
+        els.selectionExport.setSelectionRange(0, 0);
+      }
+      const previous = els.selectionExportCopy.textContent;
+      els.selectionExportCopy.textContent = "Copied";
+      window.setTimeout(() => { els.selectionExportCopy.textContent = previous; }, 900);
+    }
+
+    function selectionMetrics(component) {
+      const parts = [];
+      const meta = componentMeta(component);
+      const ecl = meta?.effective_context_mean;
+      const kurtosis = meta?.excess_kurtosis;
+      if (Number.isFinite(ecl)) parts.push(`ERF=${Number(ecl).toFixed(1)}`);
+      if (Number.isFinite(kurtosis)) parts.push(`K=${Number(kurtosis).toFixed(1)}`);
+      return escapeHtml(parts.join(" · "));
+    }
+
+    function selectionStatsKey(component) {
+      return `${els.model.value}:${els.layer.value}:${component}`;
+    }
+
+    function layerMetaKey(model = els.model.value, layer = els.layer.value) {
+      return `${model}:${layer}`;
+    }
+
+    function componentMeta(component) {
+      return state.annotationMeta?.get(component) || state.layerComponentMeta.get(layerMetaKey())?.get(Number(component)) || null;
+    }
+
+    function ensureLayerComponentMeta() {
+      const key = layerMetaKey();
+      if (state.layerComponentMeta.has(key) || state.layerComponentMetaLoading.has(key)) return;
+      state.layerComponentMetaLoading.add(key);
+      const params = new URLSearchParams({
+        model: state.meta?.model_name || els.model.value,
+        layer: els.layer.value,
+      });
+      api(`/api/components?${params.toString()}`)
+        .then(data => {
+          state.layerComponentMeta.set(key, componentMetaMap(data.components || []));
+          renderSelectionPanel();
+          renderSelectionExport();
+        })
+        .catch(() => {
+          state.layerComponentMeta.set(key, new Map());
+        })
+        .finally(() => {
+          state.layerComponentMetaLoading.delete(key);
+        });
+    }
+
+    function componentSelectionKey(component, score) {
+      return `${Number(component)}:${Number(score) < 0 ? "-" : "+"}`;
+    }
+
+    function normalizeSelectionKey(value) {
+      if (typeof value === "number" && Number.isFinite(value)) return `${value}:+`;
+      const text = String(value || "");
+      if (/^\d+:[+-]$/.test(text)) return text;
+      const legacy = Number(text);
+      return Number.isFinite(legacy) ? `${legacy}:+` : "";
+    }
+
+    function isValidSelectionKey(value) {
+      return /^\d+:[+-]$/.test(String(value || ""));
+    }
+
+    function parseSelectionKey(value) {
+      const [component, sign] = String(value).split(":");
+      return { component: Number(component), sign: sign === "-" ? -1 : 1 };
+    }
+
+    function compareSelectionKeys(a, b) {
+      const aa = parseSelectionKey(a);
+      const bb = parseSelectionKey(b);
+      return aa.component - bb.component || bb.sign - aa.sign;
+    }
+
+    function hasHighlightedComponent(component) {
+      return state.highlights.has(`${Number(component)}:+`) || state.highlights.has(`${Number(component)}:-`);
+    }
+
+    function ensureTokenStats(component) {
+      const key = selectionStatsKey(component);
+      if (state.tokenStats.has(key)) return;
+      const retries = state.tokenStatsRetries.get(key) || 0;
+      if (retries >= 2) {
+        state.tokenStats.set(key, { error: "token stats unavailable", tokens: [] });
+        return;
+      }
+      state.tokenStatsRetries.set(key, retries + 1);
+      state.tokenStats.set(key, null);
+      const params = new URLSearchParams({
+        model: state.meta?.model_name || els.model.value,
+        layer: els.layer.value,
+        component: String(component),
+      });
+      api(`/api/component-token-stats?${params.toString()}`)
+        .then(data => {
+          state.tokenStats.set(key, data);
+          if (hasHighlightedComponent(component) && key === selectionStatsKey(component)) renderSelectionPanel();
+        })
+        .catch(err => {
+          state.tokenStats.set(key, { error: err.message || "token stats unavailable", tokens: [] });
+          if (hasHighlightedComponent(component) && key === selectionStatsKey(component)) renderSelectionPanel();
+        });
+    }
+
+    function ensureComponentNeighbors(component) {
+      const key = selectionStatsKey(component);
+      if (state.componentNeighbors.has(key)) return;
+      const retries = state.componentNeighborsRetries.get(key) || 0;
+      if (retries >= 2) {
+        state.componentNeighbors.set(key, { error: "neighbors unavailable", neighbors: [] });
+        return;
+      }
+      state.componentNeighborsRetries.set(key, retries + 1);
+      state.componentNeighbors.set(key, null);
+      const params = new URLSearchParams({
+        model: state.meta?.model_name || els.model.value,
+        layer: els.layer.value,
+        component: String(component),
+      });
+      api(`/api/component-neighbors?${params.toString()}`)
+        .then(data => {
+          state.componentNeighbors.set(key, data);
+          if (hasHighlightedComponent(component) && key === selectionStatsKey(component)) renderSelectionPanel();
+        })
+        .catch(err => {
+          state.componentNeighbors.set(key, { error: err.message || "neighbors unavailable", neighbors: [] });
+          if (hasHighlightedComponent(component) && key === selectionStatsKey(component)) renderSelectionPanel();
+        });
+    }
+
+    function renderComponentNeighbors(data, sourceScore, sourceLabel) {
+      if (data === null) {
+        return `
+          <div class="selection-neighbors">
+            ${renderLoadingNeighbor("prev")}
+          ${renderLoadingNeighbor("next")}
+          </div>
+        `;
+      }
+      const byDirection = new Map((data?.neighbors || []).map(item => [item.direction, item]));
+      return `
+        <div class="selection-neighbors">
+          ${renderNeighborCard(byDirection.get("prev"), "prev", sourceScore, sourceLabel)}
+          ${renderNeighborCard(byDirection.get("next"), "next", sourceScore, sourceLabel)}
+        </div>
+      `;
+    }
+
+    function renderNeighborCard(neighbor, direction, sourceScore, sourceLabel) {
+      if (!neighbor) return renderMissingNeighbor(direction);
+      const layer = String(neighbor.neighbor_layer || "");
+      const component = Number(neighbor.neighbor_component);
+      const label = neighborLabel(neighbor, sourceScore, sourceLabel);
+      const cos = Number(neighbor.abs_cosine);
+      const href = componentAnnotateUrl(component, layer);
+      return `
+        <a class="neighbor-card" href="${escapeAttr(href)}" title="${escapeAttr(`${direction}: ${layer} C${component} ${label}`)}">
+          <span class="neighbor-target">${escapeHtml(`${layer} C${component}`)}</span>
+          <span class="neighbor-label">${escapeHtml(label)}</span>
+          <span class="neighbor-metrics">${neighborMetrics(neighbor)}</span>
+          <span class="neighbor-cos" style="--cos-width:${cosWidth(cos)}%">cos=${Number.isFinite(cos) ? cos.toFixed(3) : "?"}</span>
+        </a>
+      `;
+    }
+
+    function renderMissingNeighbor(direction) {
+      return `
+        <div class="neighbor-card missing" aria-hidden="true">
+          <span class="neighbor-target"></span>
+          <span class="neighbor-label"></span>
+          <span class="neighbor-metrics"></span>
+          <span class="neighbor-cos"></span>
+        </div>
+      `;
+    }
+
+    function renderLoadingNeighbor(direction) {
+      return `
+        <div class="neighbor-card loading">
+          <span class="neighbor-target">loading</span>
+          <span class="neighbor-label"></span>
+          <span class="neighbor-metrics"></span>
+          <span class="neighbor-cos"></span>
+        </div>
+      `;
+    }
+
+    function neighborLabel(neighbor, sourceScore, sourceLabel) {
+      const positive = visibleAnnotationLabel(neighbor?.positive_label, neighbor?.positive_confidence);
+      const negative = visibleAnnotationLabel(neighbor?.negative_label, neighbor?.negative_confidence);
+      const positiveMatch = labelSimilarity(sourceLabel, positive);
+      const negativeMatch = labelSimilarity(sourceLabel, negative);
+      if (positiveMatch > negativeMatch && positiveMatch > 0) return positive;
+      if (negativeMatch > positiveMatch && negativeMatch > 0) return negative;
+      const sourceSign = Number(sourceScore) < 0 ? -1 : 1;
+      const neighborSign = Number(neighbor?.neighbor_sign) < 0 ? -1 : 1;
+      if (sourceSign * neighborSign < 0) return negative || "unlabeled";
+      return positive || "unlabeled";
+    }
+
+    function cosWidth(value) {
+      const cos = Math.max(0, Math.min(1, Number(value) || 0));
+      return (100 * cos).toFixed(1);
+    }
+
+    function neighborMetrics(neighbor) {
+      const parts = [];
+      const ecl = Number(neighbor?.effective_context_mean);
+      const kurtosis = Number(neighbor?.excess_kurtosis);
+      if (Number.isFinite(ecl)) parts.push(`ERF=${ecl.toFixed(1)}`);
+      if (Number.isFinite(kurtosis)) parts.push(`K=${kurtosis.toFixed(1)}`);
+      return escapeHtml(parts.join(" · "));
+    }
+
+    function sourceSideLabel(meta, score) {
+      if (!meta) return "";
+      return Number(score) < 0
+        ? visibleAnnotationLabel(meta.negative_label, meta.negative_confidence)
+        : visibleAnnotationLabel(meta.positive_label, meta.positive_confidence);
+    }
+
+    function labelSimilarity(a, b) {
+      const aTokens = labelTokens(a);
+      const bTokens = labelTokens(b);
+      if (!aTokens.size || !bTokens.size) return 0;
+      let overlap = 0;
+      aTokens.forEach(token => { if (bTokens.has(token)) overlap += 1; });
+      return overlap / Math.max(aTokens.size, bTokens.size);
+    }
+
+    function labelTokens(value) {
+      const text = String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      if (!text || text === "?") return new Set();
+      return new Set(text.split(/\s+/).filter(Boolean));
+    }
+
+    function renderTokenStats(stats) {
+      if (stats === null) return `<span>loading tokens...</span>`;
+      if (stats?.error) return `<span>${escapeHtml(stats.error)}</span>`;
+      const tokens = stats?.tokens || [];
+      if (!tokens.length) return `<span>no example tokens</span>`;
+      const maxCount = Math.max(1, ...tokens.map(item => Number(item.count || 0)));
+      const tokenChips = tokens.map(item => `
+        <span class="selection-token-chip" title="${escapeAttr(`${visibleToken(item.token)}: ${item.count}`)}" style="--token-font-size:${tokenFontSize(item.count, maxCount)}px">
+          <span class="selection-token-text">${escapeHtml(visibleToken(item.token))}</span>
+        </span>
+      `).join("");
+      return tokenChips;
+    }
+
+    function tokenFontSize(count, maxCount) {
+      const value = Math.max(0, Number(count || 0));
+      const ratio = maxCount <= 1 ? 0 : Math.log1p(value) / Math.log1p(maxCount);
+      return (9 + 5 * ratio).toFixed(1);
+    }
+
+    function visibleToken(value) {
+      const text = String(value || "");
+      if (text === " ") return "[space]";
+      if (text === "\n") return "[newline]";
+      return text.replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\t/g, "\\t");
+    }
+
+    function exportTokenText(value) {
+      const text = String(value || "");
+      if (text === ".") return "period";
+      if (text === ",") return "comma";
+      if (text === " ") return "[space]";
+      if (text === "\n") return "[newline]";
+      return visibleToken(text).trim() || visibleToken(text);
+    }
+
+    function componentAnnotateUrl(component, layer = els.layer.value) {
+      const params = new URLSearchParams({
+        model: state.meta?.model_name || els.model.value,
+        layer,
+        component: String(component),
+      });
+      return `/annotate?${params.toString()}`;
+    }
+
+    async function loadModelMeta(options = {}) {
+      state.meta = await api(`/api/meta?model=${encodeURIComponent(els.model.value)}`);
+      els.layer.innerHTML = state.meta.layers.map(layer => `<option value="${escapeAttr(layer)}">${escapeHtml(layer)}</option>`).join("");
+      if (!state.meta.layers.length) throw new Error(`No ICA layers are available for ${state.meta.display_name || state.meta.model_name}.`);
+      const savedLayer = localStorage.getItem(STORAGE_KEYS.layer);
+      if (options.restoreLayer && savedLayer && state.meta.layers.includes(savedLayer)) els.layer.value = savedLayer;
+    }
+
+    function restoreControlValues() {
+      setNumberInputFromStorage(els.topK, STORAGE_KEYS.topK, 1, 32);
+      setNumberInputFromStorage(els.cardWidth, STORAGE_KEYS.cardWidth, 100, 360);
+      setNumberInputFromStorage(els.weakRatio, STORAGE_KEYS.weakRatio, 0, 1);
+      els.keepModels.checked = localStorage.getItem(STORAGE_KEYS.keepModels) !== "0";
+    }
+
+    function setNumberInputFromStorage(input, key, min, max) {
+      const raw = localStorage.getItem(key);
+      if (raw === null) return;
+      const value = Number(raw);
+      if (!Number.isFinite(value)) return;
+      input.value = String(Math.max(min, Math.min(max, value)));
+    }
+
+    function persistControls() {
+      localStorage.setItem(STORAGE_KEYS.model, els.model.value);
+      localStorage.setItem(STORAGE_KEYS.layer, els.layer.value);
+      localStorage.setItem(STORAGE_KEYS.topK, els.topK.value);
+      localStorage.setItem(STORAGE_KEYS.cardWidth, els.cardWidth.value);
+      localStorage.setItem(STORAGE_KEYS.weakRatio, els.weakRatio.value);
+      localStorage.setItem(STORAGE_KEYS.keepModels, els.keepModels.checked ? "1" : "0");
+    }
+
+    function showError(message) {
+      els.message.hidden = false;
+      els.message.className = "error";
+      els.message.textContent = message;
+    }
+
+    function componentColor(componentId) {
+      return `hsl(${(37 * Number(componentId)) % 360} 78% 48%)`;
+    }
+
+    function annotationMetaMap(raw) {
+      const out = new Map();
+      if (!Array.isArray(raw)) return out;
+      raw.forEach(item => {
+        const component = Number(item?.component);
+        if (!Number.isFinite(component)) return;
+        out.set(component, {
+          positive_label: String(item.positive_label || "").trim(),
+          positive_confidence: normalizedConfidence(item.positive_confidence),
+          positive_types: Array.isArray(item.positive_types) ? item.positive_types.map(String) : [],
+          negative_label: String(item.negative_label || "").trim(),
+          negative_confidence: normalizedConfidence(item.negative_confidence),
+          negative_types: Array.isArray(item.negative_types) ? item.negative_types.map(String) : [],
+          excess_kurtosis: Number.isFinite(Number(item.excess_kurtosis)) ? Number(item.excess_kurtosis) : null,
+          effective_context_mean: Number.isFinite(Number(item.effective_context_mean)) ? Number(item.effective_context_mean) : null,
+        });
+      });
+      return out;
+    }
+
+    function componentMetaMap(raw) {
+      const out = new Map();
+      if (!Array.isArray(raw)) return out;
+      raw.forEach(item => {
+        const component = Number(item?.component);
+        if (!Number.isFinite(component)) return;
+        out.set(component, {
+          positive_label: String(item.positive_label || "").trim(),
+          positive_confidence: normalizedConfidence(item.positive_confidence),
+          positive_types: Array.isArray(item.positive_types) ? item.positive_types.map(String) : [],
+          negative_label: String(item.negative_label || "").trim(),
+          negative_confidence: normalizedConfidence(item.negative_confidence),
+          negative_types: Array.isArray(item.negative_types) ? item.negative_types.map(String) : [],
+          excess_kurtosis: Number.isFinite(Number(item.excess_kurtosis)) ? Number(item.excess_kurtosis) : null,
+          effective_context_mean: Number.isFinite(Number(item.effective_context_mean)) ? Number(item.effective_context_mean) : null,
+        });
+      });
+      return out;
+    }
+
+    function annotationForScore(meta, score) {
+      if (!meta) return null;
+      const positive = Number(score || 0) >= 0;
+      const label = positive ? meta.positive_label : meta.negative_label;
+      const confidence = positive ? meta.positive_confidence : meta.negative_confidence;
+      const types = positive ? meta.positive_types : meta.negative_types;
+      if (!visibleAnnotationLabel(label, confidence)) return null;
+      return {
+        label: visibleAnnotationLabel(label, confidence),
+        confidence,
+        type_letter: typeLetter(types),
+      };
+    }
+
+    function annotationHint(meta) {
+      return `${meta.label} (${meta.confidence})`;
+    }
+
+    function visibleAnnotationLabel(value, confidence) {
+      const text = String(value || "").trim();
+      if (!text) return "";
+      if (text === "?" && normalizedConfidence(confidence) === "unclear") return "";
+      return text.replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\t/g, "\\t");
+    }
+
+    function normalizedConfidence(value) {
+      const confidence = String(value || "unclear").toLowerCase();
+      return ["high", "medium", "low", "unclear"].includes(confidence) ? confidence : "unclear";
+    }
+
+    function typeLetter(types) {
+      const labels = Array.isArray(types) ? types : [];
+      const priority = [
+        ["Form", "F"],
+        ["Word", "W"],
+        ["Phrase", "P"],
+        ["Sentence", "S"],
+        ["Long-Range Context", "L"],
+        ["Global", "G"],
+        ["Position", "O"],
+        ["Sophisticated", "X"],
+      ];
+      for (const [name, letter] of priority) {
+        if (labels.some(label => String(label).toLowerCase() === name.toLowerCase())) return letter;
+      }
+      const first = labels.find(label => String(label).trim());
+      return first ? String(first).trim()[0].toUpperCase() : "";
+    }
+
+    function formatScore(value) {
+      const abs = Math.abs(value);
+      if (abs >= 100) return value.toFixed(0);
+      if (abs >= 10) return value.toFixed(1);
+      return value.toFixed(2);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    els.model.addEventListener("change", async () => {
+      persistHighlights();
+      state.highlights.clear();
+      state.tokenStats.clear();
+      state.tokenStatsRetries.clear();
+      state.componentNeighbors.clear();
+      state.componentNeighborsRetries.clear();
+      persistControls();
+      try {
+        await loadModelMeta();
+        persistControls();
+        runProbe();
+      } catch (err) {
+        showError(err.message);
+      }
+    });
+    els.layer.addEventListener("change", () => {
+      persistHighlights();
+      state.highlights.clear();
+      state.componentNeighbors.clear();
+      state.componentNeighborsRetries.clear();
+      persistControls();
+      runProbe();
+    });
+    els.topK.addEventListener("change", () => { persistControls(); runProbe(); });
+    els.topK.addEventListener("input", () => { persistControls(); runProbe(); });
+    els.cardWidth.addEventListener("change", updateCardWidth);
+    els.cardWidth.addEventListener("input", updateCardWidth);
+    els.weakRatio.addEventListener("change", () => { persistControls(); rerenderLastProbe(); });
+    els.keepModels.addEventListener("change", () => { persistControls(); if (!els.keepModels.checked) runProbe(); });
+    els.selectionClose.addEventListener("click", () => {
+      state.selectionPanelHidden = true;
+      renderSelectionPanel();
+    });
+    els.selectionExportToggle.addEventListener("click", () => {
+      state.selectionExportHidden = !state.selectionExportHidden;
+      renderSelectionExport();
+    });
+    els.selectionExportCopy.addEventListener("click", copySelectionExport);
+    els.weakRatio.addEventListener("input", () => { persistControls(); rerenderLastProbe(); });
+    els.text.addEventListener("input", scheduleProbe);
+    els.text.addEventListener("keydown", handleTextKeydown);
+    els.runProbe.addEventListener("click", () => {
+      localStorage.setItem(STORAGE_KEYS.probeText, els.text.value);
+      persistControls();
+      runProbe();
+    });
+    updateCardWidth();
+    init();
+  </script>
+</body>
+</html>

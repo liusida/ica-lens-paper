@@ -1,0 +1,4 @@
+[nongaussianity]
+random_directions = 32768
+activation_rows = 1000000
+direction_families = ["random", "sae", "ica"]

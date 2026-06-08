@@ -1,0 +1,10 @@
+[activation]
+model_config = "../models/gemma2_2b.toml"
+dataset_path = "NeelNanda/pile-10k"
+dataset_split = "train"
+text_column = "text"
+token_budget = 1000000
+seed = 0
+activation_dtype = "bfloat16"
+shard_token_budget = 250000
+site = "residual_stream"

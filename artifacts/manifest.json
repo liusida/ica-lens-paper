@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "artifact_sets": {
+    "models": {
+      "kind": "huggingface_dataset",
+      "dataset_id": "sida/ica-lens-paper",
+      "revision": "main",
+      "local_dir": "artifacts/fetched",
+      "allow_patterns": [
+        "models/**"
+      ],
+      "description": "Fitted ICA model artifacts and metadata for GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base."
+    },
+    "databases": {
+      "kind": "huggingface_dataset",
+      "dataset_id": "sida/ica-lens-paper",
+      "revision": "main",
+      "local_dir": "artifacts/fetched",
+      "allow_patterns": [
+        "databases/**"
+      ],
+      "description": "Miniature and full SQLite databases for the ICA Lens explorer."
+    }
+  },
+  "expected_database_variants": [
+    "mini",
+    "full"
+  ],
+  "notes": [
+    "Dataset paths are namespaced as models/** and databases/**.",
+    "checksums.sha256 records uploaded artifact checksums."
+  ]
+}

@@ -1,0 +1,9 @@
+[model]
+short_name = "gemma2_2b"
+id = "google/gemma-2-2b"
+hidden_size = 2304
+num_hidden_layers = 26
+context_length = 1024
+
+[hooks]
+residual_stream_template = "blocks.{layer}.hook_resid_post"

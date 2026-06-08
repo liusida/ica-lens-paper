@@ -1,0 +1,76 @@
+[model]
+short_name = "gemma2_2b"
+hidden_size = 2304
+num_hidden_layers = 26
+
+[ica]
+artifact_set = "v3_frozen_ica"
+artifact_root = "artifacts/fetched/models"
+preprocess = "with_normalization"
+
+[sae]
+repo_id = "google/gemma-scope-2b-pt-res"
+checkpoint_format = "npz"
+hook_name_template = "model.layers.{layer}"
+layers = "all_transformer_layers"
+width = 16384
+direction_source = "decoder"
+decoder_key = "W_dec"
+
+# Gemma Scope stores concrete average_l0 folders rather than stable canonical files.
+# These width_16k residual SAEs match the v3 comparison configuration.
+[sae.layer_checkpoints]
+"0" = "layer_0/width_16k/average_l0_25/params.npz"
+"1" = "layer_1/width_16k/average_l0_20/params.npz"
+"2" = "layer_2/width_16k/average_l0_24/params.npz"
+"3" = "layer_3/width_16k/average_l0_28/params.npz"
+"4" = "layer_4/width_16k/average_l0_31/params.npz"
+"5" = "layer_5/width_16k/average_l0_34/params.npz"
+"6" = "layer_6/width_16k/average_l0_36/params.npz"
+"7" = "layer_7/width_16k/average_l0_36/params.npz"
+"8" = "layer_8/width_16k/average_l0_37/params.npz"
+"9" = "layer_9/width_16k/average_l0_37/params.npz"
+"10" = "layer_10/width_16k/average_l0_39/params.npz"
+"11" = "layer_11/width_16k/average_l0_41/params.npz"
+"12" = "layer_12/width_16k/average_l0_41/params.npz"
+"13" = "layer_13/width_16k/average_l0_43/params.npz"
+"14" = "layer_14/width_16k/average_l0_43/params.npz"
+"15" = "layer_15/width_16k/average_l0_41/params.npz"
+"16" = "layer_16/width_16k/average_l0_42/params.npz"
+"17" = "layer_17/width_16k/average_l0_42/params.npz"
+"18" = "layer_18/width_16k/average_l0_40/params.npz"
+"19" = "layer_19/width_16k/average_l0_40/params.npz"
+"20" = "layer_20/width_16k/average_l0_38/params.npz"
+"21" = "layer_21/width_16k/average_l0_38/params.npz"
+"22" = "layer_22/width_16k/average_l0_38/params.npz"
+"23" = "layer_23/width_16k/average_l0_38/params.npz"
+"24" = "layer_24/width_16k/average_l0_38/params.npz"
+"25" = "layer_25/width_16k/average_l0_28/params.npz"
+
+[direction_overlap]
+top_k = 1
+sae_chunk_size = 4096
+nearest_metric = "maximum_absolute_cosine"
+
+[saebench_tpp]
+enabled = true
+saebench_model_name = "gemma-2-2b"
+hook_name_template = "blocks.{layer}.hook_resid_post"
+llm_dtype = "bfloat16"
+llm_batch_size = 32
+sae_batch_size = 125
+random_seed = 42
+lower_vram_usage = false
+row_normalize = false
+signed_identity = false
+n_values = [2, 5, 10, 20, 50, 100, 500]
+dataset_names = [
+  "LabHC/bias_in_bios_class_set1",
+  "canrager/amazon_reviews_mcauley_1and5",
+]
+
+[saebench_tpp.sae_baseline]
+source = "sae_lens_registry"
+release_pattern = "gemma-scope-2b-pt-res"
+id_from_sae_layer_checkpoints = true
+allow_multiple = false

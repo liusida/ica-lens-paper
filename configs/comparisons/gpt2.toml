@@ -1,0 +1,46 @@
+[model]
+short_name = "gpt2"
+hidden_size = 768
+num_hidden_layers = 12
+
+[ica]
+artifact_set = "v3_frozen_ica"
+artifact_root = "artifacts/fetched/models"
+preprocess = "with_normalization"
+
+[sae]
+repo_id = "jbloom/GPT2-Small-OAI-v5-32k-resid-post-SAEs"
+checkpoint_template = "v5_32k_layer_{layer}.pt/sae_weights.safetensors"
+checkpoint_format = "safetensors"
+hook_name_template = "blocks.{layer}.hook_resid_post"
+layers = "all_transformer_layers"
+width = 32768
+direction_source = "decoder"
+
+[direction_overlap]
+top_k = 1
+sae_chunk_size = 4096
+nearest_metric = "maximum_absolute_cosine"
+
+[saebench_tpp]
+enabled = true
+saebench_model_name = "gpt2-small"
+hook_name_template = "blocks.{layer}.hook_resid_post"
+llm_dtype = "float32"
+llm_batch_size = 256
+sae_batch_size = 250
+random_seed = 42
+lower_vram_usage = false
+row_normalize = false
+signed_identity = false
+n_values = [2, 5, 10, 20, 50, 100, 500]
+dataset_names = [
+  "LabHC/bias_in_bios_class_set1",
+  "canrager/amazon_reviews_mcauley_1and5",
+]
+
+[saebench_tpp.sae_baseline]
+source = "sae_lens_registry"
+release_pattern = "gpt2-small-resid-post-v5-32k"
+id_pattern_template = "blocks\\.{layer}\\.hook_resid_post"
+allow_multiple = false

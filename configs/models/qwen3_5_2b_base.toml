@@ -1,0 +1,9 @@
+[model]
+short_name = "qwen3_5_2b_base"
+id = "Qwen/Qwen3.5-2B-Base"
+hidden_size = 2048
+num_hidden_layers = 24
+context_length = 1024
+
+[hooks]
+residual_stream_template = "blocks.{layer}.hook_resid_post"

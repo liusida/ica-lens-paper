@@ -1,0 +1,10 @@
+[model]
+short_name = "gpt2"
+id = "openai-community/gpt2"
+hidden_size = 768
+num_hidden_layers = 12
+context_length = 1024
+
+[hooks]
+residual_stream_template = "blocks.{layer}.hook_resid_post"
+final_layer_note = "Use raw GPT-2 block 11 output before final layer norm."

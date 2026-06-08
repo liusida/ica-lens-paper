@@ -1,0 +1,47 @@
+[project]
+name = "ica-lens"
+version = "0.1.0"
+description = "Standalone reproduction code for the ICA Lens paper."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [
+  { name = "Sida Liu" }
+]
+dependencies = [
+  "huggingface-hub>=0.23.0",
+  "pydantic>=2.10.0",
+  "numpy>=1.26.0",
+  "torch>=2.5.0",
+  "transformers>=5.2.0",
+  "datasets>=2.20.0",
+  "safetensors>=0.4.0",
+  "tqdm>=4.66.0",
+  "fastapi>=0.115.0",
+  "uvicorn>=0.30.0",
+  "einops>=0.8.0",
+  "scikit-learn>=1.6.0",
+  "jaxtyping>=0.2.37",
+  "beartype>=0.14.1",
+  "tabulate>=0.9.0",
+  "seaborn>=0.13.0",
+  "openai>=1.61.0",
+]
+
+[project.scripts]
+ica-lens = "ica_lens.cli:main"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

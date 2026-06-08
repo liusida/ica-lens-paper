@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ICA Annotator</title>
+  <style>
+    :root { --bg:#f8fafc; --panel:#fff; --subtle:#f1f5f9; --text:#0f172a; --muted:#64748b; --border:#cbd5e1; --accent:#2563eb; --good:#059669; --bad:#dc2626; --shadow:0 1px 2px rgb(15 23 42 / .08),0 8px 24px rgb(15 23 42 / .05); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--border); padding:12px 16px; box-shadow:var(--shadow); }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    h1 { margin:0; font-size:20px; }
+    nav { display:flex; gap:6px; }
+    nav a { color:var(--muted); text-decoration:none; padding:7px 10px; border-radius:7px; font-weight:650; }
+    nav a:hover, nav a.active { color:var(--accent); background:#eff6ff; }
+    .toolbar { display:flex; align-items:end; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    label { color:#475569; font-size:12px; font-weight:700; }
+    select,input,textarea,button { font:inherit; border:1px solid var(--border); border-radius:7px; padding:7px 9px; background:#fff; color:var(--text); }
+    textarea { width:100%; resize:vertical; }
+    button { cursor:pointer; background:var(--subtle); }
+    button:hover { color:var(--accent); border-color:var(--accent); background:#eff6ff; }
+    .primary { color:#fff; background:var(--accent); border-color:#1d4ed8; font-weight:800; }
+    .primary:hover { color:#fff; background:#1d4ed8; }
+    main { display:grid; grid-template-columns:320px minmax(0,1fr) 360px; gap:14px; padding:14px; }
+    aside,.panel { background:var(--panel); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); }
+    aside { max-height:calc(100vh - 108px); overflow:auto; padding:10px; position:sticky; top:94px; }
+    .panel { padding:12px; }
+    .panel-title-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .panel-title-row h2 { margin:0; }
+    .component-metrics { display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; }
+    .metric-badge { display:inline-flex; align-items:center; min-height:24px; border:1px solid var(--border); border-radius:999px; padding:2px 8px; background:#f8fafc; color:#475569; font-size:12px; font-weight:800; font-variant-numeric:tabular-nums; }
+    .component-list { display:flex; flex-direction:column; gap:7px; margin-top:10px; }
+    .component-button { text-align:left; background:#fff; width:100%; border-radius:7px; }
+    .component-button.active { border-color:var(--accent); box-shadow:inset 3px 0 0 var(--accent); }
+    .component-title { display:flex; justify-content:space-between; gap:8px; font-weight:800; }
+    .label-line { color:#334155; margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .muted { color:var(--muted); }
+    .pill { display:inline-flex; border:1px solid var(--border); border-radius:999px; padding:1px 7px; color:var(--muted); font-size:12px; }
+    .examples { display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:10px; }
+    .example { border:1px solid #e2e8f0; border-radius:8px; padding:10px; background:#fff; }
+    .example-head { display:flex; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; margin-bottom:8px; }
+    .example-meta { display:flex; flex-wrap:wrap; align-items:center; gap:6px; min-width:0; }
+    .doc-link { color:#2563eb; text-decoration:none; font-weight:800; }
+    .doc-link:hover { text-decoration:underline; }
+    .score { font-weight:850; color:#b91c1c; font-variant-numeric:tabular-nums; }
+    .score.neg { color:#1d4ed8; }
+    .token { background:#fee2e2; color:#7f1d1d; border-radius:5px; padding:1px 5px; font-weight:800; }
+    pre { white-space:pre-wrap; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; margin:8px 0 0; }
+    .context { margin:8px 0 0; white-space:pre-wrap; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:14px; line-height:1.45; }
+    .context-token { border-radius:3px; padding:0 1px; }
+    .context-token.target { outline:1px solid rgb(15 23 42 / .28); outline-offset:1px; }
+    .tabs { display:flex; flex-wrap:wrap; gap:7px; margin:10px 0; }
+    .tabs button.active { color:#fff; background:var(--accent); border-color:var(--accent); }
+    .editor { position:sticky; top:94px; max-height:calc(100vh - 108px); overflow:auto; }
+    .editor h2,.panel h2 { margin:0 0 10px; font-size:16px; }
+    .neighbor-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+    .neighbor-card { display:grid; gap:4px; min-height:68px; border:1px solid var(--border); border-radius:8px; padding:8px; background:#fff; color:var(--text); text-decoration:none; }
+    .neighbor-card:hover { border-color:var(--accent); color:var(--text); text-decoration:none; background:#eff6ff; }
+    .neighbor-card.missing { visibility:hidden; }
+    .neighbor-head { display:flex; justify-content:space-between; align-items:start; gap:8px; }
+    .neighbor-target { min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--muted); font-size:11px; font-weight:750; }
+    .neighbor-link { min-width:0; color:var(--muted); text-decoration:none; }
+    .neighbor-link:hover { color:var(--accent); text-decoration:underline; }
+    .neighbor-copy { width:auto; min-height:24px; padding:2px 7px; border-radius:6px; font-size:11px; font-weight:800; white-space:nowrap; }
+    .neighbor-label { min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--text); font-size:14px; font-weight:850; line-height:1.2; }
+    .neighbor-metrics { color:var(--muted); font-size:11px; font-weight:500; font-variant-numeric:tabular-nums; }
+    .neighbor-cos { min-height:20px; border:1px solid #d7dee9; border-radius:5px; padding:2px 6px; background:linear-gradient(90deg,rgb(37 99 235 / .14) 0,rgb(37 99 235 / .14) var(--cos-width,0%),transparent var(--cos-width,0%),transparent 100%); color:var(--muted); font-size:12px; font-weight:800; font-variant-numeric:tabular-nums; }
+    .field { margin-bottom:10px; }
+    .direction-block { border:1px solid #e2e8f0; border-left-width:4px; border-radius:8px; padding:10px; margin-bottom:10px; }
+    .direction-block.positive { border-left-color:#e2e8f0; }
+    .direction-block.negative { border-left-color:#e2e8f0; }
+    .direction-block.positive.active-direction { border-left-color:#dc2626; background:#fef2f2; }
+    .direction-block.negative.active-direction { border-left-color:#2563eb; background:#eff6ff; }
+    .direction-block h3 { margin:0 0 9px; font-size:14px; }
+    .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+    .field-grid select { width:100%; min-width:0; }
+    .label-confidence-high { border-color:#16a34a; box-shadow:0 0 0 2px rgb(22 163 74 / .12); }
+    .label-confidence-high:focus { border-color:#16a34a; outline:2px solid rgb(22 163 74 / .22); outline-offset:1px; box-shadow:0 0 0 2px rgb(22 163 74 / .12); }
+    .label-confidence-medium { border-color:#d9b94e; box-shadow:0 0 0 2px rgb(217 185 78 / .16); }
+    .label-confidence-medium:focus { border-color:#d9b94e; outline:2px solid rgb(217 185 78 / .25); outline-offset:1px; box-shadow:0 0 0 2px rgb(217 185 78 / .16); }
+    .label-confidence-low { border-color:#f9a8d4; box-shadow:0 0 0 2px rgb(249 168 212 / .18); }
+    .label-confidence-low:focus { border-color:#f9a8d4; outline:2px solid rgb(249 168 212 / .28); outline-offset:1px; box-shadow:0 0 0 2px rgb(249 168 212 / .18); }
+    .label-confidence-unclear { border-color:#cbd5e1; box-shadow:none; }
+    .label-confidence-unclear:focus { border-color:#94a3b8; outline:2px solid rgb(148 163 184 / .28); outline-offset:1px; box-shadow:none; }
+    .status { margin-left:auto; color:var(--muted); }
+    .empty,.error { border:1px dashed var(--border); border-radius:8px; padding:18px; color:var(--muted); background:#fff; }
+    .error { color:#991b1b; border-color:#fecaca; background:#fef2f2; }
+    @media(max-width:1050px){ main{grid-template-columns:1fr;} aside,.editor{position:static;max-height:none;} }
+  </style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>ICA Annotator</h1>
+    <nav>
+      <a href="/">Explorer</a>
+      <a href="/sae-explorer">SAE Explorer</a>
+      <a href="/stats">Stats</a>
+      <a href="/annotate" class="active">Annotate</a>
+      <a href="/random-components">Random</a>
+    </nav>
+  </div>
+  <div class="toolbar">
+    <label>Model<br><select id="model"></select></label>
+    <label>Layer<br><select id="layer"></select></label>
+    <label style="flex:1;min-width:220px">Search<br><input id="search" type="search" placeholder="component id or label" /></label>
+    <button id="refresh">Refresh</button>
+    <span id="status" class="status"></span>
+  </div>
+</header>
+<main>
+  <aside>
+    <div class="muted" id="count">Loading...</div>
+    <div id="components" class="component-list"></div>
+  </aside>
+  <section class="panel">
+    <div class="panel-title-row">
+      <h2 id="detailTitle">Examples</h2>
+      <div id="componentMetrics" class="component-metrics"></div>
+    </div>
+    <div id="tabs" class="tabs"></div>
+    <div id="examples" class="examples"><div class="empty">Choose a component.</div></div>
+  </section>
+  <section class="panel editor">
+    <div id="neighborCards" class="neighbor-row" hidden></div>
+    <h2>Manual Annotation</h2>
+    <div id="editorEmpty" class="empty">Choose a component to annotate.</div>
+    <form id="form" hidden>
+      <div id="positiveBlock" class="direction-block positive">
+        <h3>Positive direction</h3>
+        <div class="field"><label>Label<br><textarea id="positiveLabel" rows="2"></textarea></label></div>
+        <div class="field-grid">
+          <label>Confidence<br><select id="positiveConfidence"></select></label>
+          <label>Interpretation type<br><select id="positiveTypes"></select></label>
+        </div>
+      </div>
+      <div id="negativeBlock" class="direction-block negative">
+        <h3>Negative direction</h3>
+        <div class="field"><label>Label<br><textarea id="negativeLabel" rows="2"></textarea></label></div>
+        <div class="field-grid">
+          <label>Confidence<br><select id="negativeConfidence"></select></label>
+          <label>Interpretation type<br><select id="negativeTypes"></select></label>
+        </div>
+      </div>
+      <div class="field"><label>Summary<br><textarea id="summary" rows="3"></textarea></label></div>
+      <div class="field"><label>Notes<br><textarea id="notes" rows="4"></textarea></label></div>
+      <div class="field"><label style="display:flex;gap:6px;align-items:center;color:var(--text);font-weight:600"><input id="caseStudy" type="checkbox"> include as case study</label></div>
+      <button class="primary" type="submit">Save annotation</button>
+    </form>
+  </section>
+</main>
+<script>
+const TYPES = ["Form", "Word", "Phrase", "Sentence", "Long-Range Context", "Global", "Position", "Sophisticated"];
+const CONF = ["high", "medium", "low", "unclear"];
+const state = { model:"", layer:"", components:[], selected:null, examples:null, region:"", annotation:null, neighbors:null };
+const el = Object.fromEntries(["model","layer","search","refresh","status","count","components","detailTitle","componentMetrics","tabs","examples","neighborCards","editorEmpty","form","positiveBlock","negativeBlock","positiveLabel","positiveConfidence","negativeLabel","negativeConfidence","positiveTypes","negativeTypes","summary","notes","caseStudy"].map(id=>[id,document.getElementById(id)]));
+async function api(path, options){ const r=await fetch(path, options); if(!r.ok){let msg=await r.text(); try{msg=JSON.parse(msg).detail||msg}catch{} throw new Error(msg)} return r.json(); }
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function scoreClass(v){return Number(v)<0?'score neg':'score';}
+function setStatus(s){el.status.textContent=s||"";}
+function fillSelect(select, values, current){select.innerHTML=values.map(v=>`<option value="${esc(v)}" ${v===current?'selected':''}>${esc(v)}</option>`).join('');}
+function fillConfidence(){ for(const id of ['positiveConfidence','negativeConfidence']) fillSelect(el[id], CONF, 'unclear'); }
+function fillTypes(){ for(const id of ['positiveTypes','negativeTypes']) fillSelect(el[id], ["", ...TYPES], ""); el.positiveTypes.options[0].textContent="none"; el.negativeTypes.options[0].textContent="none"; }
+function selectedTypes(select){ return select.value ? [select.value] : []; }
+function setTypes(select, values){ const first=(values||[]).find(Boolean)||""; select.value=first; }
+async function init(){ fillConfidence(); fillTypes(); const params=new URLSearchParams(location.search); state.targetComponent=Number(params.get('component')); const requestedModel=params.get('model')||'gpt2'; const requestedLayer=params.get('layer')||''; const models=await api('/api/models'); fillSelect(el.model, models.models.map(m=>m.model_name), requestedModel); state.model=el.model.value; state.layer=requestedLayer; await loadLayers({component:Number.isFinite(state.targetComponent)?state.targetComponent:null}); bind(); }
+function bind(){ el.model.onchange=async()=>{state.model=el.model.value; state.targetComponent=null; await loadLayers();}; el.layer.onchange=async()=>{state.layer=el.layer.value; state.targetComponent=null; await loadComponents();}; el.search.oninput=()=>renderComponents(); el.refresh.onclick=loadComponents; el.form.onsubmit=saveAnnotation; el.positiveConfidence.onchange=updateLabelConfidenceStyles; el.negativeConfidence.onchange=updateLabelConfidenceStyles; el.positiveBlock.onclick=()=>setActiveDirection('positive'); el.negativeBlock.onclick=()=>setActiveDirection('negative'); el.positiveBlock.onfocusin=()=>setActiveDirection('positive'); el.negativeBlock.onfocusin=()=>setActiveDirection('negative'); }
+async function loadLayers(options={}){ const out=await api(`/api/layers?model=${encodeURIComponent(state.model)}`); fillSelect(el.layer,out.layers,out.layers.includes(state.layer)?state.layer:out.layers[0]); state.layer=el.layer.value; await loadComponents(options); }
+async function loadComponents(options={}){ setStatus('Loading components...'); const out=await api(`/api/components?model=${encodeURIComponent(state.model)}&layer=${encodeURIComponent(state.layer)}`); state.components=out.components; state.selected=null; renderComponents(); clearDetail(); setStatus(''); const component=options.component; if(Number.isFinite(component) && state.components.some(c=>c.component===component)) await selectComponent(component); }
+function renderComponents(){ const q=el.search.value.trim().toLowerCase(); const items=state.components.filter(c=>!q||String(c.component).includes(q)||[c.positive_label,c.negative_label,c.summary,c.notes].join(' ').toLowerCase().includes(q)); el.count.textContent=`${items.length} components`; el.components.innerHTML=items.map(c=>`<button class="component-button ${state.selected&&state.selected.component===c.component?'active':''}" data-c="${c.component}"><div class="component-title"><span>${esc(c.layer)} / ${c.component}</span><span class="pill">k=${c.excess_kurtosis==null?'?':Number(c.excess_kurtosis).toFixed(1)}</span></div><div class="label-line">+ ${esc(c.positive_label||'')} </div><div class="label-line">- ${esc(c.negative_label||'')}</div></button>`).join('') || '<div class="empty">No components.</div>'; el.components.querySelectorAll('button[data-c]').forEach(b=>b.onclick=()=>selectComponent(Number(b.dataset.c))); }
+async function selectComponent(component){ state.selected=state.components.find(c=>c.component===component); renderComponents(); setStatus('Loading examples...'); const q=new URLSearchParams({model:state.model,layer:state.layer,component:String(component)}); const [examples, annotation, neighbors]=await Promise.all([api(`/api/examples/component?${q}`), api(`/api/annotations/component?${q}`), api(`/api/component-neighbors?${q}`)]); state.examples=examples; state.annotation=annotation; state.neighbors=neighbors; state.region=examples.default_region||examples.regions[0]||''; renderExamples(); renderEditor(); setStatus(''); }
+function clearDetail(){ el.detailTitle.textContent='Examples'; el.componentMetrics.innerHTML=''; el.tabs.innerHTML=''; el.examples.innerHTML='<div class="empty">Choose a component.</div>'; el.neighborCards.hidden=true; el.neighborCards.innerHTML=''; el.form.hidden=true; el.editorEmpty.hidden=false; setActiveDirection(null); }
+function renderExamples(){ const c=state.selected; el.detailTitle.textContent=`${state.model} ${state.layer} / ${c.component}`; renderComponentMetrics(c); el.tabs.innerHTML=(state.examples.regions||[]).map(r=>`<button class="${r===state.region?'active':''}" data-r="${esc(r)}">${esc(r)}</button>`).join(''); el.tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{state.region=b.dataset.r; renderExamples();}); const items=(state.examples.examples_by_region||{})[state.region]||[]; el.examples.innerHTML=items.map(renderExample).join('') || '<div class="empty">No examples in this band.</div>'; }
+function renderExample(x){ return `<article class="example"><div class="example-head"><span class="example-meta"><span>#${esc(x.rank)}</span>${docPositionLink(x)}<span class="token">${esc(visibleToken(x.token))}</span></span><span class="${scoreClass(x.source_score)}">${Number(x.source_score||0).toFixed(3)}</span></div><div class="context">${renderContext(x)}</div></article>`; }
+function docPositionLink(x){ if(x.doc_id==null||Number(x.doc_id)<0) return x.position==null?'':`<span>pos ${esc(x.position)}</span>`; const q=new URLSearchParams({model:state.model,doc_id:String(x.doc_id)}); if(x.position!=null) q.set('position',String(x.position)); const target=visibleToken(x.token); if(target) q.set('target',target); const text=`doc ${x.doc_id}${x.position==null?'':` · pos ${x.position}`}`; return `<a class="doc-link" href="/context?${esc(q.toString())}" target="_blank" rel="noopener" title="Open full document context">${esc(text)}</a>`; }
+function renderContext(x){ const tokens=Array.isArray(x.context_token_scores)?x.context_token_scores:[]; if(!tokens.length) return esc(x.context_to_target||x.context||''); const maxAbs=Math.max(1e-9, Number(x.context_score_max_abs||0), ...tokens.map(t=>Math.abs(Number(t.source_score||0)))); return tokens.map(t=>{ const score=Number(t.source_score||0); const alpha=tokenAlpha(score,maxAbs); const color=alpha===0?'transparent':score>0?`rgba(220,38,38,${alpha})`:`rgba(37,99,235,${alpha})`; const title=`score=${Number.isFinite(score)?score.toFixed(4):'n/a'}`; return `<span class="context-token ${t.is_target?'target':''}" style="background:${color}" title="${esc(title)}">${esc(visibleContextToken(t.token))}</span>`; }).join(''); }
+function tokenAlpha(score,maxAbs){ const magnitude=Math.abs(Number(score||0)); if(magnitude<1e-6) return 0; return Math.min(0.55,0.47*Math.log1p(magnitude)/Math.log1p(maxAbs)); }
+function visibleToken(value){ const text=String(value||''); if(text===' ') return '[space]'; if(text==='\n') return '[newline]'; if(text==='\f') return '\\f'; return text.replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t').replace(/\f/g,'\\f'); }
+function visibleContextToken(value){ return String(value||'').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t').replace(/\f/g,'\\f'); }
+function renderComponentMetrics(component){ const parts=[]; const erf=Number(component.effective_context_mean); const k=Number(component.excess_kurtosis); if(Number.isFinite(erf)) parts.push(`<span class="metric-badge" title="Effective Receptive Field (ERF): estimated mean number of token positions in the local context that materially affect this component.">ERF=${erf.toFixed(1)}</span>`); if(Number.isFinite(k)) parts.push(`<span class="metric-badge" title="Kurtosis (K): excess kurtosis of this component's source scores over the sampled activation rows; larger values indicate a heavier-tailed direction.">K=${k.toFixed(1)}</span>`); el.componentMetrics.innerHTML=parts.join(''); }
+function renderEditor(){ const a=state.annotation; el.form.hidden=false; el.editorEmpty.hidden=true; el.positiveLabel.value=a.positive_label||''; el.positiveConfidence.value=a.positive_confidence||'unclear'; el.negativeLabel.value=a.negative_label||''; el.negativeConfidence.value=a.negative_confidence||'unclear'; el.summary.value=a.summary||''; el.notes.value=a.notes||''; el.caseStudy.checked=!!a.include_as_case_study; setTypes(el.positiveTypes,a.positive_interpretation_types||[]); setTypes(el.negativeTypes,a.negative_interpretation_types||[]); updateLabelConfidenceStyles(); const direction=topAbsDirection(); setActiveDirection(direction); renderNeighborCards(direction); }
+function topAbsDirection(){ const top=(state.examples?.examples_by_region?.top_abs||[])[0]; const score=Number(top?.source_score); if(!Number.isFinite(score) || score===0) return null; return score>0?'positive':'negative'; }
+function setActiveDirection(direction){ el.positiveBlock.classList.toggle('active-direction', direction==='positive'); el.negativeBlock.classList.toggle('active-direction', direction==='negative'); }
+function renderNeighborCards(sourceDirection){ const rows=state.neighbors?.neighbors||[]; const byDirection=new Map(rows.map(n=>[n.direction,n])); const sourceLabel=sourceDirection==='negative'?visibleAnnotationLabel(state.annotation?.negative_label,state.annotation?.negative_confidence):visibleAnnotationLabel(state.annotation?.positive_label,state.annotation?.positive_confidence); el.neighborCards.hidden=false; el.neighborCards.innerHTML=`${neighborCard(byDirection.get('prev'),sourceDirection,sourceLabel)}${neighborCard(byDirection.get('next'),sourceDirection,sourceLabel)}`; el.neighborCards.querySelectorAll('.neighbor-copy').forEach(b=>b.onclick=()=>copyNeighborAnnotation(b.dataset.direction)); }
+function neighborCard(n, sourceDirection, sourceLabel){ if(!n) return '<div class="neighbor-card missing" aria-hidden="true"></div>'; const layer=String(n.neighbor_layer||''); const component=Number(n.neighbor_component); const label=neighborLabel(n,sourceDirection,sourceLabel); const cos=Number(n.abs_cosine); const q=new URLSearchParams({model:state.model,layer,component:String(component)}); return `<div class="neighbor-card" title="${esc(layer)} C${component}"><div class="neighbor-head"><a class="neighbor-link" href="/annotate?${esc(q.toString())}"><span class="neighbor-target">${esc(layer)} C${component}</span></a><button class="neighbor-copy" type="button" data-direction="${esc(n.direction)}" title="Copy this neighbor annotation into the active direction">Copy</button></div><span class="neighbor-label">${esc(label)}</span><span class="neighbor-metrics">${neighborMetrics(n)}</span><span class="neighbor-cos" style="--cos-width:${cosWidth(cos)}%">cos=${Number.isFinite(cos)?cos.toFixed(3):'?'}</span></div>`; }
+function neighborLabel(n, sourceDirection, sourceLabel){ return neighborAnnotationSide(n,sourceDirection,sourceLabel).label || 'unlabeled'; }
+function neighborAnnotationSide(n, sourceDirection, sourceLabel){ const positive=visibleAnnotationLabel(n.positive_label,n.positive_confidence); const negative=visibleAnnotationLabel(n.negative_label,n.negative_confidence); const pm=labelSimilarity(sourceLabel,positive); const nm=labelSimilarity(sourceLabel,negative); if(pm>nm&&pm>0) return {side:'positive', label:positive, confidence:n.positive_confidence||'unclear', types:n.positive_types||[]}; if(nm>pm&&nm>0) return {side:'negative', label:negative, confidence:n.negative_confidence||'unclear', types:n.negative_types||[]}; const sourceSign=sourceDirection==='negative'?-1:1; const neighborSign=Number(n.neighbor_sign)<0?-1:1; if(sourceSign*neighborSign<0) return {side:'negative', label:negative, confidence:n.negative_confidence||'unclear', types:n.negative_types||[]}; return {side:'positive', label:positive, confidence:n.positive_confidence||'unclear', types:n.positive_types||[]}; }
+function copyNeighborAnnotation(direction){ const n=(state.neighbors?.neighbors||[]).find(x=>x.direction===direction); if(!n) return; const active=currentAnnotationDirection(); const sourceLabel=active==='negative'?visibleAnnotationLabel(state.annotation?.negative_label,state.annotation?.negative_confidence):visibleAnnotationLabel(state.annotation?.positive_label,state.annotation?.positive_confidence); const picked=neighborAnnotationSide(n,active,sourceLabel); if(active==='negative'){ el.negativeLabel.value=picked.label||''; el.negativeConfidence.value=picked.confidence||'unclear'; setTypes(el.negativeTypes,picked.types||[]); } else { el.positiveLabel.value=picked.label||''; el.positiveConfidence.value=picked.confidence||'unclear'; setTypes(el.positiveTypes,picked.types||[]); } updateLabelConfidenceStyles(); setActiveDirection(active); setStatus(`Copied ${direction} neighbor into ${active} direction.`); }
+function currentAnnotationDirection(){ if(el.negativeBlock.classList.contains('active-direction')) return 'negative'; if(el.positiveBlock.classList.contains('active-direction')) return 'positive'; return topAbsDirection()||'positive'; }
+function visibleAnnotationLabel(value, confidence){ const text=String(value||'').trim(); if(!text) return ''; if(text==='?' && String(confidence||'unclear')==='unclear') return ''; return text.replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t'); }
+function labelSimilarity(a,b){ const aa=labelTokens(a); const bb=labelTokens(b); if(!aa.size||!bb.size) return 0; let overlap=0; aa.forEach(t=>{if(bb.has(t)) overlap+=1;}); return overlap/Math.max(aa.size,bb.size); }
+function labelTokens(value){ const text=String(value||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(); if(!text||text==='?') return new Set(); return new Set(text.split(/\s+/).filter(Boolean)); }
+function cosWidth(value){ const cos=Math.max(0,Math.min(1,Number(value)||0)); return (100*cos).toFixed(1); }
+function neighborMetrics(n){ const parts=[]; const erf=Number(n?.effective_context_mean); const k=Number(n?.excess_kurtosis); if(Number.isFinite(erf)) parts.push(`ERF=${erf.toFixed(1)}`); if(Number.isFinite(k)) parts.push(`K=${k.toFixed(1)}`); return esc(parts.join(' · ')); }
+function updateLabelConfidenceStyles(){ setLabelConfidenceStyle(el.positiveLabel, el.positiveConfidence.value); setLabelConfidenceStyle(el.negativeLabel, el.negativeConfidence.value); }
+function setLabelConfidenceStyle(node, confidence){ node.classList.remove('label-confidence-high','label-confidence-medium','label-confidence-low','label-confidence-unclear'); node.classList.add(`label-confidence-${CONF.includes(confidence)?confidence:'unclear'}`); }
+async function saveAnnotation(ev){
+  ev.preventDefault();
+  if(!state.selected) return;
+  const component=state.selected.component;
+  const body={model_name:state.model, layer:state.layer, component, positive_label:el.positiveLabel.value, positive_confidence:el.positiveConfidence.value, positive_interpretation_types:selectedTypes(el.positiveTypes), negative_label:el.negativeLabel.value, negative_confidence:el.negativeConfidence.value, negative_interpretation_types:selectedTypes(el.negativeTypes), summary:el.summary.value, notes:el.notes.value, include_as_case_study:el.caseStudy.checked};
+  setStatus('Saving...');
+  await api('/api/annotations/component',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const q=new URLSearchParams({model:state.model,layer:state.layer,component:String(component)});
+  const [annotation, components]=await Promise.all([
+    api(`/api/annotations/component?${q}`),
+    api(`/api/components?model=${encodeURIComponent(state.model)}&layer=${encodeURIComponent(state.layer)}`),
+  ]);
+  state.annotation=annotation;
+  state.components=components.components;
+  state.selected=state.components.find(c=>c.component===component) || state.selected;
+  renderComponents();
+  renderEditor();
+  setStatus('Saved.');
+}
+init().catch(e=>{setStatus(e.message); el.components.innerHTML=`<div class="error">${esc(e.message)}</div>`});
+</script>
+</body>
+</html>

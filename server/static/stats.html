@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ICA Annotation Stats</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --text: #151922;
+      --muted: #647084;
+      --border: #cbd3df;
+      --accent: #1f6feb;
+      --shadow: 0 1px 2px rgb(20 25 34 / .08), 0 10px 30px rgb(20 25 34 / .06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 12px 18px;
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    h1 { margin: 0; font-size: 19px; letter-spacing: 0; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    a {
+      color: var(--accent);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    main {
+      width: 100%;
+      margin: 0;
+      padding: 12px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .model-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #435066;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .model-control select {
+      width: 210px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      padding: 7px 9px;
+    }
+    .layer-control select {
+      width: 160px;
+    }
+    .toolbar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .legend-toggle {
+      width: auto;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-weight: inherit;
+      padding: 0;
+      cursor: pointer;
+    }
+    .legend-toggle:hover { color: var(--accent); }
+    .matrix {
+      overflow: visible;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+    }
+    .layer-row {
+      display: grid;
+      grid-template-columns: 104px 86px minmax(0, 1fr);
+      align-items: start;
+      gap: 8px;
+      width: 100%;
+      padding: 6px 8px;
+      border-bottom: 1px solid #e5eaf2;
+    }
+    .layer-row:last-child { border-bottom: 0; }
+    .layer-name {
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .layer-count {
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      align-items: flex-start;
+      min-width: 0;
+    }
+    .component-pair {
+      display: inline-flex;
+      gap: 1px;
+      margin-right: 2px;
+      flex: 0 0 auto;
+    }
+    .dot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 13px;
+      height: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 8px;
+      font-weight: 850;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      flex: 0 0 auto;
+      text-decoration: none;
+    }
+    .dot:hover { text-decoration: none; outline: 2px solid rgb(31 111 235 / .25); outline-offset: 1px; }
+    .dot.high { color: #fff; background: #16a34a; border-color: #15803d; }
+    .dot.medium { color: #166534; background: #fef3c7; border-color: #d9b94e; }
+    .dot.low { color: #9f1239; background: #ffe4e6; border-color: #f9a8d4; }
+    .dot.unclear { color: #475569; background: #e5e7eb; border-color: #cbd5e1; }
+    .dot.auto {
+      color: #3b2600;
+      background: #f6c343;
+      border-color: #b77900;
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / .38);
+    }
+    .dot.erf-value {
+      overflow: hidden;
+      font-size: 7px;
+    }
+    .empty, .error {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .error { color: #a41414; border-color: #f0b9b9; background: #fff7f7; }
+    @media (max-width: 760px) {
+      main { padding: 8px; }
+      header { padding: 10px 12px; }
+      .top { align-items: flex-start; flex-direction: column; }
+      .toolbar { align-items: flex-start; flex-direction: column; }
+      .layer-row { grid-template-columns: 74px 58px minmax(0, 1fr); gap: 6px; padding: 6px; }
+      .dot { width: 11px; height: 12px; border-radius: 3px; font-size: 7px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <h1>ICA Annotation Stats</h1>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Explorer</a>
+        <a href="/sae-explorer">SAE Explorer</a>
+        <a href="/stats">Stats</a>
+        <a href="/annotate">Annotate</a>
+        <a href="/random-components">Random</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="panel">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <label class="model-control">
+            Model
+            <select id="modelSelect"></select>
+          </label>
+          <label class="model-control layer-control">
+            Layer
+            <select id="layerSelect" disabled></select>
+          </label>
+          <div id="summary">Please select a model.</div>
+        </div>
+        <div class="legend" aria-label="Confidence legend">
+          <span class="legend-item"><span class="dot high">W</span> high</span>
+          <span class="legend-item"><span class="dot medium">W</span> medium</span>
+          <span class="legend-item"><span class="dot low">W</span> low</span>
+          <span class="legend-item"><span class="dot unclear">?</span> unclear</span>
+          <button id="autoToggle" class="legend-item legend-toggle" type="button" aria-pressed="true" title="Toggle auto-annotation coloring"><span class="dot auto">W</span> auto</button>
+          <button id="erfToggle" class="legend-item legend-toggle" type="button" aria-pressed="false" title="Toggle Effective Receptive Field labels"><span class="dot erf-value">11</span> ERF</button>
+          <span class="legend-item"><span class="dot"></span> blank</span>
+        </div>
+      </div>
+      <div id="message" class="empty">Loading all component stats...</div>
+      <div id="matrix" class="matrix" hidden></div>
+    </div>
+  </main>
+  <script>
+    const els = {
+      model: document.getElementById("modelSelect"),
+      layer: document.getElementById("layerSelect"),
+      summary: document.getElementById("summary"),
+      message: document.getElementById("message"),
+      matrix: document.getElementById("matrix"),
+      autoToggle: document.getElementById("autoToggle"),
+      erfToggle: document.getElementById("erfToggle"),
+    };
+
+    const STORAGE_KEYS = {
+      model: "icaExplorer.model",
+      layer: "icaExplorer.layer",
+    };
+
+    const state = {
+      model: "",
+      layer: "",
+      layers: [],
+      showAuto: true,
+      showErf: false,
+    };
+
+    async function api(path) {
+      const res = await fetch(path, { headers: { "content-type": "application/json" } });
+      if (!res.ok) {
+        let detail = res.statusText;
+        try { detail = (await res.json()).detail || detail; } catch {}
+        throw new Error(detail);
+      }
+      return res.json();
+    }
+
+    async function init() {
+      try {
+        const params = new URLSearchParams(location.search);
+        const urlModel = params.get("model") || "";
+        const urlLayer = normalizeUrlLayer(params.get("layer") || "");
+        const storedModel = localStorage.getItem(STORAGE_KEYS.model) || "";
+        const storedLayer = localStorage.getItem(STORAGE_KEYS.layer) || "";
+        const requestedModel = urlModel || storedModel;
+        const requestedLayer = urlLayer || storedLayer;
+        const models = await api("/api/models");
+        const names = (models.models || []).map(model => model.model_name);
+        fillSelect(els.model, ["", ...names], names.includes(requestedModel) ? requestedModel : "");
+        els.model.options[0].textContent = "Please select";
+        fillSelect(els.layer, [""], "");
+        els.layer.options[0].textContent = "Please select";
+        state.model = els.model.value;
+        els.model.addEventListener("change", () => {
+          state.model = els.model.value;
+          state.layer = "";
+          persistSelection();
+          updateUrl();
+          loadLayers();
+        });
+        els.layer.addEventListener("change", () => {
+          state.layer = els.layer.value;
+          persistSelection();
+          updateUrl();
+          loadStats();
+        });
+        if (state.model) await loadLayers({ requestedLayer });
+        else clearStats("Please select a model.");
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    async function loadLayers(options = {}) {
+      state.layers = [];
+      els.matrix.innerHTML = "";
+      els.matrix.hidden = true;
+      if (!state.model) {
+        els.layer.disabled = true;
+        fillSelect(els.layer, [""], "");
+        els.layer.options[0].textContent = "Please select";
+        clearStats("Please select a model.");
+        return;
+      }
+      els.summary.textContent = "Loading layers...";
+      const out = await api(`/api/layers?model=${encodeURIComponent(state.model)}`);
+      const layerValues = ["", "__all__", ...(out.layers || [])];
+      const requestedLayer = layerValues.includes(options.requestedLayer) ? options.requestedLayer : "";
+      fillSelect(els.layer, layerValues, requestedLayer);
+      els.layer.options[0].textContent = "Please select";
+      els.layer.options[1].textContent = "All layers";
+      els.layer.disabled = false;
+      state.layer = els.layer.value;
+      persistSelection();
+      if (state.layer) await loadStats();
+      else clearStats("Please select a layer.");
+    }
+
+    async function loadStats() {
+      if (!state.model) {
+        clearStats("Please select a model.");
+        return;
+      }
+      if (!state.layer) {
+        clearStats("Please select a layer.");
+        return;
+      }
+      els.summary.textContent = state.layer === "__all__" ? "Loading all layers..." : `Loading ${state.layer}...`;
+      if (state.layer === "__all__") {
+        const out = await api(`/api/component-stats?model=${encodeURIComponent(state.model)}`);
+        state.layers = out.layers || [];
+      } else {
+        const out = await api(`/api/components?model=${encodeURIComponent(state.model)}&layer=${encodeURIComponent(state.layer)}`);
+        state.layers = [{ layer: state.layer, components: out.components || [] }];
+      }
+      renderStats(state.layers);
+    }
+
+    function renderStats(layers) {
+      const components = layers.flatMap(layer => layer.components || []);
+      const annotated = components.reduce((total, component) => total + annotatedDirectionCount(component), 0);
+      const totalDirections = components.length * 2;
+      const scope = state.layer === "__all__" ? `${layers.length} layers` : state.layer;
+      els.summary.textContent = `${state.model} - ${scope} - ${annotated} / ${totalDirections} directions annotated`;
+      if (!layers.length) {
+        els.message.hidden = false;
+        els.message.className = "empty";
+        els.message.textContent = "No components found.";
+        els.matrix.hidden = true;
+        return;
+      }
+      els.message.hidden = true;
+      els.matrix.hidden = false;
+      els.matrix.innerHTML = layers.map(layer => layerRow(layer)).join("");
+    }
+
+    function clearStats(message) {
+      state.layers = [];
+      els.summary.textContent = message;
+      els.message.hidden = false;
+      els.message.className = "empty";
+      els.message.textContent = message;
+      els.matrix.hidden = true;
+      els.matrix.innerHTML = "";
+    }
+
+    function updateUrl() {
+      const params = new URLSearchParams();
+      if (state.model) params.set("model", state.model);
+      if (state.layer) params.set("layer", state.layer === "__all__" ? "all" : state.layer);
+      const query = params.toString();
+      history.replaceState(null, "", query ? `${location.pathname}?${query}` : location.pathname);
+    }
+
+    function persistSelection() {
+      if (state.model) localStorage.setItem(STORAGE_KEYS.model, state.model);
+      else localStorage.removeItem(STORAGE_KEYS.model);
+      if (state.layer && state.layer !== "__all__") localStorage.setItem(STORAGE_KEYS.layer, state.layer);
+    }
+
+    function normalizeUrlLayer(value) {
+      return value === "all" ? "__all__" : value;
+    }
+
+    els.autoToggle.addEventListener("click", () => {
+      state.showAuto = !state.showAuto;
+      els.autoToggle.setAttribute("aria-pressed", state.showAuto ? "true" : "false");
+      if (state.layers.length) renderStats(state.layers);
+    });
+
+    els.erfToggle.addEventListener("click", () => {
+      state.showErf = !state.showErf;
+      els.erfToggle.setAttribute("aria-pressed", state.showErf ? "true" : "false");
+      if (state.layers.length) renderStats(state.layers);
+    });
+
+    function layerRow(layer) {
+      const components = layer.components || [];
+      const annotated = components.reduce((total, component) => total + annotatedDirectionCount(component), 0);
+      const totalDirections = components.length * 2;
+      return `
+        <div class="layer-row">
+          <div class="layer-name">${escapeHtml(layer.layer)}</div>
+          <div class="layer-count">${annotated}/${totalDirections}</div>
+          <div class="dots">${components.map(component => componentPair(layer.layer, component)).join("")}</div>
+        </div>
+      `;
+    }
+
+    function componentPair(layer, component) {
+      return `
+        <span class="component-pair">
+          ${componentDirectionDot(layer, component, "positive")}
+          ${componentDirectionDot(layer, component, "negative")}
+        </span>
+      `;
+    }
+
+    function componentDirectionDot(layer, component, side) {
+      const annotation = annotationSide(component, side);
+      const title = componentTitle(component, annotation, side);
+      const href = componentExamplesUrl(layer, component);
+      const text = state.showErf ? erfText(component) : (annotation?.typeLetter || "?");
+      const erfClass = state.showErf ? " erf-value" : "";
+      if (!annotation) {
+        return `<a class="dot${erfClass}" href="${escapeAttr(href)}" title="${escapeAttr(title)}" aria-label="${escapeAttr(title)}">${escapeHtml(state.showErf ? text : "")}</a>`;
+      }
+      const classes = ["dot", annotation.confidence];
+      if (state.showErf) classes.push("erf-value");
+      if (state.showAuto && component[`${side}_auto_annotated`] && annotation.annotated) classes.push("auto");
+      return `<a class="${escapeAttr(classes.join(" "))}" href="${escapeAttr(href)}" title="${escapeAttr(title)}" aria-label="${escapeAttr(title)}">${escapeHtml(text)}</a>`;
+    }
+
+    function erfText(component) {
+      const value = Number(component.effective_context_mean);
+      return Number.isFinite(value) ? String(Math.round(value)) : "";
+    }
+
+    function componentExamplesUrl(layer, component) {
+      const params = new URLSearchParams({
+        model: state.model,
+        layer: String(layer),
+        component: String(component.component),
+      });
+      return `/component?${params.toString()}`;
+    }
+
+    function annotatedDirectionCount(component) {
+      return ["positive", "negative"].reduce((total, side) => {
+        const annotation = annotationSide(component, side);
+        return total + (annotation?.annotated ? 1 : 0);
+      }, 0);
+    }
+
+    function annotationSide(component, side) {
+      const confidence = normalizedConfidence(component[`${side}_confidence`]);
+      const label = visibleAnnotationLabel(component[`${side}_label`], confidence);
+      if (!label) return null;
+      const types = Array.isArray(component[`${side}_types`]) ? component[`${side}_types`] : [];
+      const annotated = !(label === "?" && confidence === "unclear");
+      return { side, label, confidence, types, typeLetter: typeLetter(types), annotated };
+    }
+
+    function componentTitle(component, annotation, side) {
+      const id = `C${Number(component.component)}`;
+      const kurtosis = Number.isFinite(Number(component.excess_kurtosis)) ? ` - kurtosis ${Number(component.excess_kurtosis).toFixed(2)}` : "";
+      if (!annotation) return `${id}: ${side} blank${kurtosis}`;
+      const type = annotation.types.length ? ` - ${annotation.types.join(", ")}` : "";
+      const source = state.showAuto && component[`${side}_auto_annotated`] && annotation.annotated ? " - auto-annotated" : "";
+      const erf = Number.isFinite(Number(component.effective_context_mean)) ? ` - mean ERF ${Number(component.effective_context_mean).toFixed(2)}` : "";
+      return `${id}: ${annotation.side} ${annotation.label} - ${annotation.confidence}${type}${source}${erf}${kurtosis}`;
+    }
+
+    function visibleAnnotationLabel(value, confidence) {
+      const text = String(value || "").trim();
+      if (!text) return "";
+      return text.replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\t/g, "\\t");
+    }
+
+    function normalizedConfidence(value) {
+      const confidence = String(value || "unclear").toLowerCase();
+      return ["high", "medium", "low", "unclear"].includes(confidence) ? confidence : "unclear";
+    }
+
+    function typeLetter(types) {
+      const labels = Array.isArray(types) ? types : [];
+      const priority = [
+        ["Form", "F"],
+        ["Word", "W"],
+        ["Phrase", "P"],
+        ["Sentence", "S"],
+        ["Long-Range Context", "L"],
+        ["Global", "G"],
+        ["Position", "O"],
+        ["Sophisticated", "X"],
+      ];
+      for (const [name, letter] of priority) {
+        if (labels.some(label => String(label).toLowerCase() === name.toLowerCase())) return letter;
+      }
+      const first = labels.find(label => String(label).trim());
+      return first ? String(first).trim()[0].toUpperCase() : "";
+    }
+
+    function showError(message) {
+      els.message.hidden = false;
+      els.message.className = "error";
+      els.message.textContent = message;
+      els.matrix.hidden = true;
+    }
+
+    function fillSelect(select, values, current) {
+      select.innerHTML = values.map(value => `<option value="${escapeAttr(value)}" ${value === current ? "selected" : ""}>${escapeHtml(value)}</option>`).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    init();
+  </script>
+</body>
+</html>
