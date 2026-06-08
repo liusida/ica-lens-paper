@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ICA Lens: interpreting language models without training another dictionary.">
+    <title>ICA Lens</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="ICA Lens home">ICA Lens</a>
+      <nav>
+        <a href="#tour">Cases</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#try">Try</a>
+        <a href="#cite">Cite</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-label="ICA Lens overview">
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <p class="eyebrow">A compact first lens for LLM activations</p>
+          <h1>Interpreting language models without training another dictionary</h1>
+          <p class="hero-copy">
+            ICA Lens turns activation geometry into browsable, signed directions:
+            token-local forms, phrase templates, discourse signals, and context-sensitive
+            traces that you can inspect in a live explorer.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" id="hero-case-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Try the bank case</a>
+            <a class="button" href="assets/paper/ica-lens.pdf">Paper PDF</a>
+            <a class="button" href="https://github.com/liusida/ica-lens-paper">Code</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro-band" aria-label="Core idea">
+        <div class="section-inner intro-grid">
+          <div>
+            <p class="section-kicker">Why this page exists</p>
+            <h2>A project page should be a doorway, not a PDF remake.</h2>
+          </div>
+          <p>
+            The paper contains the full argument. This page is a guided tour: start
+            from concrete cases, open them in the Hugging Face Space, then use the
+            figures below as evidence for why those cases are not isolated curiosities.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="tour">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Guided cases</p>
+            <h2>Open the live lens on hand-picked examples.</h2>
+            <p>
+              Each case is a deep link into the running ICA Explorer with model,
+              layer, text, display settings, and selected components preloaded.
+            </p>
+          </div>
+
+          <div class="case-layout">
+            <div class="case-list" id="case-list" aria-label="Explorer cases"></div>
+            <aside class="case-preview" aria-live="polite">
+              <p class="preview-label" id="preview-model">GPT-2 Small, layer 6</p>
+              <h3 id="preview-title">Same word, different mixtures</h3>
+              <p id="preview-copy">
+                The word bank appears in financial and river contexts. ICA exposes
+                different component mixtures for the same surface token.
+              </p>
+              <div class="token-strip" id="token-strip" aria-label="Highlighted text tokens"></div>
+              <a class="button primary full" id="preview-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Open in ICA Explorer</a>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section visual-section">
+        <div class="section-inner split">
+          <div>
+            <p class="section-kicker">The hook</p>
+            <h2>The same token can carry different internal stories.</h2>
+            <p>
+              In the paper view, the bank example summarizes the top ICA components
+              for financial-bank and river-bank occurrences. In the explorer, readers
+              can click through tokens, components, signs, labels, scores, and examples.
+            </p>
+            <a class="text-link" id="bank-inline-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Open this exact paragraph</a>
+          </div>
+          <figure class="image-panel">
+            <img src="assets/figures/gpt2_bank_case_study.png" alt="ICA component mixtures for financial and river uses of the word bank in GPT-2 Small.">
+            <figcaption>GPT-2 Small decomposes repeated uses of bank into different lexical, syntactic, semantic, and context components.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section contrast-section">
+        <div class="section-inner">
+          <div class="section-heading compact">
+            <p class="section-kicker">ICA and SAE</p>
+            <h2>Related lenses, different shapes.</h2>
+            <p>
+              SAE features often look like localized events. ICA directions often trace
+              broader contextual factors across neighboring tokens. The point is not
+              replacement; it is a cheaper first pass before deciding where an SAE is needed.
+            </p>
+          </div>
+          <div class="contrast-grid">
+            <figure class="image-panel">
+              <img src="assets/figures/gpt2_layer_06_ica_sae_top1_sentence_ridgeline.png" alt="Ridgeline comparison of ICA and SAE activations for the same bank sentence.">
+              <figcaption>Same sentence, strongest ICA and SAE directions by token.</figcaption>
+            </figure>
+            <figure class="image-panel">
+              <img src="assets/figures/all_models_ica_sae_nearest_cosine_distribution.png" alt="Nearest SAE cosine distributions for ICA components across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base.">
+              <figcaption>ICA and public SAE directions partially overlap, but do not collapse into one another.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="evidence">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Evidence across models</p>
+            <h2>Not just a few nice examples.</h2>
+            <p>
+              Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base, ICA recovers
+              compact non-Gaussian directions that are inspectable and useful under
+              sparse probing and targeted intervention.
+            </p>
+          </div>
+          <div class="evidence-grid">
+            <figure class="image-panel">
+              <img src="assets/figures/all_models_nongaussianity_by_layer.png" alt="Non-Gaussianity of ICA directions compared with random directions and SAE decoder directions across layers.">
+              <figcaption>ICA directions are statistically exceptional, not arbitrary rotations.</figcaption>
+            </figure>
+            <figure class="image-panel">
+              <img src="assets/figures/erf_and_labelability.png" alt="Effective receptive field and manual labelability of ICA components.">
+              <figcaption>Components range from token-local to broader context-sensitive signals.</figcaption>
+            </figure>
+            <figure class="image-panel">
+              <img src="assets/figures/sparse_probe_baselines_by_model.png" alt="Sparse probing comparison between ICA, public SAE, ITDA, and PCA features.">
+              <figcaption>ICA remains competitive as a compact feature representation.</figcaption>
+            </figure>
+            <figure class="image-panel">
+              <img src="assets/figures/all_models_saebench_tpp_intended_unintended.png" alt="SAEBench targeted probe perturbation scores for ICA and SAE features.">
+              <figcaption>Small-to-medium ICA feature budgets support selective interventions.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section try-section" id="try">
+        <div class="section-inner try-grid">
+          <div>
+            <p class="section-kicker">Try it</p>
+            <h2>Use the hosted explorer, or run the release locally.</h2>
+            <p>
+              The Hugging Face Space is the fastest route for readers. The GitHub repo
+              contains the code release, artifact manifest, reproduction scripts, and a
+              local FastAPI explorer for the mini or full databases.
+            </p>
+            <div class="link-row">
+              <a class="button primary" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Hosted Explorer</a>
+              <a class="button" href="https://github.com/liusida/ica-lens-paper">GitHub Repo</a>
+              <a class="button" href="https://huggingface.co/datasets/sida/ica-lens-paper">Artifacts</a>
+            </div>
+          </div>
+          <pre><code>uv sync
+uv run python scripts/fetch_artifacts.py --models --databases
+uv run python scripts/verify_artifacts.py
+uv run python -m server.app --port 8001</code></pre>
+        </div>
+      </section>
+
+      <section class="section cite-section" id="cite">
+        <div class="section-inner">
+          <div class="section-heading compact">
+            <p class="section-kicker">Citation</p>
+            <h2>ICA Lens</h2>
+          </div>
+          <pre><code>@misc{liu2026icalens,
+  title = {ICA Lens: Interpreting Language Models Without Training Another Dictionary},
+  author = {Sida Liu and Feijiang Han},
+  year = {2026},
+  note = {Code and artifacts: https://github.com/liusida/ica-lens-paper}
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>ICA Lens</span>
+      <a href="mailto:me@liusida.com">Contact</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
