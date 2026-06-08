@@ -80,10 +80,10 @@ nav a:focus-visible {
 
 .hero {
   position: relative;
-  min-height: min(720px, 82vh);
+  min-height: min(560px, 68vh);
   display: grid;
   align-items: end;
-  padding: 120px clamp(20px, 5vw, 72px) 72px;
+  padding: 104px clamp(20px, 5vw, 72px) 52px;
   color: white;
   background-image: url("assets/figures/gpt2_bank_case_study.png");
   background-size: cover;
@@ -101,7 +101,7 @@ nav a:focus-visible {
 
 .hero-content {
   position: relative;
-  max-width: 850px;
+  max-width: 780px;
 }
 
 .eyebrow,
@@ -129,7 +129,16 @@ h3 {
 
 h1 {
   max-width: 820px;
-  font-size: clamp(2.7rem, 7vw, 5.9rem);
+  font-size: clamp(3rem, 8vw, 5.2rem);
+}
+
+.hero-title {
+  max-width: 760px;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1.16;
 }
 
 h2 {
@@ -145,10 +154,10 @@ p {
 }
 
 .hero-copy {
-  max-width: 710px;
-  margin-top: 22px;
+  max-width: 700px;
+  margin-top: 16px;
   color: rgba(255, 255, 255, 0.88);
-  font-size: clamp(1.05rem, 2vw, 1.34rem);
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
 }
 
 .hero-actions,
@@ -156,7 +165,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: 24px;
 }
 
 .button {
@@ -465,7 +474,7 @@ code {
   }
 
   .hero {
-    min-height: 760px;
+    min-height: 620px;
     padding-top: 96px;
   }
 

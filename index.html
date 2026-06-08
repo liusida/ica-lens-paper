@@ -22,12 +22,12 @@
       <section class="hero" aria-label="ICA Lens overview">
         <div class="hero-shade"></div>
         <div class="hero-content">
-          <p class="eyebrow">A compact first lens for LLM activations</p>
-          <h1>Interpreting language models without training another dictionary</h1>
+          <p class="eyebrow">Independent components for LLM activations</p>
+          <h1>ICA Lens</h1>
+          <p class="hero-title">Interpreting language models without training another dictionary</p>
           <p class="hero-copy">
-            ICA Lens turns activation geometry into browsable, signed directions:
-            token-local forms, phrase templates, discourse signals, and context-sensitive
-            traces that you can inspect in a live explorer.
+            A practical GPU FastICA pipeline for finding compact, non-Gaussian,
+            human-inspectable directions in residual streams and embeddings.
           </p>
           <div class="hero-actions">
             <a class="button primary" id="hero-case-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Try the bank case</a>
@@ -40,13 +40,15 @@
       <section class="intro-band" aria-label="Core idea">
         <div class="section-inner intro-grid">
           <div>
-            <p class="section-kicker">Why this page exists</p>
-            <h2>A project page should be a doorway, not a PDF remake.</h2>
+            <p class="section-kicker">The idea</p>
+            <h2>Use ICA as a fast first pass before committing to a large SAE dictionary.</h2>
           </div>
           <p>
-            The paper contains the full argument. This page is a guided tour: start
-            from concrete cases, open them in the Hugging Face Space, then use the
-            figures below as evidence for why those cases are not isolated curiosities.
+            Sparse autoencoders are powerful, but each model, layer, activation site,
+            and sparsity regime can require another trained dictionary. ICA Lens asks
+            how much interpretable structure is already visible from activation geometry:
+            normalize activations, fit a compact ICA basis, inspect the signed directions,
+            then decide where heavier dictionary learning is worth it.
           </p>
         </div>
       </section>
@@ -57,8 +59,10 @@
             <p class="section-kicker">Guided cases</p>
             <h2>Open the live lens on hand-picked examples.</h2>
             <p>
-              Each case is a deep link into the running ICA Explorer with model,
-              layer, text, display settings, and selected components preloaded.
+              These cases are live Hugging Face Space links with model, layer, text,
+              display settings, and selected components preloaded. They show the paper's
+              main qualitative claim: ICA directions range from token-local forms to
+              broader context-sensitive signals.
             </p>
           </div>
 
@@ -81,12 +85,13 @@
       <section class="section visual-section">
         <div class="section-inner split">
           <div>
-            <p class="section-kicker">The hook</p>
-            <h2>The same token can carry different internal stories.</h2>
+            <p class="section-kicker">Human inspection</p>
+            <h2>The same surface word decomposes differently by context.</h2>
             <p>
-              In the paper view, the bank example summarizes the top ICA components
-              for financial-bank and river-bank occurrences. In the explorer, readers
-              can click through tokens, components, signs, labels, scores, and examples.
+              The paper probes repeated uses of <em>bank</em> across financial and
+              river-edge contexts. ICA exposes mixtures of lexical, syntactic, semantic,
+              positional, and longer-context components at the target token, and the
+              explorer lets readers inspect the signed scores and top examples directly.
             </p>
             <a class="text-link" id="bank-inline-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Open this exact paragraph</a>
           </div>
@@ -103,9 +108,11 @@
             <p class="section-kicker">ICA and SAE</p>
             <h2>Related lenses, different shapes.</h2>
             <p>
-              SAE features often look like localized events. ICA directions often trace
-              broader contextual factors across neighboring tokens. The point is not
-              replacement; it is a cheaper first pass before deciding where an SAE is needed.
+              SAEs learn large overcomplete dictionaries through reconstruction and
+              sparsity losses. ICA returns a compact basis selected by non-Gaussian
+              projection statistics. Some ICA components have close SAE neighbors; others
+              are interpretable but weakly matched, which makes the two decompositions
+              useful cross-checks rather than substitutes.
             </p>
           </div>
           <div class="contrast-grid">
@@ -127,27 +134,28 @@
             <p class="section-kicker">Evidence across models</p>
             <h2>Not just a few nice examples.</h2>
             <p>
-              Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base, ICA recovers
-              compact non-Gaussian directions that are inspectable and useful under
-              sparse probing and targeted intervention.
+              Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base, the paper checks
+              whether ICA directions are statistically exceptional, interpretable to
+              human analysts, complementary to public SAE dictionaries, and useful in
+              SAE-style probing and intervention evaluations.
             </p>
           </div>
           <div class="evidence-grid">
             <figure class="image-panel">
               <img src="assets/figures/all_models_nongaussianity_by_layer.png" alt="Non-Gaussianity of ICA directions compared with random directions and SAE decoder directions across layers.">
-              <figcaption>ICA directions are statistically exceptional, not arbitrary rotations.</figcaption>
+              <figcaption>ICA projections are substantially more non-Gaussian than random directions, and often exceed public SAE decoder projections.</figcaption>
             </figure>
             <figure class="image-panel">
               <img src="assets/figures/erf_and_labelability.png" alt="Effective receptive field and manual labelability of ICA components.">
-              <figcaption>Components range from token-local to broader context-sensitive signals.</figcaption>
+              <figcaption>ERF estimates how much preceding context is needed to recover a component's response; manual audits label many sampled directions.</figcaption>
             </figure>
             <figure class="image-panel">
               <img src="assets/figures/sparse_probe_baselines_by_model.png" alt="Sparse probing comparison between ICA, public SAE, ITDA, and PCA features.">
-              <figcaption>ICA remains competitive as a compact feature representation.</figcaption>
+              <figcaption>Sparse probing tests whether concept-relevant information is concentrated in a small number of feature coordinates.</figcaption>
             </figure>
             <figure class="image-panel">
               <img src="assets/figures/all_models_saebench_tpp_intended_unintended.png" alt="SAEBench targeted probe perturbation scores for ICA and SAE features.">
-              <figcaption>Small-to-medium ICA feature budgets support selective interventions.</figcaption>
+              <figcaption>Targeted Probe Perturbation separates intended effects on target probes from unintended effects on other probes.</figcaption>
             </figure>
           </div>
         </div>
@@ -159,9 +167,9 @@
             <p class="section-kicker">Try it</p>
             <h2>Use the hosted explorer, or run the release locally.</h2>
             <p>
-              The Hugging Face Space is the fastest route for readers. The GitHub repo
-              contains the code release, artifact manifest, reproduction scripts, and a
-              local FastAPI explorer for the mini or full databases.
+              The hosted Space is the fastest route for inspection. The GitHub repo
+              contains the released pipeline, artifact manifest, reproduction scripts,
+              and a local FastAPI explorer for the mini or full databases.
             </p>
             <div class="link-row">
               <a class="button primary" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Hosted Explorer</a>
