@@ -8,21 +8,26 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <header class="site-header" aria-label="Primary navigation">
+    <header class="site-header" aria-label="Site header">
       <a class="brand" href="#top" aria-label="ICA Lens home">ICA Lens</a>
-      <nav>
-        <a href="#tour">Cases</a>
-        <a href="#evidence">Evidence</a>
-        <a href="#try">Try</a>
-        <a href="#cite">Cite</a>
-      </nav>
     </header>
+
+    <nav class="side-nav" aria-label="Section navigation">
+      <a href="#inspect" data-section-nav="inspect">Inspect</a>
+      <a href="#labels" data-section-nav="labels">Labels</a>
+      <a href="#tour" data-section-nav="tour">Random</a>
+      <a href="#erf" data-section-nav="erf">ERF</a>
+      <a href="#sae" data-section-nav="sae">ICA/SAE</a>
+      <a href="#evidence" data-section-nav="evidence">Evidence</a>
+      <a href="#try" data-section-nav="try">Try</a>
+      <a href="#cite" data-section-nav="cite">Cite</a>
+    </nav>
 
     <main id="top">
       <section class="hero" aria-label="ICA Lens overview">
         <div class="hero-shade"></div>
         <div class="hero-content">
-          <p class="eyebrow">Independent components for LLM activations</p>
+          <p class="eyebrow">Independent Component Analysis for LLM activations</p>
           <h1>ICA Lens</h1>
           <p class="hero-title">Interpreting language models without training another dictionary</p>
           <p class="hero-copy">
@@ -30,9 +35,9 @@
             human-inspectable directions in residual streams and embeddings.
           </p>
           <div class="hero-actions">
-            <a class="button primary" id="hero-case-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer">Try the bank case</a>
-            <a class="button" href="assets/paper/ica-lens.pdf" target="_blank" rel="noopener noreferrer">Paper PDF</a>
-            <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Code</a>
+            <a class="button primary hf-link" id="hero-case-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Try ICA Explorer</a>
+            <a class="button" href="assets/paper/ica-lens.pdf" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 18h4"/></svg>Paper PDF</a>
+            <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/><path d="m14.5 4-5 16"/></svg>Code</a>
           </div>
         </div>
       </section>
@@ -53,16 +58,63 @@
         </div>
       </section>
 
+      <section class="section visual-section" id="inspect">
+        <div class="section-inner split">
+          <div>
+            <p class="section-kicker">Human inspection</p>
+            <h2>The same surface word decomposes differently by context.</h2>
+            <p>
+              The paper probes repeated uses of <em>bank</em> across financial and
+              river-edge contexts. ICA exposes mixtures of lexical, syntactic, semantic,
+              positional, and longer-context components at the target token, and the
+              explorer lets readers inspect the signed scores and top examples directly.
+            </p>
+            <a class="text-link hf-link" id="bank-inline-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Open this exact paragraph</a>
+          </div>
+          <figure class="image-panel">
+            <img src="assets/figures/gpt2_bank_case_study.png" alt="ICA component mixtures for financial and river uses of the word bank in GPT-2 Small.">
+            <figcaption>GPT-2 Small decomposes repeated uses of bank into different lexical, syntactic, semantic, and context components.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section validation-section" id="labels">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="section-kicker">Label testing</p>
+            <h2>Working labels are checked with matched sentences.</h2>
+            <p>
+              After inspecting top examples, annotators write label-consistent prompts
+              that should activate a signed component and matched controls that should
+              not. Large signed scores and high target-token ranks support the label;
+              weak scores or low ranks force the label to be revised.
+            </p>
+          </div>
+          <div class="validation-layout">
+            <div class="validation-tabs" id="validation-tabs" aria-label="Matched prompt components"></div>
+            <article class="validation-panel">
+              <div class="validation-panel-head">
+                <div>
+                  <p class="preview-label" id="validation-meta">GPT-2 Small</p>
+                  <h3 id="validation-title">After</h3>
+                </div>
+              </div>
+              <div class="validation-prompts" id="validation-prompts"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="section" id="tour">
         <div class="section-inner">
           <div class="section-heading">
-            <p class="section-kicker">Guided cases</p>
-            <h2>Open the live lens on hand-picked examples.</h2>
+            <p class="section-kicker">Random cases</p>
+            <h2>Open the live lens on random-audit examples.</h2>
             <p>
-              These cases are live Hugging Face Space links with model, layer, text,
-              display settings, and selected components preloaded. They show the paper's
-              main qualitative claim: ICA directions range from token-local forms to
-              broader context-sensitive signals.
+              These cases are live Hugging Face Space links built from the random-150
+              component audit. Each opens a different model, layer, prompt, and signed
+              component so readers can inspect how ICA directions behave beyond the
+              main bank example.
             </p>
           </div>
 
@@ -76,88 +128,226 @@
                 different component mixtures for the same surface token.
               </p>
               <div class="token-strip" id="token-strip" aria-label="Highlighted text tokens"></div>
-              <a class="button primary full" id="preview-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer">Open in ICA Explorer</a>
+              <a class="button primary full hf-link" id="preview-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Open in ICA Explorer</a>
             </aside>
           </div>
         </div>
       </section>
 
-      <section class="section visual-section">
+      <section class="section erf-section" id="erf">
         <div class="section-inner split">
           <div>
-            <p class="section-kicker">Human inspection</p>
-            <h2>The same surface word decomposes differently by context.</h2>
+            <p class="section-kicker">Effective Receptive Field</p>
+            <h2>Layer roles are mixtures, not hard cutoffs.</h2>
             <p>
-              The paper probes repeated uses of <em>bank</em> across financial and
-              river-edge contexts. ICA exposes mixtures of lexical, syntactic, semantic,
-              positional, and longer-context components at the target token, and the
-              explorer lets readers inspect the signed scores and top examples directly.
+              ERF asks how much left context is sufficient to recover the same
+              signed component response at a target token. That turns each ICA
+              direction into evidence about what scope of text it uses, revealing
+              layer specialization as changing distributions rather than a clean
+              local-to-global handoff.
             </p>
-            <a class="text-link" id="bank-inline-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer">Open this exact paragraph</a>
+            <ul class="insight-list" aria-label="What ERF reveals about LLM layers">
+              <li>
+                <strong>Early layers are mostly local, but not only local.</strong>
+                <span>Even shallow layers contain context-dependent directions.</span>
+              </li>
+              <li>
+                <strong>Later layers become more contextual, but not purely global.</strong>
+                <span>Deep layers still retain many token-local components.</span>
+              </li>
+              <li>
+                <strong>Middle layers carry many broad-context directions.</strong>
+                <span>The largest-ERF components often peak before the final layers.</span>
+              </li>
+            </ul>
           </div>
           <figure class="image-panel">
-            <img src="assets/figures/gpt2_bank_case_study.png" alt="ICA component mixtures for financial and river uses of the word bank in GPT-2 Small.">
-            <figcaption>GPT-2 Small decomposes repeated uses of bank into different lexical, syntactic, semantic, and context components.</figcaption>
+            <img src="assets/figures/erf_by_layer.png" alt="Layer-wise effective receptive field distributions for ICA components in GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base.">
+            <figcaption>ERF turns layer specialization into a distribution over component scopes: local, phrase-level, sentence-level, and unrecovered or long-context directions coexist at each depth.</figcaption>
           </figure>
         </div>
       </section>
 
-      <section class="section contrast-section">
-        <div class="section-inner">
+      <section class="section contrast-section" id="sae">
+        <div class="section-inner sae-stack">
           <div class="section-heading compact">
             <p class="section-kicker">ICA and SAE</p>
-            <h2>Related lenses, different shapes.</h2>
+            <h2>Complementary patterns, partial overlap.</h2>
             <p>
-              SAEs learn large overcomplete dictionaries through reconstruction and
-              sparsity losses. ICA returns a compact basis selected by non-Gaussian
-              projection statistics. Some ICA components have close SAE neighbors; others
-              are interpretable but weakly matched, which makes the two decompositions
-              useful cross-checks rather than substitutes.
+              SAEs and ICA both expose directions in activation space, but their
+              objectives shape different kinds of evidence. Sparse reconstruction often
+              yields localized feature events; non-Gaussian ICA directions can trace
+              compact contextual factors across neighboring tokens.
             </p>
           </div>
-          <div class="contrast-grid">
+
+          <div class="sae-block split">
+            <div>
+              <p class="section-kicker">Pattern difference</p>
+              <h3>Same sentence, different response shapes.</h3>
+              <p>
+                On the bank sentence, selected SAE features mostly peak at one token or
+                a short span. ICA scores vary more smoothly across related words such as
+                bank, deposit, check, withdraw, and cash. That is why the methods are
+                useful together: SAE highlights sparse events, while ICA exposes broader
+                contextual traces in a compact basis.
+              </p>
+            </div>
             <figure class="image-panel">
               <img src="assets/figures/gpt2_layer_06_ica_sae_top1_sentence_ridgeline.png" alt="Ridgeline comparison of ICA and SAE activations for the same bank sentence.">
-              <figcaption>Same sentence, strongest ICA and SAE directions by token.</figcaption>
+              <figcaption>Token-wise ICA and SAE traces on the same GPT-2 Small sentence. Rows are normalized within direction to show response shape.</figcaption>
             </figure>
-            <figure class="image-panel">
-              <img src="assets/figures/all_models_ica_sae_nearest_cosine_distribution.png" alt="Nearest SAE cosine distributions for ICA components across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base.">
-              <figcaption>ICA and public SAE directions partially overlap, but do not collapse into one another.</figcaption>
-            </figure>
+          </div>
+
+          <div class="sae-block overlap-block">
+            <div class="section-heading compact">
+              <p class="section-kicker">Directional overlap</p>
+              <h3>Some ICA components have close SAE neighbors.</h3>
+              <p>
+                For each ICA component, the paper finds the public SAE decoder direction
+                with the largest absolute cosine in the same layer. The distributions are
+                broad: many components have moderate or weak nearest-SAE overlap, while a
+                high-overlap tail gives convergent evidence and useful label cross-checks.
+              </p>
+            </div>
+            <div class="overlap-layout">
+              <figure class="image-panel overlap-figure">
+                <img src="assets/figures/all_models_ica_sae_nearest_cosine_distribution.png" alt="Nearest SAE cosine distributions for ICA components across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base.">
+                <figcaption>Nearest-SAE cosine distributions show partial agreement rather than a one-to-one correspondence.</figcaption>
+              </figure>
+              <div class="overlap-list" aria-label="High-overlap ICA and SAE examples">
+                <article class="overlap-row">
+                  <div>
+                    <span>GPT-2 Small L10/C142</span>
+                    <strong>Conditional repetition</strong>
+                    <small>Closest SAE feature <span class="metric-chip">F29658</span> with cosine similarity <span class="metric-chip">|cos| = 0.75</span>.</small>
+                  </div>
+                  <div class="overlap-actions">
+                    <a class="mini-link hf-link" id="overlap-gpt2-explorer" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Explorer</a>
+                    <a class="mini-link" href="https://www.neuronpedia.org/gpt2-small/10-res_post_32k-oai/29658" target="_blank" rel="noopener noreferrer">Neuronpedia</a>
+                  </div>
+                </article>
+                <article class="overlap-row">
+                  <div>
+                    <span>Gemma 2 2B L24/C510</span>
+                    <strong>Female-centered narrative</strong>
+                    <small>Closest SAE feature <span class="metric-chip">F9501</span> with cosine similarity <span class="metric-chip">|cos| = 0.73</span>.</small>
+                  </div>
+                  <div class="overlap-actions">
+                    <a class="mini-link hf-link" id="overlap-gemma-explorer" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Explorer</a>
+                    <a class="mini-link" href="https://www.neuronpedia.org/gemma-2-2b/24-gemmascope-res-16k/9501" target="_blank" rel="noopener noreferrer">Neuronpedia</a>
+                  </div>
+                </article>
+                <article class="overlap-row">
+                  <div>
+                    <span>Qwen 3.5 2B Base L22/C511</span>
+                    <strong>Alternative construction</strong>
+                    <small><span class="label-note">Examples: either / whether ... or.</span> Closest SAE feature <span class="metric-chip">F8570</span> with cosine similarity <span class="metric-chip">|cos| = 0.68</span>.</small>
+                  </div>
+                  <div class="overlap-actions">
+                    <a class="mini-link hf-link" id="overlap-qwen-explorer" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Explorer</a>
+                    <a class="mini-link" id="overlap-qwen-sae" href="https://eeeailab-icaexplorer.hf.space/sae-explorer" target="_blank" rel="noopener noreferrer">SAE Explorer</a>
+                  </div>
+                </article>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="section" id="evidence">
-        <div class="section-inner">
+        <div class="section-inner evidence-stack">
           <div class="section-heading">
-            <p class="section-kicker">Evidence across models</p>
-            <h2>Not just a few nice examples.</h2>
+            <p class="section-kicker">Quantitative checks</p>
+            <h2>Three checks, one story.</h2>
             <p>
-              Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base, the paper checks
-              whether ICA directions are statistically exceptional, interpretable to
-              human analysts, complementary to public SAE dictionaries, and useful in
-              SAE-style probing and intervention evaluations.
+              The paper starts from a statistical clue, then asks whether the resulting
+              ICA coordinates carry task-relevant information and support selective
+              interventions in SAE-style benchmarks.
             </p>
           </div>
-          <div class="evidence-grid">
+
+          <article class="evidence-block split">
+            <div>
+              <p class="section-kicker">Non-Gaussianity</p>
+              <h3>Feature-like directions leave a measurable footprint.</h3>
+              <p>
+                Random directions in row-normalized activation space are close to
+                Gaussian, while public SAE decoder directions are much more kurtotic.
+                ICA makes that clue explicit: after centering and whitening normalized
+                activations, it searches for a compact basis whose one-dimensional
+                projections are as non-Gaussian as possible.
+              </p>
+              <p>
+                Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base, the fitted ICA
+                directions are substantially more non-Gaussian than random directions
+                and typically exceed public SAE decoder projections.
+              </p>
+            </div>
             <figure class="image-panel">
               <img src="assets/figures/all_models_nongaussianity_by_layer.png" alt="Non-Gaussianity of ICA directions compared with random directions and SAE decoder directions across layers.">
-              <figcaption>ICA projections are substantially more non-Gaussian than random directions, and often exceed public SAE decoder projections.</figcaption>
+              <figcaption>Excess kurtosis separates random directions, public SAE decoders, and the ICA directions found from normalized activations.</figcaption>
             </figure>
+          </article>
+
+          <article class="evidence-block">
+            <div class="section-heading compact">
+              <p class="section-kicker">SAEBench Sparse Probe</p>
+              <h3>Compact ICA coordinates are competitive probe features.</h3>
+              <p>
+                SAEBench sparse probing trains supervised probes on the top-k feature
+                activations, so it tests the coordinates directly rather than decoder
+                reconstruction. Despite using far fewer directions, ICA remains
+                competitive with public SAEs and consistently outperforms PCA and ITDA.
+                On the Gemma 2 layer-12 comparison, ICA also stays strong against the
+                prefix-restricted Matryoshka SAE variants.
+              </p>
+            </div>
+            <div class="sparse-probe-layout">
+              <figure class="image-panel sparse-main-figure">
+                <img src="assets/figures/sparse_probe_baselines_by_model.png" alt="Sparse probing comparison between ICA, public SAE, ITDA, and PCA features across three models.">
+                <figcaption>Across models, sparse probes recover class information from a small set of ICA coordinates.</figcaption>
+              </figure>
+              <div class="sparse-detail">
+                <div class="sparse-detail-copy">
+                  <strong>Gemma 2 layer 12 detail check</strong>
+                  <p>
+                    This extra comparison is narrower in scope but includes the two
+                    Matryoshka SAE budgets. It asks whether a prefix-restricted SAE
+                    dictionary closes the sparse-probe gap on the layer where those
+                    baselines are available.
+                  </p>
+                </div>
+                <figure class="image-panel sparse-detail-figure">
+                  <img src="assets/figures/gemma2_layer12_official_baselines.png" alt="Gemma 2 layer 12 sparse probing comparison including public SAE, Matryoshka SAE variants, ICA, ITDA, and PCA.">
+                  <figcaption>Gemma 2 layer 12 includes the public SAE, two Matryoshka SAE budgets, ICA, ITDA, and PCA baselines.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </article>
+
+          <article class="evidence-block split">
+            <div>
+              <p class="section-kicker">SAEBench Targeted Probe Perturbation</p>
+              <h3>Small ICA interventions can move the target cleanly.</h3>
+              <p>
+                Targeted Probe Perturbation chooses the top-N latents for a class,
+                zero-ablates them, and measures both intended effects on the target
+                probe and unintended effects on other probes. A useful dictionary should
+                move the intended probe while limiting spillover.
+              </p>
+              <p>
+                ICA is strongest in the small-N regime: a few directions produce large
+                intended effects while keeping unintended effects comparatively low. At
+                N = 500, ICA has consumed a much larger fraction of its compact basis,
+                so broad disruption and unintended change naturally rise.
+              </p>
+            </div>
             <figure class="image-panel">
-              <img src="assets/figures/erf_and_labelability.png" alt="Effective receptive field and manual labelability of ICA components.">
-              <figcaption>ERF estimates how much preceding context is needed to recover a component's response; manual audits label many sampled directions.</figcaption>
+              <img src="assets/figures/all_models_saebench_tpp_intended_unintended.png" alt="SAEBench targeted probe perturbation scores for ICA and SAE features, split into intended and unintended effects.">
+              <figcaption>TPP reads ICA as a strong low-to-medium budget intervention basis, not a replacement for high-capacity SAE dictionaries.</figcaption>
             </figure>
-            <figure class="image-panel">
-              <img src="assets/figures/sparse_probe_baselines_by_model.png" alt="Sparse probing comparison between ICA, public SAE, ITDA, and PCA features.">
-              <figcaption>Sparse probing tests whether concept-relevant information is concentrated in a small number of feature coordinates.</figcaption>
-            </figure>
-            <figure class="image-panel">
-              <img src="assets/figures/all_models_saebench_tpp_intended_unintended.png" alt="SAEBench targeted probe perturbation scores for ICA and SAE features.">
-              <figcaption>Targeted Probe Perturbation separates intended effects on target probes from unintended effects on other probes.</figcaption>
-            </figure>
-          </div>
+          </article>
         </div>
       </section>
 
@@ -172,7 +362,7 @@
               and a local FastAPI explorer for the mini or full databases.
             </p>
             <div class="link-row">
-              <a class="button primary" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer">Hosted Explorer</a>
+              <a class="button primary hf-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Hosted Explorer</a>
               <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
               <a class="button" href="https://huggingface.co/datasets/sida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Artifacts</a>
             </div>
