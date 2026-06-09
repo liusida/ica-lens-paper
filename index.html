@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="ICA Lens: interpreting language models without training another dictionary.">
     <title>ICA Lens</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=fit-strip-2">
     <script defer src="https://analytics.liusida.com/umami/script.js"
       data-website-id="64322a37-ae7f-4635-ac78-8869ef79997b"
       data-tag="ica-lens-paper"></script>
@@ -355,25 +355,36 @@
       </section>
 
       <section class="section try-section" id="try">
-        <div class="section-inner try-grid">
-          <div>
-            <p class="section-kicker">Try it</p>
-            <h2>Use the hosted explorer, or run the release locally.</h2>
-            <p>
-              The hosted Space is the fastest route for inspection. The GitHub repo
-              contains the released pipeline, artifact manifest, reproduction scripts,
-              and a local FastAPI explorer for the mini or full databases.
-            </p>
-            <div class="link-row">
-              <a class="button primary hf-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Hosted Explorer</a>
-              <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-              <a class="button" href="https://huggingface.co/datasets/sida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Artifacts</a>
+        <div class="section-inner try-stack">
+          <div class="try-grid">
+            <div>
+              <p class="section-kicker">Try it</p>
+              <h2>Use the hosted explorer, or run the release locally.</h2>
+              <p>
+                The hosted Space is the fastest route for inspection. The GitHub repo
+                contains the released pipeline, artifact manifest, reproduction scripts,
+                and a local FastAPI explorer for the mini or full databases.
+              </p>
+              <div class="link-row">
+                <a class="button primary hf-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Hosted Explorer</a>
+                <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                <a class="button" href="https://huggingface.co/datasets/sida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Artifacts</a>
+              </div>
             </div>
-          </div>
-          <pre><code>uv sync
+            <pre><code>uv sync
 uv run python scripts/fetch_artifacts.py --models --databases
 uv run python scripts/verify_artifacts.py
 uv run python -m server.app --port 8001</code></pre>
+          </div>
+
+          <div class="fit-strip">
+            <div>
+              <p class="section-kicker">Fit a new model</p>
+              <h3>Adapt ICA Lens to another LLM.</h3>
+              <p>Follow a one-layer Qwen3.6-27B walkthrough from activation capture to a local explorer database.</p>
+            </div>
+            <a class="button" href="https://github.com/liusida/ica-lens-paper/blob/main/docs/fit_one_layer_qwen36_27b.md" target="_blank" rel="noopener noreferrer">Open tutorial</a>
+          </div>
         </div>
       </section>
 
