@@ -45,12 +45,28 @@ def load_model_and_tokenizer(model_id: str, *, device: str, dtype: str) -> tuple
     if torch_device.type == "cpu" and model_dtype in {torch.float16, torch.bfloat16}:
         model_dtype = torch.float32
 
-    model = AutoModelForCausalLM.from_pretrained(
-        model_id,
-        torch_dtype=model_dtype,
-        low_cpu_mem_usage=True,
-    )
-    model.to(torch_device)
+    load_kwargs = {
+        "dtype": model_dtype,
+        "low_cpu_mem_usage": True,
+    }
+    if torch_device.type == "cuda":
+        try:
+            model = AutoModelForCausalLM.from_pretrained(
+                model_id,
+                **load_kwargs,
+                device_map={"": str(torch_device)},
+            )
+        except (ImportError, TypeError, ValueError) as exc:
+            print(
+                f"Direct device_map load failed for {model_id!r}; falling back to model.to({torch_device}). "
+                f"This can be slow for large models. Reason: {exc}",
+                flush=True,
+            )
+            model = AutoModelForCausalLM.from_pretrained(model_id, **load_kwargs)
+            model.to(torch_device)
+    else:
+        model = AutoModelForCausalLM.from_pretrained(model_id, **load_kwargs)
+        model.to(torch_device)
     model.eval()
     return model, tokenizer
 

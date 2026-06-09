@@ -72,15 +72,20 @@ def load_settings() -> Settings:
         )
         for model_name, meta in DEFAULT_MODEL_REGISTRY.items()
     }
-    if os.environ.get("ICA_EXPLORER_ICA_DIR"):
-        default = models[DEFAULT_MODEL_NAME]
-        models[DEFAULT_MODEL_NAME] = ModelSettings(
-            model_name=default.model_name,
-            model_id=default.model_id,
-            display_name=default.display_name,
-            ica_dir=ica_dir,
-            context_length=default.context_length,
-            dtype=default.dtype,
+    env_model_name = os.environ.get("ICA_EXPLORER_MODEL_NAME", DEFAULT_MODEL_NAME)
+    env_model_id = os.environ.get("ICA_EXPLORER_MODEL_ID", DEFAULT_MODEL_ID)
+    env_display_name = os.environ.get("ICA_EXPLORER_DISPLAY_NAME") or env_model_name
+    env_context_length = int(os.environ.get("ICA_EXPLORER_CONTEXT_LENGTH", "1024"))
+    env_dtype = os.environ.get("ICA_EXPLORER_DTYPE", "bfloat16")
+    if os.environ.get("ICA_EXPLORER_ICA_DIR") or env_model_name not in models:
+        default = models.get(env_model_name, models[DEFAULT_MODEL_NAME])
+        models[env_model_name] = ModelSettings(
+            model_name=env_model_name,
+            model_id=env_model_id,
+            display_name=env_display_name if env_display_name != env_model_name else default.display_name if env_model_name in models else env_display_name,
+            ica_dir=ica_dir if os.environ.get("ICA_EXPLORER_ICA_DIR") else ica_root / env_model_name,
+            context_length=env_context_length,
+            dtype=env_dtype,
             dataset_path=default.dataset_path,
             dataset_name=default.dataset_name,
             dataset_split=default.dataset_split,
@@ -94,11 +99,11 @@ def load_settings() -> Settings:
         artifact_repo=os.environ.get("ICA_EXPLORER_ARTIFACT_REPO", DEFAULT_ARTIFACT_REPO),
         db_repo=os.environ.get("ICA_EXPLORER_DB_REPO", DEFAULT_DB_REPO),
         hf_revision=os.environ.get("ICA_EXPLORER_HF_REVISION") or None,
-        model_id=os.environ.get("ICA_EXPLORER_MODEL_ID", DEFAULT_MODEL_ID),
-        model_name=os.environ.get("ICA_EXPLORER_MODEL_NAME", DEFAULT_MODEL_NAME),
+        model_id=env_model_id,
+        model_name=env_model_name,
         device=os.environ.get("ICA_EXPLORER_DEVICE", "auto"),
-        dtype=os.environ.get("ICA_EXPLORER_DTYPE", "bfloat16"),
-        context_length=int(os.environ.get("ICA_EXPLORER_CONTEXT_LENGTH", "1024")),
+        dtype=env_dtype,
+        context_length=env_context_length,
         download_missing=os.environ.get("ICA_EXPLORER_DOWNLOAD_MISSING", "1").strip().lower() not in {"0", "false", "no"},
         models=models,
     )

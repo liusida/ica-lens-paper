@@ -44,6 +44,8 @@ def capture_random_token_hidden_state_shards(
     if not selected_layers:
         raise ValueError("At least one activation layer must be selected.")
     selected_layer_set = set(selected_layers)
+    explicit_layer_capture = layers is not None
+    hook_plan = _hook_capture_plan(model, selected_layers) if explicit_layer_capture else None
     capture_dir.mkdir(parents=True, exist_ok=True)
 
     tokenized_docs: list[torch.Tensor] = []
@@ -81,19 +83,30 @@ def capture_random_token_hidden_state_shards(
             attention_mask = torch.ones_like(input_ids, device=device)
             position_tensor = torch.tensor(positions, dtype=torch.long, device=device)
 
-            with torch.inference_mode():
-                outputs = model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True, use_cache=False)
-
-            hidden_states = outputs.hidden_states
-            if hidden_states is None:
-                raise RuntimeError("Model did not return hidden states.")
-
             take = int(position_tensor.shape[0])
-            for key, hidden in zip(hidden_state_layer_names(len(hidden_states)), hidden_states[1:], strict=True):
-                if key not in selected_layer_set:
-                    continue
-                selected = hidden[0].index_select(0, position_tensor)
-                buffers.setdefault(key, []).append(selected.detach().to(dtype=dtype).cpu())
+            if hook_plan is None:
+                with torch.inference_mode():
+                    outputs = model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True, use_cache=False)
+
+                hidden_states = outputs.hidden_states
+                if hidden_states is None:
+                    raise RuntimeError("Model did not return hidden states.")
+
+                for key, hidden in zip(hidden_state_layer_names(len(hidden_states)), hidden_states[1:], strict=True):
+                    if key not in selected_layer_set:
+                        continue
+                    selected = hidden[0].index_select(0, position_tensor)
+                    buffers.setdefault(key, []).append(selected.detach().to(dtype=dtype).cpu())
+            else:
+                _capture_layers_with_hooks(
+                    model=model,
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    position_tensor=position_tensor,
+                    dtype=dtype,
+                    buffers=buffers,
+                    plan=hook_plan,
+                )
             input_id_buffer.append(input_ids_cpu.index_select(0, position_tensor.cpu()))
             doc_id_buffer.append(torch.full((take,), doc_id, dtype=torch.long))
             position_buffer.append(position_tensor.cpu())
@@ -159,7 +172,8 @@ def capture_random_token_hidden_state_shards(
             "shard_token_budget": shard_token_budget,
             "available_layers": all_layer_names,
             "layers": selected_layers,
-            "activation_site": "hidden_states_without_initial_embedding_state",
+            "activation_site": "transformer_block_outputs" if hook_plan is not None else "hidden_states_without_initial_embedding_state",
+            "capture_backend": "forward_hooks_early_stop" if hook_plan is not None else "output_hidden_states",
             "embedding_layer_source": "pass --include-embedding to store model.get_input_embeddings().weight as layer 'embedding'",
             "storage_layout": "per_layer_shards",
             "sampling_policy": "random_token_positions_without_exclusion",
@@ -177,6 +191,95 @@ def capture_random_token_hidden_state_shards(
     manifest_path = capture_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return manifest_path
+
+
+class _StopForwardAfterTargetLayer(Exception):
+    pass
+
+
+def _hook_capture_plan(model: torch.nn.Module, selected_layers: Sequence[str]) -> dict[str, Any]:
+    blocks = _decoder_blocks(model)
+    plan_layers: list[tuple[str, int]] = []
+    for layer_name in selected_layers:
+        layer_index = _layer_name_to_index(layer_name)
+        if layer_index >= len(blocks):
+            raise ValueError(f"Requested {layer_name}, but model exposes only {len(blocks)} decoder blocks.")
+        plan_layers.append((layer_name, layer_index))
+    max_index = max(index for _, index in plan_layers)
+    return {"blocks": blocks, "layers": plan_layers, "stop_index": max_index}
+
+
+def _decoder_blocks(model: torch.nn.Module) -> Sequence[torch.nn.Module]:
+    candidates = (
+        ("model", "layers"),
+        ("transformer", "h"),
+        ("gpt_neox", "layers"),
+        ("backbone", "layers"),
+    )
+    for first, second in candidates:
+        parent = getattr(model, first, None)
+        blocks = getattr(parent, second, None) if parent is not None else None
+        if blocks is not None and len(blocks) == int(model.config.num_hidden_layers):
+            return blocks
+    raise RuntimeError(
+        "Could not locate decoder blocks for hook capture. "
+        "Use all-layer capture, or add this model architecture to _decoder_blocks()."
+    )
+
+
+def _layer_name_to_index(layer_name: str) -> int:
+    prefix = "layer_"
+    if not layer_name.startswith(prefix):
+        raise ValueError(f"Expected layer name like 'layer_30', got {layer_name!r}.")
+    try:
+        return int(layer_name[len(prefix) :])
+    except ValueError as exc:
+        raise ValueError(f"Expected layer name like 'layer_30', got {layer_name!r}.") from exc
+
+
+def _capture_layers_with_hooks(
+    *,
+    model: torch.nn.Module,
+    input_ids: torch.Tensor,
+    attention_mask: torch.Tensor,
+    position_tensor: torch.Tensor,
+    dtype: torch.dtype,
+    buffers: dict[str, list[torch.Tensor]],
+    plan: dict[str, Any],
+) -> None:
+    blocks: Sequence[torch.nn.Module] = plan["blocks"]
+    stop_index = int(plan["stop_index"])
+    layer_by_index = {index: layer_name for layer_name, index in plan["layers"]}
+    captured: set[str] = set()
+    handles: list[Any] = []
+
+    def make_hook(layer_name: str, layer_index: int):
+        def hook(_module: torch.nn.Module, _inputs: tuple[Any, ...], output: Any) -> None:
+            hidden = output[0] if isinstance(output, tuple) else output
+            selected = hidden[0].index_select(0, position_tensor)
+            buffers.setdefault(layer_name, []).append(selected.detach().to(dtype=dtype).cpu())
+            captured.add(layer_name)
+            if layer_index == stop_index:
+                raise _StopForwardAfterTargetLayer()
+
+        return hook
+
+    for layer_index, layer_name in layer_by_index.items():
+        handles.append(blocks[layer_index].register_forward_hook(make_hook(layer_name, layer_index)))
+
+    try:
+        with torch.inference_mode():
+            try:
+                model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=False, use_cache=False)
+            except _StopForwardAfterTargetLayer:
+                pass
+    finally:
+        for handle in handles:
+            handle.remove()
+
+    missing = sorted(set(layer_by_index.values()) - captured)
+    if missing:
+        raise RuntimeError(f"Hook capture did not see requested layer(s): {', '.join(missing)}")
 
 
 def hidden_state_layer_names(n_hidden_states: int) -> list[str]:

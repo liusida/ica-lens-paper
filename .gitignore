@@ -41,3 +41,5 @@ results/verification/**
 *.arrow
 *.h5
 *.hdf5
+
+qwen3_6_27b.*
