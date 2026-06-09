@@ -34,6 +34,7 @@
 
 <p align="center">
   <a href="docs/quickstart.md">Quickstart</a> ·
+  <a href="docs/fit_one_layer_qwen36_27b.md">Fit a New Model</a> ·
   <a href="docs/reproduction.md">Reproduction</a> ·
   <a href="docs/troubleshooting.md">Troubleshooting</a> ·
   <a href="https://huggingface.co/spaces/EEEAILab/ICAExplorer">Try the Demo</a> ·
@@ -157,6 +158,7 @@ Repeat with `gemma2_2b` and `qwen3_5_2b_base` configs for the other released mod
 
 For more detailed information, see:
 - [`docs/quickstart.md`](docs/quickstart.md) - Quick start guide
+- [`docs/fit_one_layer_qwen36_27b.md`](docs/fit_one_layer_qwen36_27b.md) - Fit one ICA layer for a new LLM, using Qwen3.6-27B as a worked example
 - [`docs/reproduction.md`](docs/reproduction.md) - Detailed reproduction instructions
 - [`docs/troubleshooting.md`](docs/troubleshooting.md) - Troubleshooting guide
 
