@@ -17,7 +17,7 @@
     <meta name="twitter:description" content="Interpreting language models without training another dictionary.">
     <meta name="twitter:image" content="https://liusida.github.io/ica-lens-paper/assets/preview.png">
     <title>ICA Lens</title>
-    <link rel="stylesheet" href="styles.css?v=fit-strip-2">
+    <link rel="stylesheet" href="styles.css?v=future-projects-1">
     <script defer src="https://analytics.liusida.com/umami/script.js"
       data-website-id="64322a37-ae7f-4635-ac78-8869ef79997b"
       data-tag="ica-lens-paper"></script>
@@ -35,6 +35,7 @@
       <a href="#sae" data-section-nav="sae">ICA/SAE</a>
       <a href="#evidence" data-section-nav="evidence">Evidence</a>
       <a href="#try" data-section-nav="try">Try</a>
+      <a href="#build" data-section-nav="build">Build</a>
       <a href="#cite" data-section-nav="cite">Cite</a>
     </nav>
 
@@ -381,7 +382,8 @@
                 <a class="button" href="https://huggingface.co/datasets/sida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Artifacts</a>
               </div>
             </div>
-            <pre><code>uv sync
+            <pre><code># Clone the repo and run the local Explorer
+uv sync
 uv run python scripts/fetch_artifacts.py --models --databases
 uv run python scripts/verify_artifacts.py
 uv run python -m server.app --port 8001</code></pre>
@@ -394,6 +396,44 @@ uv run python -m server.app --port 8001</code></pre>
               <p>Follow a one-layer Qwen3.6-27B walkthrough from activation capture to a local explorer database.</p>
             </div>
             <a class="button" href="https://github.com/liusida/ica-lens-paper/blob/main/docs/fit_one_layer_qwen36_27b.md" target="_blank" rel="noopener noreferrer">Open tutorial</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section build-section" id="build">
+        <div class="section-inner build-grid">
+          <div>
+            <p class="section-kicker">Build on ICA Lens</p>
+            <h2>Research directions opened by ICA lens.</h2>
+            <p>
+              Fitting ICA on a new model is only the first step. The same artifacts,
+              fitting pipeline, and explorer can support follow-up work on automatic
+              annotation, better ERF metrics, multi-site activation analysis, and the
+              geometry exposed by normalization.
+            </p>
+            <a class="button primary" href="future-projects.html">Explore possible projects</a>
+          </div>
+          <div class="build-list" aria-label="Future project directions">
+            <article>
+              <span>01</span>
+              <strong>Automatic annotation</strong>
+              <p>Generate candidate labels from top examples, opposite-side evidence, ERF, traces, and prompt tests before human review.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <strong>Better ERF</strong>
+              <p>Turn the current context-recovery heuristic into a more principled metric for component scope and annotation difficulty.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <strong>Multi-site ICA</strong>
+              <p>Study residual streams, MLP outputs, attention outputs, and residual updates together rather than one layer at a time.</p>
+            </article>
+            <article>
+              <span>04</span>
+              <strong>Activation geometry</strong>
+              <p>Use row normalization as a clue that directions, not only norms, organize useful structure in activation space.</p>
+            </article>
           </div>
         </div>
       </section>

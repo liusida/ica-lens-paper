@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Future project ideas for building on ICA Lens.">
+    <link rel="canonical" href="https://liusida.github.io/ica-lens-paper/future-projects.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ICA Lens">
+    <meta property="og:title" content="Build on ICA Lens">
+    <meta property="og:description" content="Future project ideas for extending ICA Lens to new models, metrics, sites, and activation-geometry questions.">
+    <meta property="og:url" content="https://liusida.github.io/ica-lens-paper/future-projects.html">
+    <meta property="og:image" content="https://liusida.github.io/ica-lens-paper/assets/preview.png">
+    <meta property="og:image:alt" content="ICA Lens project page hero with links to the Explorer, paper, and code.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Build on ICA Lens">
+    <meta name="twitter:description" content="Future project ideas for extending ICA Lens to new models, metrics, sites, and activation-geometry questions.">
+    <meta name="twitter:image" content="https://liusida.github.io/ica-lens-paper/assets/preview.png">
+    <title>Build on ICA Lens</title>
+    <link rel="stylesheet" href="styles.css?v=future-projects-1">
+  </head>
+  <body>
+    <header class="site-header" aria-label="Site header">
+      <a class="brand" href="index.html#top" aria-label="ICA Lens home">ICA Lens</a>
+    </header>
+
+    <main class="future-page">
+      <section class="future-hero" aria-label="Future project ideas">
+        <div class="section-inner future-hero-inner">
+          <p class="eyebrow">Future projects</p>
+          <h1>Research directions opened by ICA lens.</h1>
+          <div class="hero-actions">
+            <a class="button primary" href="index.html">Back to project page</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section future-section">
+        <div class="section-inner future-stack">
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Starting point</p>
+              <h2>Fit ICA on new models.</h2>
+            </div>
+            <p>
+              The most direct extension is to run ICA Lens on newer, larger, multilingual,
+              or domain-specific LLMs. This tests whether the same non-Gaussian structure
+              appears across model families and gives researchers an inspectable basis
+              before model-specific SAE dictionaries exist.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Direction 1</p>
+              <h2>Go beyond the d-component limit.</h2>
+            </div>
+            <p>
+              Standard compact ICA returns at most d components for a d-dimensional
+              activation space. One way around this hard limit is to fit ICA on different
+              datasets or distributions, then compare the resulting bases in the same
+              activation space. Different corpora may expose different non-Gaussian
+              directions, giving a route toward a richer component inventory without
+              relying on a single overcomplete fit.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Direction 2</p>
+              <h2>Automatic annotation for ICA components.</h2>
+            </div>
+            <p>
+              Once an ICA model is fit, the explorer already exposes top examples,
+              opposite-side examples, signed scores, ERF, trace plots, and prompt tests.
+              A natural next step is to use this evidence to propose component labels
+              automatically, then hand the candidate labels to humans for verification.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Direction 3</p>
+              <h2>Theorize ERF beyond a useful heuristic.</h2>
+            </div>
+            <p>
+              The current Effective Receptive Field diagnostic asks how much left context
+              is sufficient to recover a component response. Future work can make this
+              more principled: test robustness, compare recovery criteria, connect ERF
+              to annotation difficulty, and relate component scope to model computation.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Direction 4</p>
+              <h2>Fit ICA across activation sites, not only layers.</h2>
+            </div>
+            <p>
+              ICA Lens currently focuses on embeddings and residual-stream states. A
+              broader analysis could include attention outputs, MLP outputs, residual
+              updates, shared bases across layers, or multiple sites at once. This would
+              help study how directions emerge, transform, persist, or disappear through
+              the forward pass.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Direction 5</p>
+              <h2>Study activation geometry after normalization.</h2>
+            </div>
+            <p>
+              Row normalization makes ICA fitting more stable and supports the idea that
+              directions carry important structure even when raw activation norms are
+              set aside. This opens a deeper question: how much of LLM representation
+              geometry becomes simpler on the normalized sphere, and what does that
+              reveal about features, contexts, and interventions?
+            </p>
+          </article>
+
+          <article class="future-project future-project-open">
+            <div>
+              <p class="section-kicker">More ideas</p>
+              <h2>This list is meant to grow.</h2>
+            </div>
+            <p>
+              Other directions include steering with ICA coordinates, auditing SAE
+              labels through ICA-SAE overlap, overcomplete ICA variants, task-specific
+              decompositions, and better interfaces for comparing components across
+              models. The release is intended as infrastructure for these follow-up
+              projects, not only as a static paper artifact.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>ICA Lens</span>
+      <a href="index.html#cite">Citation</a>
+    </footer>
+  </body>
+</html>
