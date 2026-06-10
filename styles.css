@@ -1085,8 +1085,15 @@ p {
 }
 
 .future-project-open {
+  margin-top: clamp(4px, 1.5vw, 14px);
+  padding-top: clamp(24px, 4vw, 36px);
   padding-bottom: 0;
+  border-top: 3px solid var(--coral);
   border-bottom: 0;
+}
+
+.future-project-open .section-kicker {
+  color: var(--coral);
 }
 
 pre {
