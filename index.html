@@ -58,14 +58,15 @@
         <div class="section-inner intro-grid">
           <div>
             <p class="section-kicker">The idea</p>
-            <h2>Use ICA as a fast first pass before committing to a large SAE dictionary.</h2>
+            <h2>Activation geometry already contains interpretable non-Gaussian structure.</h2>
           </div>
           <p>
-            Sparse autoencoders are powerful, but each model, layer, activation site,
-            and sparsity regime can require another trained dictionary. ICA Lens asks
-            how much interpretable structure is already visible from activation geometry:
-            normalize activations, fit a compact ICA basis, inspect the signed directions,
-            then decide where heavier dictionary learning is worth it.
+            Many meaningful activation directions are selective: they fire for recurring
+            words, constructions, topics, contexts, or discourse patterns rather than for
+            typical random projections. That selectivity leaves a non-Gaussian footprint.
+            ICA Lens turns this footprint into a practical workflow for finding, inspecting,
+            and testing compact signed directions before reaching for costly learned
+            dictionaries such as large SAEs.
           </p>
         </div>
       </section>
