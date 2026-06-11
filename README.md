@@ -177,11 +177,14 @@ Contributions are welcome! Please feel free to open issues or submit pull reques
 
 ## Contact
 
-We are also happy to hear from researchers interested in ICA, sparse autoencoders, and mechanistic interpretability more broadly.
+We welcome feedback and collaboration from researchers interested in ICA, sparse autoencoders, mechanistic interpretability, and related directions.
 
-| Name | Affiliation | Email |
-|------|-------------|-------|
-| **Sida Liu** | Independent Researcher | [me@liusida.com](mailto:me@liusida.com) |
-| **Feijiang Han** | University of Maryland | [feijhan@umd.edu](mailto:feijhan@umd.edu) |
+We have also summarized several possible next steps and open directions here: [Future Projects](https://liusida.github.io/ica-lens-paper/future-projects.html). 
+Please feel free to reach out if you are interested in collaborating or exploring new ideas.
+
+| Name             | Affiliation            | Email                                     |
+| ---------------- | ---------------------- | ----------------------------------------- |
+| **Sida Liu**     | Independent Researcher | [me@liusida.com](mailto:me@liusida.com)   |
+| **Feijiang Han** | CS PhD @ University of Maryland | [feijhan@umd.edu](mailto:feijhan@umd.edu) |
 
 
