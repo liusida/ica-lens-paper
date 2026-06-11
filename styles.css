@@ -1119,6 +1119,7 @@ code {
 
 .site-footer {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 20px;
   padding: 28px clamp(20px, 5vw, 72px);
@@ -1127,10 +1128,34 @@ code {
   font-size: 0.95rem;
 }
 
+.footer-authors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 14px;
+}
+
+.footer-authors span {
+  color: var(--muted);
+}
+
 .site-footer a {
   color: var(--teal);
   font-weight: 800;
   text-decoration: none;
+}
+
+@media (max-width: 520px) {
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-authors {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 1240px) {
