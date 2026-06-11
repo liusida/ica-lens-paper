@@ -67,7 +67,9 @@
               datasets or distributions, then compare the resulting bases in the same
               activation space. Different corpora may expose different non-Gaussian
               directions, giving a route toward a richer component inventory without
-              relying on a single overcomplete fit.
+              relying on a single overcomplete fit. Another route is to test higher-capacity
+              ICA variants such as overcomplete ICA, adaptive or deflationary FastICA,
+              Infomax, JADE, and heavy-tail-aware objectives.
             </p>
           </article>
 
@@ -137,7 +139,33 @@
               would need to edit signed scores, reconstruct through the writing map,
               the pseudoinverse of the reading map R, patch back into the residual stream, and check whether
               pseudoinverse quality and conditioning are good enough for stable edits
-              outside benchmark probes.
+              outside benchmark probes and against strong task-specific baselines.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Research direction</p>
+              <h2>Develop ICA-SAE hybrid methods.</h2>
+            </div>
+            <p>
+              ICA and SAEs expose related but non-redundant directions in activation
+              space. A hybrid method could combine ICA's compact non-Gaussian basis with
+              SAE-style overcomplete sparse reconstruction, using the strengths of both
+              to improve component discovery, labeling, and intervention.
+            </p>
+          </article>
+
+          <article class="future-project">
+            <div>
+              <p class="section-kicker">Research direction</p>
+              <h2>Apply ICA Lens to vision-language models.</h2>
+            </div>
+            <p>
+              ICA can also be fit on image-text datasets rather than text-only corpora.
+              For VLMs, including image-token activations in the decomposition could help
+              reveal what visual token positions represent in deeper layers and how visual evidence mixes
+              with text through the model.
             </p>
           </article>
 
