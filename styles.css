@@ -1119,13 +1119,20 @@ code {
 
 .site-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: 20px;
   padding: 28px clamp(20px, 5vw, 72px);
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.footer-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .footer-authors {
@@ -1146,8 +1153,18 @@ code {
   text-decoration: none;
 }
 
+.footer-qr {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-qr img {
+  width: min(148px, 42vw);
+  height: auto;
+}
+
 @media (max-width: 520px) {
-  .site-footer {
+  .footer-main {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
