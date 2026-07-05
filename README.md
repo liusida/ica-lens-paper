@@ -181,10 +181,10 @@ We welcome feedback and collaboration from researchers interested in ICA, sparse
 
 We have also summarized several possible next steps and open directions here: [Future Projects](https://liusida.github.io/ica-lens-paper/future-projects.html). 
 Please feel free to reach out if you are interested in collaborating or exploring new ideas.
-
+<!-- 
 <p align="center">
   <img src="https://liusida.github.io/ica-lens-paper/assets/wechat_QR.png" alt="WeChat QR code" width="160">
-</p>
+</p> -->
 
 | Name             | Affiliation            | Email                                     |
 | ---------------- | ---------------------- | ----------------------------------------- |
