@@ -1154,7 +1154,7 @@ code {
 }
 
 .footer-qr {
-  display: flex;
+  display: none;
   justify-content: center;
 }
 
