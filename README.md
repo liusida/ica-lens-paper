@@ -1,3 +1,9 @@
+<h2>IMPORTANT</h2>
+
+> **ICA Lens is now available on PyPI as [`icalens`](https://pypi.org/project/icalens/).** Install it with `pip install icalens`. Source code and documentation are available in the [icalens GitHub repository](https://github.com/liusida/icalens/).
+
+---
+
 <h1 align="center">
   <b>ICA Lens: A fast, compact lens for exploring interpretable directions in language-model activations.</b>
 </h1>
@@ -190,4 +196,3 @@ Please feel free to reach out if you are interested in collaborating or explorin
 | ---------------- | ---------------------- | ----------------------------------------- |
 | **Sida Liu**     | Independent Researcher | [me@liusida.com](mailto:me@liusida.com)   |
 | **Feijiang Han** | CS PhD @ University of Maryland | [feijhan@umd.edu](mailto:feijhan@umd.edu) |
-
