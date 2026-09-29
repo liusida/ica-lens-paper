@@ -1,0 +1,15 @@
+Autointerpretability comparison. Points are finite per-feature Pearson
+correlations over five held-out top-activating and five random fragments.
+Large markers show means; error bars are deterministic feature-level bootstrap
+95% intervals (10,000 resamples). Faint markers show individual features.
+
+panel	layer	method	defined/selected	mean	bootstrap_95_low	bootstrap_95_high
+# GPT-2 small: tinker · thinkingmachines/Inkling → Qwen/Qwen3.8-27B
+GPT-2 small	2	ICA	150/150	0.520689	0.474722	0.566366
+GPT-2 small	2	SAE	150/150	0.704155	0.667184	0.740041
+GPT-2 small	5	ICA	150/150	0.396230	0.352095	0.439607
+GPT-2 small	5	SAE	150/150	0.626003	0.581338	0.668745
+GPT-2 small	8	ICA	150/150	0.413751	0.369956	0.459056
+GPT-2 small	8	SAE	150/150	0.551666	0.504907	0.597081
+GPT-2 small	11	ICA	150/150	0.376568	0.336694	0.415224
+GPT-2 small	11	SAE	150/150	0.485608	0.436769	0.534222

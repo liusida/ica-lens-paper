@@ -1,0 +1,176 @@
+{
+  "icalens_source": {
+    "commit": "f5a828cafa85c4c79b2117865977a9c27813e793",
+    "dirty": false,
+    "git_available": true
+  },
+  "layer_runs": {
+    "0": {
+      "status": "complete"
+    },
+    "1": {
+      "status": "complete"
+    },
+    "10": {
+      "status": "complete"
+    },
+    "11": {
+      "status": "complete"
+    },
+    "2": {
+      "status": "complete"
+    },
+    "3": {
+      "status": "complete"
+    },
+    "4": {
+      "status": "complete"
+    },
+    "5": {
+      "status": "complete"
+    },
+    "6": {
+      "status": "complete"
+    },
+    "7": {
+      "status": "complete"
+    },
+    "8": {
+      "status": "complete"
+    },
+    "9": {
+      "status": "complete"
+    }
+  },
+  "resolved": {
+    "activation_capture": {
+      "format": "icalens.reconstruction-activations",
+      "format_version": 1,
+      "manifest_sha256": "61f9f48a2375958edceb96869e360dbe834cf3cba97e578cd18f111d09f9da92"
+    },
+    "activation_site": "resid_post",
+    "baselines": {
+      "pca": {
+        "components": "model_hidden_size",
+        "feature_sides": "positive_and_negative",
+        "fit_source": "derived_from_full_rank_ica_whitening",
+        "name": "PCA",
+        "preprocessing": "match_ica_lens"
+      },
+      "random": {
+        "components": "model_hidden_size",
+        "feature_sides": "positive_and_negative",
+        "name": "Random orthogonal basis",
+        "preprocessing": "match_ica_lens",
+        "seed": 0
+      },
+      "sae": {
+        "activation": "topk",
+        "apply_b_dec_to_input": true,
+        "checkpoint_format": "safetensors",
+        "checkpoint_template": "v5_32k_layer_{layer}.pt/sae_weights.safetensors",
+        "feature_source": "encoder",
+        "hook_name_template": "blocks.{layer}.hook_resid_post",
+        "layers": "all_transformer_layers",
+        "name": "GPT2-Small OAI v5 32k",
+        "normalize_activations": "layer_norm",
+        "repo_id": "jbloom/GPT2-Small-OAI-v5-32k-resid-post-SAEs",
+        "revision": "21df74db7b9f690cd2403a20485cf75f46330d0d",
+        "top_k": 32,
+        "width": 32768
+      }
+    },
+    "evaluation_context_length": 64,
+    "experiment": "reconstruction",
+    "experiment_schema_version": 4,
+    "icalens_version": "0.3.6",
+    "layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "lens": "local-icalens-models/experimental/icalens-gpt2-small-pile10k-context-length-64",
+    "model_id": "openai-community/gpt2",
+    "model_revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "preset": {
+      "batch_size": 4,
+      "context_length": 1024,
+      "datasets": [
+        {
+          "repo_id": "fancyzhx/ag_news",
+          "revision": "eb185aade064a813bc0b7f42de02595523103ca4",
+          "split": "test",
+          "text_column": "text"
+        },
+        {
+          "config": "wikitext-103-raw-v1",
+          "repo_id": "Salesforce/wikitext",
+          "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+          "split": "test",
+          "text_column": "text"
+        },
+        {
+          "data_files": "hf://datasets/codeparrot/github-code/data/train-00000-of-01126.parquet",
+          "loader": "parquet",
+          "repo_id": "codeparrot/github-code",
+          "revision": "b5661e6b17396364b2bcf8e68977b0d28e1ebd19",
+          "split": "train",
+          "text_column": "content"
+        },
+        {
+          "config": "20231101.es",
+          "data_files": "hf://datasets/wikimedia/wikipedia/20231101.es/train-00012-of-00013.parquet",
+          "domain": "Spanish Wikipedia",
+          "loader": "parquet",
+          "repo_id": "wikimedia/wikipedia",
+          "revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+          "split": "train",
+          "text_column": "text"
+        },
+        {
+          "config": "20231101.zh",
+          "data_files": "hf://datasets/wikimedia/wikipedia/20231101.zh/train-00002-of-00006.parquet",
+          "domain": "Chinese Wikipedia",
+          "loader": "parquet",
+          "repo_id": "wikimedia/wikipedia",
+          "revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+          "split": "train",
+          "text_column": "text"
+        },
+        {
+          "config": "test_sft",
+          "data_files": "hf://datasets/HuggingFaceH4/ultrachat_200k/data/test_sft-00000-of-00001-f7dfac4afe5b93f4.parquet",
+          "domain": "conversation",
+          "format": "conversation",
+          "loader": "parquet",
+          "repo_id": "HuggingFaceH4/ultrachat_200k",
+          "revision": "8049631c405ae6576f93f445c6b8166f76f5505a",
+          "split": "train",
+          "text_column": "messages"
+        }
+      ],
+      "k_values": [
+        1,
+        3,
+        10,
+        30,
+        100,
+        300
+      ],
+      "max_tokens_per_dataset": 50000,
+      "name": "paper",
+      "seed": 42
+    },
+    "row_normalize": false
+  },
+  "status": "complete"
+}

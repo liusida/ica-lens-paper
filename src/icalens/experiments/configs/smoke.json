@@ -1,0 +1,12 @@
+{
+  "name": "smoke",
+  "datasets": ["fancyzhx/ag_news"],
+  "k_values": [1, 5, 10],
+  "probe_train_size": 80,
+  "probe_test_size": 20,
+  "context_length": 128,
+  "random_seed": 42,
+  "llm_batch_size": 8,
+  "sae_batch_size": 64,
+  "llm_dtype": "float32"
+}

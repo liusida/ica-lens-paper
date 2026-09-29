@@ -1,0 +1,15 @@
+Autointerpretability comparison. Points are finite per-feature Pearson
+correlations over five held-out top-activating and five random fragments.
+Large markers show means; error bars are deterministic feature-level bootstrap
+95% intervals (10,000 resamples). Faint markers show individual features.
+
+panel	layer	method	defined/selected	mean	bootstrap_95_low	bootstrap_95_high
+# Gemma 2 2B: tinker · thinkingmachines/Inkling → Qwen/Qwen3.8-27B
+Gemma 2 2B	5	ICA	150/150	0.461977	0.418357	0.504979
+Gemma 2 2B	5	SAE	150/150	0.509726	0.461908	0.556684
+Gemma 2 2B	12	ICA	150/150	0.321898	0.278587	0.366911
+Gemma 2 2B	12	SAE	150/150	0.396766	0.351822	0.442787
+Gemma 2 2B	18	ICA	150/150	0.499598	0.451900	0.549288
+Gemma 2 2B	18	SAE	150/150	0.405912	0.359460	0.452144
+Gemma 2 2B	25	ICA	150/150	0.353289	0.314176	0.392309
+Gemma 2 2B	25	SAE	150/150	0.350023	0.310481	0.390425

@@ -1,0 +1,176 @@
+{
+  "candidates": [
+    {
+      "component": 25,
+      "offset": 23.079790115356445,
+      "rank": 0
+    },
+    {
+      "component": 581,
+      "offset": 17.4815673828125,
+      "rank": 1
+    },
+    {
+      "component": 546,
+      "offset": 3.548158645629883,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "french",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "ica-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 25,
+          "offset": 23.079790115356445,
+          "offset_multiplier": 1.0,
+          "text": " it makes labo<strong>ur</strong> <strong>moins</strong> <strong>chère</strong>.\n\nL'intelligence artificielle est importante parce qu'elle rend les <strong>travailles moins chères</strong>.\n\nL'intelligence artificielle est une technologie"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 17.4815673828125,
+          "offset_multiplier": 1.0,
+          "text": " it makes the internet more secure. The technology is used to make the internet more secure and to protect against cyber-attacks.\n\nArtificial intelligence is important because it can help to automate tasks and make decisions. It can also help to improve the quality of"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 3.548158645629883,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 25,
+          "offset": 23.079790115356445,
+          "offset_multiplier": 1.0,
+          "text": " les sont en train de mourir, pas en train de vivre.\n\nJe pense que la question est trop difficile pour une réponse simple.\n\nSi c'est à l'école, il faut que tu aies un peu de courage.\n\nLes"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 17.4815673828125,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment Chlorophyll. Chlorophyll is a green pigment that gives the leaves their color. It is also responsible for photosynthesis, which is the process of converting sunlight into energy. When the days become shorter and the nights longer, the leaves begin to"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 3.548158645629883,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,"
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 25,
+          "offset": 23.079790115356445,
+          "offset_multiplier": 1.0,
+          "text": " à l'anglaise.\n\n<h2>À l'anglaise</h2>\n\nThis type de cuisine se distingue par son agencement en deux parties : une partie cuisine et une partie salle à manger. L'avantage de cette configuration est qu'elle permet"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 17.4815673828125,
+          "offset_multiplier": 1.0,
+          "text": " to use a Kitchen Island. A Kitchen Island can be a great addition to any kitchen, especially if you have limited space. Kitchen Islands are multifunctional and can be used for a variety of purposes. They can be used as a workstation, a place to"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 3.548158645629883,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 25,
+          "offset": 23.079790115356445,
+          "offset_multiplier": 1.0,
+          "text": " que des villes sont les plus chaudes au monde ?\n\nWhat est le plus grand fleuve de la planète ?\n\nLe climat est la température et l'humidité de la région.\n\nLe climat est la température et l'humidité de la région."
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 17.4815673828125,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular place and time and the climate is the average weather conditions of the place over a long period of time.\n\nThe climate of a place is determined by the following factors:\n\n<strong>(1)"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 3.548158645629883,
+          "offset_multiplier": 1.0,
+          "text": " that weather is the condition of the atmosphere at a particular time and place, while climate is the average weather conditions over a long period of time.\n\nClimate is the average weather conditions over a long period of time.\n\nClimate is the average weather conditions"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/ica-english-to-french-layer20-64781c038e0faaaf.json",
+    "calibration_cache_hit": true,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + score_offset * ICA_writing_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/fra-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "French",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}

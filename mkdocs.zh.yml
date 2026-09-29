@@ -1,0 +1,72 @@
+site_name: ICA Lens 中文文档
+site_description: 使用独立成分分析解释语言模型
+site_url: https://icalens.readthedocs.io/zh_CN/latest/
+
+docs_dir: docs-zh
+
+repo_name: liusida/ica-lens-paper
+repo_url: https://github.com/liusida/ica-lens-paper
+edit_uri: edit/main/docs-zh/
+
+theme:
+  name: material
+  custom_dir: docs-overrides
+  language: zh
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换至深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换至浅色模式
+
+nav:
+  - 首页: index.md
+  - 快速开始: getting-started.md
+  - 文本与对话: text-and-chat.md
+  - 成分画像: component-profiles.md
+  - 分数与能量: scores-and-energy.md
+  - 引导: steering.md
+  - 重构: reconstruction.md
+  - 拟合与发布: fit-and-publish.md
+  - Python API: api.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  alternate:
+    - name: English
+      link: https://icalens.readthedocs.io/en/latest/
+      lang: en
+    - name: 简体中文
+      link: https://icalens.readthedocs.io/zh_CN/latest/
+      lang: zh
+
+watch:
+  - src/icalens

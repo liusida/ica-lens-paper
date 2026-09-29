@@ -1,0 +1,218 @@
+{
+  "candidates": [
+    {
+      "feature": 8590,
+      "offset": 91.81891632080078,
+      "rank": 0
+    },
+    {
+      "feature": 3468,
+      "offset": 57.891868591308594,
+      "rank": 1
+    },
+    {
+      "feature": 8142,
+      "offset": 39.58894729614258,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "sae",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "spanish",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "sae-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 8590,
+          "offset": 91.81891632080078,
+          "offset_multiplier": 1.0,
+          "text": " it makes nuestra vida más fácil y nos ayuda en muchas cosas. A veces, los programas de inteligencia artificial se ven como algo mágico, pero el mundo real es mucho más sencillo de lo que parece.\n\nEn este artículo, aprenderá todo sobre inteligencia"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 3468,
+          "offset": 57.891868591308594,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would otherwise require human intelligence.\n\nArtificial intelligence is important because it makes it possible for machines to perform tasks that would otherwise require human intelligence.\n\nWhat Is Artificial Intelligence?\n\nArtificial intelligence (AI)"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 8142,
+          "offset": 39.58894729614258,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would be too difficult or impossible for humans to do.\n\nFor example, AI can be used to create new drugs and treatments for diseases, develop more efficient and sustainable energy sources, and even help us"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 8590,
+          "offset": 91.81891632080078,
+          "offset_multiplier": 1.0,
+          "text": " deoxeninas, que contienen el pigmento clorofila, se vuelven a la superficie de las células cloroplastas.\n\nLa clorofila es un pigmento que forma parte de la cloroplastas, las células orgánicas que contienen clorofila"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 3468,
+          "offset": 57.891868591308594,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nChlorophyll is a pigment that helps plants absorb light energy. When plants are exposed to sunlight, chlorophyll absorbs light energy and is converted into chemical energy. The chemical energy is then used by"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 8142,
+          "offset": 39.58894729614258,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nChlorophyll is a pigment that helps plants absorb light energy. When plants are exposed to sunlight, chlorophyll absorbs light energy and is converted into chemical energy. The energy is stored in the plant"
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 8590,
+          "offset": 91.81891632080078,
+          "offset_multiplier": 1.0,
+          "text": " a cocina de dos pisos.\n\nEste tipo de cocina es una opción de diseño de cocina que se ha popularizado en los últimos años.\n\nSi está buscando la forma de reorganizar su cocina, la cocina de dos pisos es una opción que vale"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 3468,
+          "offset": 57.891868591308594,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so you can find one that fits your needs. If you have a small kitchen"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 8142,
+          "offset": 39.58894729614258,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so you can find one that fits your needs. If you have a small kitchen"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 8590,
+          "offset": 91.81891632080078,
+          "offset_multiplier": 1.0,
+          "text": " que los datos de la climatología son obtenidos de los datos del clima. ¿Cuál es la diferencia entre el clima y el clima? ¿Cuál es la diferencia entre el clima y el clima? El clima es la influencia de los fenómenos atmosféricos en"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 3468,
+          "offset": 57.891868591308594,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular place and time and the climate is the average weather condition of the atmosphere of a place over a long period of time.\n\nThe average weather condition of the atmosphere of a place over a long period"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 8142,
+          "offset": 39.58894729614258,
+          "offset_multiplier": 1.0,
+          "text": " that weather is the condition of the atmosphere at a particular time and place while climate is the average of weather over a long period of time.\n\nWeather is the state of the atmosphere at a particular time and place, while climate is the average of weather"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/sae-english-to-spanish-layer20-b109694a09c9ae03.json",
+    "calibration_cache_hit": false,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + offset * unit_decoder_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "sae",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/spa-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "sae": {
+      "activation": "jumprelu",
+      "apply_b_dec_to_input": false,
+      "checkpoint": "layer_20/width_16k/average_l0_71/params.npz",
+      "checkpoint_format": "npz",
+      "feature_source": "encoder",
+      "hook_name_template": "model.layers.{layer}",
+      "layer_checkpoints": {
+        "0": "layer_0/width_16k/average_l0_25/params.npz",
+        "1": "layer_1/width_16k/average_l0_20/params.npz",
+        "10": "layer_10/width_16k/average_l0_39/params.npz",
+        "11": "layer_11/width_16k/average_l0_41/params.npz",
+        "12": "layer_12/width_16k/average_l0_41/params.npz",
+        "13": "layer_13/width_16k/average_l0_43/params.npz",
+        "14": "layer_14/width_16k/average_l0_43/params.npz",
+        "15": "layer_15/width_16k/average_l0_41/params.npz",
+        "16": "layer_16/width_16k/average_l0_42/params.npz",
+        "17": "layer_17/width_16k/average_l0_42/params.npz",
+        "18": "layer_18/width_16k/average_l0_40/params.npz",
+        "19": "layer_19/width_16k/average_l0_40/params.npz",
+        "2": "layer_2/width_16k/average_l0_24/params.npz",
+        "20": "layer_20/width_16k/average_l0_38/params.npz",
+        "21": "layer_21/width_16k/average_l0_38/params.npz",
+        "22": "layer_22/width_16k/average_l0_38/params.npz",
+        "23": "layer_23/width_16k/average_l0_38/params.npz",
+        "24": "layer_24/width_16k/average_l0_38/params.npz",
+        "25": "layer_25/width_16k/average_l0_28/params.npz",
+        "3": "layer_3/width_16k/average_l0_28/params.npz",
+        "4": "layer_4/width_16k/average_l0_31/params.npz",
+        "5": "layer_5/width_16k/average_l0_34/params.npz",
+        "6": "layer_6/width_16k/average_l0_36/params.npz",
+        "7": "layer_7/width_16k/average_l0_36/params.npz",
+        "8": "layer_8/width_16k/average_l0_37/params.npz",
+        "9": "layer_9/width_16k/average_l0_37/params.npz"
+      },
+      "layers": "all_transformer_layers",
+      "name": "Gemma Scope 2B residual width 16k",
+      "repo_id": "google/gemma-scope-2b-pt-res",
+      "revision": "fd571b47c1c64851e9b1989792367b9babb4af63",
+      "weights_file": "/home/liusida/hf_cache/hub/models--google--gemma-scope-2b-pt-res/snapshots/fd571b47c1c64851e9b1989792367b9babb4af63/layer_20/width_16k/average_l0_71/params.npz",
+      "width": 16384
+    },
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "Spanish",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}

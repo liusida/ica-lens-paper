@@ -1,0 +1,176 @@
+{
+  "candidates": [
+    {
+      "component": 145,
+      "offset": -23.330120086669922,
+      "rank": 0
+    },
+    {
+      "component": 105,
+      "offset": 5.684581756591797,
+      "rank": 1
+    },
+    {
+      "component": 581,
+      "offset": 4.41010856628418,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "japanese",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "ica-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 145,
+          "offset": -23.330120086669922,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to learn from data and perform tasks that人はできない。\n\nAIは、機械がデータを学習し、人はできないことをできるようになるため、重要な役割を果たしています。\n\nAIは、人の考えや行動を再現する"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 105,
+          "offset": 5.684581756591797,
+          "offset_multiplier": 1.0,
+          "text": " it makes the world more efficient. AI has been used in many different fields, from healthcare to finance, and it continues to be a valuable tool in many industries.\n\nThe most important thing about AI is that it can help us do things that would"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 581,
+          "offset": 4.41010856628418,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would otherwise require human intelligence.\n\nThis is a great question, and one that I’m sure many people have asked themselves at one point or another. The answer is that artificial intelligence is important because"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 145,
+          "offset": -23.330120086669922,
+          "offset_multiplier": 1.0,
+          "text": " of気候変化。\n\n秋は気候変化が原因で葉が色変わる。\n\nThe leaves change色秋に。\n\n秋は、葉が色変わる。\n\n葉が色変わる秋は、気候変化が原因だ"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 105,
+          "offset": 5.684581756591797,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nChlorophyll is a pigment that helps plants absorb sunlight and use it to make food.\n\nWhen chlorophyll breaks down, the plant's green color fades and the leaves change color.\n\n"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 581,
+          "offset": 4.41010856628418,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nChlorophyll is a pigment that helps plants absorb sunlight and use it to make food.\n\nWhen chlorophyll breaks down, the plant's green color fades and the leaves change color.\n\n"
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 145,
+          "offset": -23.330120086669922,
+          "offset_multiplier": 1.0,
+          "text": " to make use of vertical space. This is especially true for小さなキッチン、キッチンカウンター、キッチンカウンター、キッチンカウンター。\n\n<h2>How to Organize aSmall Kitchen</h2>\n\nThere are several ways to organize a small kitchen. The most important thing is to"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 105,
+          "offset": 5.684581756591797,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for food prep, as a work surface, or even as a place to store food. A small table can be used to store food in the kitchen. A small table can be used to"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 581,
+          "offset": 4.41010856628418,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 145,
+          "offset": -23.330120086669922,
+          "offset_multiplier": 1.0,
+          "text": " that weather is短lived、短時間的、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期集中、短期"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 105,
+          "offset": 5.684581756591797,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular time and place while the climate is the average weather conditions over a long period of time.\n\nThe weather of a particular place is dependent on the temperature and humidity. The weather of a place can"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 581,
+          "offset": 4.41010856628418,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular place and time and the climate is the average weather conditions over a long period of time.\n\nThe weather of a particular place is dependent on the temperature and humidity. The weather can change very quickly"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/ica-english-to-japanese-layer20-ee64d9190709583e.json",
+    "calibration_cache_hit": true,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + score_offset * ICA_writing_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/jpn-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "Japanese",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}

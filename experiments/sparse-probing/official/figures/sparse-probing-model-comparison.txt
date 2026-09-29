@@ -1,0 +1,1 @@
+SAEBench sparse-probing performance for GPT-2 Small, Gemma 2 2B, Qwen 3.5 9B Base. Curves average the completed evaluated layers for each model; panels marked partial exclude layers that are still running.

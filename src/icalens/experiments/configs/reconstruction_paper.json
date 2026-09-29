@@ -1,0 +1,47 @@
+{
+  "name": "paper",
+  "datasets": [
+    {"repo_id": "fancyzhx/ag_news", "split": "test", "text_column": "text"},
+    {"repo_id": "Salesforce/wikitext", "config": "wikitext-103-raw-v1", "split": "test", "text_column": "text"},
+    {
+      "repo_id": "codeparrot/github-code",
+      "loader": "parquet",
+      "data_files": "hf://datasets/codeparrot/github-code/data/train-00000-of-01126.parquet",
+      "split": "train",
+      "text_column": "content"
+    },
+    {
+      "repo_id": "wikimedia/wikipedia",
+      "config": "20231101.es",
+      "loader": "parquet",
+      "data_files": "hf://datasets/wikimedia/wikipedia/20231101.es/train-00012-of-00013.parquet",
+      "split": "train",
+      "text_column": "text",
+      "domain": "Spanish Wikipedia"
+    },
+    {
+      "repo_id": "wikimedia/wikipedia",
+      "config": "20231101.zh",
+      "loader": "parquet",
+      "data_files": "hf://datasets/wikimedia/wikipedia/20231101.zh/train-00002-of-00006.parquet",
+      "split": "train",
+      "text_column": "text",
+      "domain": "Chinese Wikipedia"
+    },
+    {
+      "repo_id": "HuggingFaceH4/ultrachat_200k",
+      "config": "test_sft",
+      "loader": "parquet",
+      "data_files": "hf://datasets/HuggingFaceH4/ultrachat_200k/data/test_sft-00000-of-00001-f7dfac4afe5b93f4.parquet",
+      "split": "train",
+      "text_column": "messages",
+      "format": "conversation",
+      "domain": "conversation"
+    }
+  ],
+  "max_tokens_per_dataset": 50000,
+  "context_length": 1024,
+  "batch_size": 4,
+  "k_values": [1, 3, 10, 32, 100, 300],
+  "seed": 42
+}

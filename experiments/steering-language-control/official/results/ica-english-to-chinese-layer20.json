@@ -1,0 +1,176 @@
+{
+  "candidates": [
+    {
+      "component": 105,
+      "offset": 21.422651290893555,
+      "rank": 0
+    },
+    {
+      "component": 581,
+      "offset": 5.019474506378174,
+      "rank": 1
+    },
+    {
+      "component": 75,
+      "offset": 4.669823169708252,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "chinese",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "ica-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 105,
+          "offset": 21.422651290893555,
+          "offset_multiplier": 1.0,
+          "text": "它可以提高效率，减少错误，并提高个人和企业对信息的可用性。它可以帮助我们解决许多问题，并使生活更轻松。\n\n人工智能可以帮助我们解决许多问题，例如提高效率，降低错误，并提高"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 5.019474506378174,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 75,
+          "offset": 4.669823169708252,
+          "offset_multiplier": 1.0,
+          "text": " it makes the world more efficient. AI has been used in many different fields, from medicine to finance, and it is continuing to be developed and improved. AI can be used for a variety of tasks, including data analysis, predictive modeling, and decision"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 105,
+          "offset": 21.422651290893555,
+          "offset_multiplier": 1.0,
+          "text": "它们从叶子上面的色素中去除色素。\n\nA。\n\nB。\n\nC。\n\nD。\n\nA。\n\nB。\n\nC。\n\nD。\n\nA。\n\nB。\n\nC。\n\nD。\n\nA。"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 5.019474506378174,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nChlorophyll is a pigment that helps plants absorb sunlight and use it to make food.\n\nWhen chlorophyll is broken down, it turns the green leaves into a variety of colors.\n\nThe"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 75,
+          "offset": 4.669823169708252,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the leaves fall,"
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 105,
+          "offset": 21.422651290893555,
+          "offset_multiplier": 1.0,
+          "text": " to use收放式小柜子。\n\n收放式小柜子可以收放各种物品，比如收放厨房用具、收放物品、收放家电等。\n\n收放式小柜子通常有两种形式"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 5.019474506378174,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 75,
+          "offset": 4.669823169708252,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 105,
+          "offset": 21.422651290893555,
+          "offset_multiplier": 1.0,
+          "text": "\n\nWhich of以下的是一个不正确的写法？\n\nWhich of以下的是一个不正确的写法？\n\nWhich of以下的是一个不正确的写法？\n\nWhich of以下的是一个不正确的写法？\n\nWhich of以下的是一个"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 581,
+          "offset": 5.019474506378174,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular place and time and the climate is the average weather conditions over a long period of time.\n\nThe weather of a particular place is dependent on the temperature and humidity. The weather can change very quickly"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 75,
+          "offset": 4.669823169708252,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular time and place while the climate is the average weather condition of the atmosphere over a long period of time.\n\nThe climate of a place is determined by the following factors:\n\n<strong>(1)"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/ica-english-to-chinese-layer20-3ebc2602bc634e1b.json",
+    "calibration_cache_hit": true,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + score_offset * ICA_writing_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/cmn-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "Chinese",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}

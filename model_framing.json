@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "policy_scope": "independent_pretraining_document",
+  "description": "Document-framing policies for raw-text fitting of base language models. Chat-model fitting uses the tokenizer's chat template and does not consult this registry.",
+  "models": {
+    "EleutherAI/pythia-70m": {
+      "document_framing": "prepend-eos",
+      "token_role": "eos",
+      "expected_token": "<|endoftext|>",
+      "evidence_url": "https://github.com/EleutherAI/pythia#exploring-the-dataset",
+      "evidence_note": "Pythia training documents are concatenated and separated by an EOD token."
+    },
+    "Qwen/Qwen3.5-2B-Base": {
+      "document_framing": "prepend-eos",
+      "token_role": "eos",
+      "expected_token": "<|endoftext|>",
+      "evidence_url": "https://qwen.readthedocs.io/en/latest/getting_started/concepts.html#control-tokens",
+      "evidence_note": "Qwen documents are separated by <|endoftext|> inside packed pretraining sequences."
+    },
+    "Qwen/Qwen3.5-35B-A3B-Base": {
+      "document_framing": "prepend-eos",
+      "token_role": "eos",
+      "expected_token": "<|endoftext|>",
+      "evidence_url": "https://qwen.readthedocs.io/en/latest/getting_started/concepts.html#control-tokens",
+      "evidence_note": "Qwen documents are separated by <|endoftext|> inside packed pretraining sequences."
+    },
+    "Qwen/Qwen3.5-9B-Base": {
+      "document_framing": "prepend-eos",
+      "token_role": "eos",
+      "expected_token": "<|endoftext|>",
+      "evidence_url": "https://qwen.readthedocs.io/en/latest/getting_started/concepts.html#control-tokens",
+      "evidence_note": "Qwen documents are separated by <|endoftext|> inside packed pretraining sequences."
+    },
+    "google/gemma-2-2b": {
+      "document_framing": "prepend-bos",
+      "token_role": "bos",
+      "expected_token": "<bos>",
+      "evidence_url": "https://huggingface.co/google/gemma-2-2b/blob/main/tokenizer_config.json",
+      "evidence_note": "The official tokenizer configuration enables add_bos_token and identifies <bos> as the BOS token."
+    },
+    "openai-community/gpt2": {
+      "document_framing": "prepend-eos",
+      "token_role": "eos",
+      "expected_token": "<|endoftext|>",
+      "evidence_url": "https://github.com/openai/gpt-2/blob/master/src/generate_unconditional_samples.py",
+      "evidence_note": "OpenAI starts unconditional generation—the beginning of a new document—from <|endoftext|>. Conditional prompts are encoded directly without this prefix; this policy applies specifically because each fitting row is treated as a fresh pretraining document."
+    }
+  }
+}

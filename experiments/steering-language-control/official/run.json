@@ -1,0 +1,95 @@
+{
+  "completed_at": "2026-09-02T14:36:18+08:00",
+  "icalens_source": {
+    "commit": "b9fe4654bcf644715e98db80e1b9c70adf55aaa1",
+    "dirty": false,
+    "git_available": true
+  },
+  "resolved": {
+    "batch_size": 32,
+    "corpora": {
+      "chinese": "https://www.manythings.org/anki/cmn-eng.zip",
+      "french": "https://www.manythings.org/anki/fra-eng.zip",
+      "japanese": "https://www.manythings.org/anki/jpn-eng.zip",
+      "spanish": "https://www.manythings.org/anki/spa-eng.zip"
+    },
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layers": [
+      20
+    ],
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "methods": [
+      "sae",
+      "ica"
+    ],
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "prompts": [
+      "Artificial intelligence is important because",
+      "Leaves change color in autumn because",
+      "A practical way to organize a small kitchen is",
+      "The difference between weather and climate is"
+    ],
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "sae_registry": {
+      "sae": {
+        "activation": "jumprelu",
+        "apply_b_dec_to_input": false,
+        "checkpoint_format": "npz",
+        "feature_source": "encoder",
+        "hook_name_template": "model.layers.{layer}",
+        "layer_checkpoints": {
+          "0": "layer_0/width_16k/average_l0_25/params.npz",
+          "1": "layer_1/width_16k/average_l0_20/params.npz",
+          "10": "layer_10/width_16k/average_l0_39/params.npz",
+          "11": "layer_11/width_16k/average_l0_41/params.npz",
+          "12": "layer_12/width_16k/average_l0_41/params.npz",
+          "13": "layer_13/width_16k/average_l0_43/params.npz",
+          "14": "layer_14/width_16k/average_l0_43/params.npz",
+          "15": "layer_15/width_16k/average_l0_41/params.npz",
+          "16": "layer_16/width_16k/average_l0_42/params.npz",
+          "17": "layer_17/width_16k/average_l0_42/params.npz",
+          "18": "layer_18/width_16k/average_l0_40/params.npz",
+          "19": "layer_19/width_16k/average_l0_40/params.npz",
+          "2": "layer_2/width_16k/average_l0_24/params.npz",
+          "20": "layer_20/width_16k/average_l0_38/params.npz",
+          "21": "layer_21/width_16k/average_l0_38/params.npz",
+          "22": "layer_22/width_16k/average_l0_38/params.npz",
+          "23": "layer_23/width_16k/average_l0_38/params.npz",
+          "24": "layer_24/width_16k/average_l0_38/params.npz",
+          "25": "layer_25/width_16k/average_l0_28/params.npz",
+          "3": "layer_3/width_16k/average_l0_28/params.npz",
+          "4": "layer_4/width_16k/average_l0_31/params.npz",
+          "5": "layer_5/width_16k/average_l0_34/params.npz",
+          "6": "layer_6/width_16k/average_l0_36/params.npz",
+          "7": "layer_7/width_16k/average_l0_36/params.npz",
+          "8": "layer_8/width_16k/average_l0_37/params.npz",
+          "9": "layer_9/width_16k/average_l0_37/params.npz"
+        },
+        "layers": "all_transformer_layers",
+        "name": "Gemma Scope 2B residual width 16k",
+        "repo_id": "google/gemma-scope-2b-pt-res",
+        "revision": "fd571b47c1c64851e9b1989792367b9babb4af63",
+        "width": 16384
+      }
+    },
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_languages": [
+      "chinese",
+      "french",
+      "japanese",
+      "spanish"
+    ],
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "started_at": "2026-09-02T14:32:35+08:00",
+  "status": "complete"
+}

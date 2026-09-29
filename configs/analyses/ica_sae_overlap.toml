@@ -1,3 +1,0 @@
-[overlap]
-nearest_metric = "maximum_absolute_cosine"
-top_k = 1

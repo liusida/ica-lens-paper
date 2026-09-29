@@ -1,0 +1,218 @@
+{
+  "candidates": [
+    {
+      "feature": 6360,
+      "offset": 83.79581451416016,
+      "rank": 0
+    },
+    {
+      "feature": 2674,
+      "offset": 36.8323974609375,
+      "rank": 1
+    },
+    {
+      "feature": 6420,
+      "offset": 35.54124069213867,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "sae",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "chinese",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "sae-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 6360,
+          "offset": 83.79581451416016,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to学习，思考和做出决策。人工智能技术可以被应用于各种不同的领域，包括医疗保健，农业，能源和环境等。人工智能可以帮助人类解决一些棘手的问题，包括疾病的诊断和"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 2674,
+          "offset": 36.8323974609375,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 6420,
+          "offset": 35.54124069213867,
+          "offset_multiplier": 1.0,
+          "text": " it makes the world more efficient. AI has been used in many different fields, from healthcare to finance, and it has helped to make the world a better place.\n\nThe role of AI in the world has been growing rapidly in the last few years"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 6360,
+          "offset": 83.79581451416016,
+          "offset_multiplier": 1.0,
+          "text": "它们被阳光吸收。\n\n秋天，树叶在阳光中吸收了大量光能，因此，它们会变红。\n\n叶子变颜色是因为它们被光能吸收了太多。\n\n叶子变颜色是因为它们被光能吸收了"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 2674,
+          "offset": 36.8323974609375,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nDuring the summer, plants use chlorophyll to convert light energy into usable energy for growth.\n\nWhen autumn arrives, the days get shorter and it becomes colder.\n\nThis causes the plant to"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 6420,
+          "offset": 35.54124069213867,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the leaves fall,"
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 6360,
+          "offset": 83.79581451416016,
+          "offset_multiplier": 1.0,
+          "text": " to use收纳柜。\n\n收纳柜可有效节省空间，同时又能让厨房整洁有序。\n\n收纳柜有很多种形式，比如柜子、抽屉、搁板等。\n\n收纳柜可以存放各种厨房"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 2674,
+          "offset": 36.8323974609375,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs and space.\n\n"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 6420,
+          "offset": 35.54124069213867,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for food prep, as a work surface, or even as a dining table.\n\nIf you are looking for a small kitchen table, then you have come to the right place. We have"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 6360,
+          "offset": 83.79581451416016,
+          "offset_multiplier": 1.0,
+          "text": " that weather is短时间内的气候变化，而气候是长期变化。气候是天气长期变化的结果，而天气是气候短时间变化的结果。\n\n气候变化是指气候在一定时间范围内的变化。气候变化包括温度、湿度、"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 2674,
+          "offset": 36.8323974609375,
+          "offset_multiplier": 1.0,
+          "text": " that weather is the condition of the atmosphere at a particular time and place, while climate is the average weather conditions over a long period of time.\n\nClimate is the average weather conditions over a long period of time.\n\nClimate is the average weather conditions"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 6420,
+          "offset": 35.54124069213867,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the short term condition of the atmosphere while climate is the long term condition of the atmosphere.\n\nWeather is the short term condition of the atmosphere and climate is the long term condition of the atmosphere.\n\nWeather is the short term condition of"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/sae-english-to-chinese-layer20-3b258dbdde0ed6b0.json",
+    "calibration_cache_hit": false,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + offset * unit_decoder_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "sae",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/cmn-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "sae": {
+      "activation": "jumprelu",
+      "apply_b_dec_to_input": false,
+      "checkpoint": "layer_20/width_16k/average_l0_71/params.npz",
+      "checkpoint_format": "npz",
+      "feature_source": "encoder",
+      "hook_name_template": "model.layers.{layer}",
+      "layer_checkpoints": {
+        "0": "layer_0/width_16k/average_l0_25/params.npz",
+        "1": "layer_1/width_16k/average_l0_20/params.npz",
+        "10": "layer_10/width_16k/average_l0_39/params.npz",
+        "11": "layer_11/width_16k/average_l0_41/params.npz",
+        "12": "layer_12/width_16k/average_l0_41/params.npz",
+        "13": "layer_13/width_16k/average_l0_43/params.npz",
+        "14": "layer_14/width_16k/average_l0_43/params.npz",
+        "15": "layer_15/width_16k/average_l0_41/params.npz",
+        "16": "layer_16/width_16k/average_l0_42/params.npz",
+        "17": "layer_17/width_16k/average_l0_42/params.npz",
+        "18": "layer_18/width_16k/average_l0_40/params.npz",
+        "19": "layer_19/width_16k/average_l0_40/params.npz",
+        "2": "layer_2/width_16k/average_l0_24/params.npz",
+        "20": "layer_20/width_16k/average_l0_38/params.npz",
+        "21": "layer_21/width_16k/average_l0_38/params.npz",
+        "22": "layer_22/width_16k/average_l0_38/params.npz",
+        "23": "layer_23/width_16k/average_l0_38/params.npz",
+        "24": "layer_24/width_16k/average_l0_38/params.npz",
+        "25": "layer_25/width_16k/average_l0_28/params.npz",
+        "3": "layer_3/width_16k/average_l0_28/params.npz",
+        "4": "layer_4/width_16k/average_l0_31/params.npz",
+        "5": "layer_5/width_16k/average_l0_34/params.npz",
+        "6": "layer_6/width_16k/average_l0_36/params.npz",
+        "7": "layer_7/width_16k/average_l0_36/params.npz",
+        "8": "layer_8/width_16k/average_l0_37/params.npz",
+        "9": "layer_9/width_16k/average_l0_37/params.npz"
+      },
+      "layers": "all_transformer_layers",
+      "name": "Gemma Scope 2B residual width 16k",
+      "repo_id": "google/gemma-scope-2b-pt-res",
+      "revision": "fd571b47c1c64851e9b1989792367b9babb4af63",
+      "weights_file": "/home/liusida/hf_cache/hub/models--google--gemma-scope-2b-pt-res/snapshots/fd571b47c1c64851e9b1989792367b9babb4af63/layer_20/width_16k/average_l0_71/params.npz",
+      "width": 16384
+    },
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "Chinese",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}

@@ -1,0 +1,392 @@
+{
+  "layer": 0,
+  "directions": {
+    "A": "seeded dense random unit direction",
+    "B": "centered activation direction of one related token",
+    "C": "unit mean of 20 centered related-token activations",
+    "D": "fitted ICA direction scores",
+    "E": "unit mean of 20 centered random-token activations"
+  },
+  "statistics": {
+    "A": {
+      "excess_kurtosis": 0.19980263239026907,
+      "skewness": 0.05579681517505982,
+      "jarque_bera": 109.6716381326115,
+      "jarque_bera_p": 1.5314625066751404e-24
+    },
+    "B": {
+      "excess_kurtosis": 2.985564076265672,
+      "skewness": 0.4549635730726771,
+      "jarque_bera": 20398.827194449997,
+      "jarque_bera_p": 0.0
+    },
+    "C": {
+      "excess_kurtosis": 3.0274662135387826,
+      "skewness": 0.5890777154756518,
+      "jarque_bera": 22099.242365196107,
+      "jarque_bera_p": 0.0
+    },
+    "E": {
+      "excess_kurtosis": 0.31321056635539124,
+      "skewness": -0.17747433671129972,
+      "jarque_bera": 469.24324472852226,
+      "jarque_bera_p": 1.2738669554599422e-102
+    },
+    "D": {
+      "excess_kurtosis": 252.00365431229093,
+      "skewness": 8.497596979863236,
+      "jarque_bera": 133586056.57897557,
+      "jarque_bera_p": 0.0
+    }
+  },
+  "direction_b": {
+    "target": {
+      "index": 50245,
+      "token_id": 31336,
+      "token": "either",
+      "role": "concept",
+      "source_index": 31336,
+      "label": "C10"
+    },
+    "nearest_token": {
+      "index": 50239,
+      "token_id": 2035,
+      "token": " either",
+      "role": "concept",
+      "source_index": 2035,
+      "label": "C4"
+    },
+    "nearest_cosine_similarity": 0.8873640598368748
+  },
+  "direction_c_tokens": [
+    {
+      "index": 50236,
+      "token_id": 27270,
+      "token": "Neither",
+      "role": "concept",
+      "source_index": 27270,
+      "label": "C1"
+    },
+    {
+      "index": 50237,
+      "token_id": 6159,
+      "token": " neither",
+      "role": "concept",
+      "source_index": 6159,
+      "label": "C2"
+    },
+    {
+      "index": 50238,
+      "token_id": 16126,
+      "token": " Neither",
+      "role": "concept",
+      "source_index": 16126,
+      "label": "C3"
+    },
+    {
+      "index": 50239,
+      "token_id": 2035,
+      "token": " either",
+      "role": "concept",
+      "source_index": 2035,
+      "label": "C4"
+    },
+    {
+      "index": 50240,
+      "token_id": 15467,
+      "token": " Either",
+      "role": "concept",
+      "source_index": 15467,
+      "label": "C5"
+    },
+    {
+      "index": 50241,
+      "token_id": 5747,
+      "token": " Both",
+      "role": "concept",
+      "source_index": 5747,
+      "label": "C6"
+    },
+    {
+      "index": 50242,
+      "token_id": 10265,
+      "token": "Both",
+      "role": "concept",
+      "source_index": 10265,
+      "label": "C7"
+    },
+    {
+      "index": 50243,
+      "token_id": 32478,
+      "token": "Either",
+      "role": "concept",
+      "source_index": 32478,
+      "label": "C8"
+    },
+    {
+      "index": 50244,
+      "token_id": 1111,
+      "token": " both",
+      "role": "concept",
+      "source_index": 1111,
+      "label": "C9"
+    },
+    {
+      "index": 50245,
+      "token_id": 31336,
+      "token": "either",
+      "role": "concept",
+      "source_index": 31336,
+      "label": "C10"
+    },
+    {
+      "index": 50246,
+      "token_id": 16885,
+      "token": "both",
+      "role": "concept",
+      "source_index": 16885,
+      "label": "C11"
+    },
+    {
+      "index": 50247,
+      "token_id": 26946,
+      "token": "OTH",
+      "role": "concept",
+      "source_index": 26946,
+      "label": "C12"
+    },
+    {
+      "index": 50248,
+      "token_id": 1555,
+      "token": "ither",
+      "role": "concept",
+      "source_index": 1555,
+      "label": "C13"
+    },
+    {
+      "index": 50249,
+      "token_id": 23395,
+      "token": "between",
+      "role": "concept",
+      "source_index": 23395,
+      "label": "C14"
+    },
+    {
+      "index": 50250,
+      "token_id": 14307,
+      "token": " Between",
+      "role": "concept",
+      "source_index": 14307,
+      "label": "C15"
+    },
+    {
+      "index": 50251,
+      "token_id": 1022,
+      "token": " between",
+      "role": "concept",
+      "source_index": 1022,
+      "label": "C16"
+    },
+    {
+      "index": 50252,
+      "token_id": 25262,
+      "token": "Between",
+      "role": "concept",
+      "source_index": 25262,
+      "label": "C17"
+    },
+    {
+      "index": 50253,
+      "token_id": 975,
+      "token": "ween",
+      "role": "concept",
+      "source_index": 975,
+      "label": "C18"
+    },
+    {
+      "index": 50254,
+      "token_id": 6846,
+      "token": " latter",
+      "role": "concept",
+      "source_index": 6846,
+      "label": "C19"
+    },
+    {
+      "index": 50255,
+      "token_id": 8148,
+      "token": " respectively",
+      "role": "concept",
+      "source_index": 8148,
+      "label": "C20"
+    }
+  ],
+  "direction_e_tokens": [
+    {
+      "index": 12688,
+      "token_id": 34695,
+      "token": "Present",
+      "role": "background",
+      "source_index": 34695,
+      "label": null
+    },
+    {
+      "index": 37030,
+      "token_id": 37400,
+      "token": " Ning",
+      "role": "background",
+      "source_index": 37400,
+      "label": null
+    },
+    {
+      "index": 6303,
+      "token_id": 26526,
+      "token": " knowingly",
+      "role": "background",
+      "source_index": 26526,
+      "label": null
+    },
+    {
+      "index": 24658,
+      "token_id": 21382,
+      "token": " cher",
+      "role": "background",
+      "source_index": 21382,
+      "label": null
+    },
+    {
+      "index": 42383,
+      "token_id": 25881,
+      "token": "Kat",
+      "role": "background",
+      "source_index": 25881,
+      "label": null
+    },
+    {
+      "index": 2686,
+      "token_id": 1958,
+      "token": "ify",
+      "role": "background",
+      "source_index": 1958,
+      "label": null
+    },
+    {
+      "index": 39733,
+      "token_id": 50020,
+      "token": " giveaways",
+      "role": "background",
+      "source_index": 50020,
+      "label": null
+    },
+    {
+      "index": 28376,
+      "token_id": 22658,
+      "token": "Store",
+      "role": "background",
+      "source_index": 22658,
+      "label": null
+    },
+    {
+      "index": 23977,
+      "token_id": 38807,
+      "token": " Width",
+      "role": "background",
+      "source_index": 38807,
+      "label": null
+    },
+    {
+      "index": 31825,
+      "token_id": 2939,
+      "token": " image",
+      "role": "background",
+      "source_index": 2939,
+      "label": null
+    },
+    {
+      "index": 11679,
+      "token_id": 19386,
+      "token": " integrate",
+      "role": "background",
+      "source_index": 19386,
+      "label": null
+    },
+    {
+      "index": 11127,
+      "token_id": 24345,
+      "token": " honesty",
+      "role": "background",
+      "source_index": 24345,
+      "label": null
+    },
+    {
+      "index": 40688,
+      "token_id": 13203,
+      "token": " inevitable",
+      "role": "background",
+      "source_index": 13203,
+      "label": null
+    },
+    {
+      "index": 27400,
+      "token_id": 31763,
+      "token": "gear",
+      "role": "background",
+      "source_index": 31763,
+      "label": null
+    },
+    {
+      "index": 5284,
+      "token_id": 8747,
+      "token": " violation",
+      "role": "background",
+      "source_index": 8747,
+      "label": null
+    },
+    {
+      "index": 8541,
+      "token_id": 33924,
+      "token": "?),",
+      "role": "background",
+      "source_index": 33924,
+      "label": null
+    },
+    {
+      "index": 18772,
+      "token_id": 13902,
+      "token": " transparency",
+      "role": "background",
+      "source_index": 13902,
+      "label": null
+    },
+    {
+      "index": 43243,
+      "token_id": 38990,
+      "token": " Bravo",
+      "role": "background",
+      "source_index": 38990,
+      "label": null
+    },
+    {
+      "index": 19720,
+      "token_id": 26371,
+      "token": " lar",
+      "role": "background",
+      "source_index": 26371,
+      "label": null
+    },
+    {
+      "index": 40951,
+      "token_id": 21230,
+      "token": "safe",
+      "role": "background",
+      "source_index": 21230,
+      "label": null
+    }
+  ],
+  "coherence": {
+    "concept_mean_pairwise_cosine": 0.4740987036050221,
+    "random_mean_pairwise_cosine": 0.009433253204874368,
+    "concept_split_half_angle_degrees": 43.11875490696063,
+    "random_split_half_angle_degrees": 88.84430329477088
+  },
+  "note": "Every direction is evaluated over the full token set."
+}

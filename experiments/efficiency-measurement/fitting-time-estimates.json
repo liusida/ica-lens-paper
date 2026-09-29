@@ -1,0 +1,18 @@
+{
+  "unit": "minutes_per_layer",
+  "models": {
+    "gpt2": {
+      "ica": {"lower": 0.9175107338165011, "upper": 0.9177965604666194}
+    },
+    "gemma2": {
+      "ica": {"lower": 5.510252288566698, "upper": 5.568609525750071}
+    },
+    "qwen9b": {
+      "ica": {"lower": 12.188660109800063, "upper": 13.13438327603338}
+    }
+  },
+  "basis": {
+    "ica": "Observed wall-time range across two complete 1M-token, 50-iteration layer fits per model on this machine.",
+    "sae": "Not plotted: the selected public releases do not report comparable checkpoint-specific per-layer wall times."
+  }
+}

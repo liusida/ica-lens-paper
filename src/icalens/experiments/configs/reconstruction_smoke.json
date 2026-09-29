@@ -1,0 +1,11 @@
+{
+  "name": "smoke",
+  "datasets": [
+    {"repo_id": "fancyzhx/ag_news", "split": "test", "text_column": "text"}
+  ],
+  "max_tokens_per_dataset": 2000,
+  "context_length": 128,
+  "batch_size": 8,
+  "k_values": [1, 3, 10, 32, 100],
+  "seed": 42
+}

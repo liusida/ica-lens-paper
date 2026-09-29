@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "models": {
+    "openai-community/gpt2": {
+      "sae": {
+        "name": "GPT2-Small OAI v5 32k",
+        "repo_id": "jbloom/GPT2-Small-OAI-v5-32k-resid-post-SAEs",
+        "revision": "21df74db7b9f690cd2403a20485cf75f46330d0d",
+        "checkpoint_template": "v5_32k_layer_{layer}.pt/sae_weights.safetensors",
+        "checkpoint_format": "safetensors",
+        "hook_name_template": "blocks.{layer}.hook_resid_post",
+        "layers": "all_transformer_layers",
+        "width": 32768,
+        "feature_source": "encoder",
+        "activation": "topk",
+        "top_k": 32,
+        "normalize_activations": "layer_norm",
+        "apply_b_dec_to_input": true
+      },
+      "pca": {
+        "name": "PCA",
+        "components": "model_hidden_size",
+        "preprocessing": "match_ica_lens",
+        "feature_sides": "one_signed_coordinate",
+        "fit_source": "derived_from_full_rank_ica_whitening"
+      }
+    },
+    "google/gemma-2-2b": {
+      "sae": {
+        "name": "Gemma Scope 2B residual width 16k",
+        "repo_id": "google/gemma-scope-2b-pt-res",
+        "revision": "fd571b47c1c64851e9b1989792367b9babb4af63",
+        "checkpoint_format": "npz",
+        "hook_name_template": "model.layers.{layer}",
+        "layers": "all_transformer_layers",
+        "width": 16384,
+        "feature_source": "encoder",
+        "activation": "jumprelu",
+        "apply_b_dec_to_input": false,
+        "layer_checkpoints": {
+          "0": "layer_0/width_16k/average_l0_25/params.npz",
+          "1": "layer_1/width_16k/average_l0_20/params.npz",
+          "2": "layer_2/width_16k/average_l0_24/params.npz",
+          "3": "layer_3/width_16k/average_l0_28/params.npz",
+          "4": "layer_4/width_16k/average_l0_31/params.npz",
+          "5": "layer_5/width_16k/average_l0_34/params.npz",
+          "6": "layer_6/width_16k/average_l0_36/params.npz",
+          "7": "layer_7/width_16k/average_l0_36/params.npz",
+          "8": "layer_8/width_16k/average_l0_37/params.npz",
+          "9": "layer_9/width_16k/average_l0_37/params.npz",
+          "10": "layer_10/width_16k/average_l0_39/params.npz",
+          "11": "layer_11/width_16k/average_l0_41/params.npz",
+          "12": "layer_12/width_16k/average_l0_41/params.npz",
+          "13": "layer_13/width_16k/average_l0_43/params.npz",
+          "14": "layer_14/width_16k/average_l0_43/params.npz",
+          "15": "layer_15/width_16k/average_l0_41/params.npz",
+          "16": "layer_16/width_16k/average_l0_42/params.npz",
+          "17": "layer_17/width_16k/average_l0_42/params.npz",
+          "18": "layer_18/width_16k/average_l0_40/params.npz",
+          "19": "layer_19/width_16k/average_l0_40/params.npz",
+          "20": "layer_20/width_16k/average_l0_38/params.npz",
+          "21": "layer_21/width_16k/average_l0_38/params.npz",
+          "22": "layer_22/width_16k/average_l0_38/params.npz",
+          "23": "layer_23/width_16k/average_l0_38/params.npz",
+          "24": "layer_24/width_16k/average_l0_38/params.npz",
+          "25": "layer_25/width_16k/average_l0_28/params.npz"
+        }
+      },
+      "pca": {
+        "name": "PCA",
+        "components": "model_hidden_size",
+        "preprocessing": "match_ica_lens",
+        "feature_sides": "one_signed_coordinate",
+        "fit_source": "derived_from_full_rank_ica_whitening"
+      }
+    },
+    "Qwen/Qwen3.5-9B-Base": {
+      "sae": {
+        "name": "Qwen Scope 3.5 9B residual width 64k TopK-50",
+        "repo_id": "Qwen/SAE-Res-Qwen3.5-9B-Base-W64K-L0_50",
+        "revision": "7bb2370d360e566b2d8acb8b3d15a0b2b88f52a8",
+        "checkpoint_template": "layer{layer}.sae.pt",
+        "checkpoint_format": "torch",
+        "hook_name_template": "model.layers.{layer}",
+        "layers": "all_transformer_layers",
+        "width": 65536,
+        "feature_source": "encoder",
+        "activation": "topk",
+        "top_k": 50,
+        "apply_b_dec_to_input": false
+      },
+      "pca": {
+        "name": "PCA",
+        "components": "model_hidden_size",
+        "preprocessing": "match_ica_lens",
+        "feature_sides": "one_signed_coordinate",
+        "fit_source": "derived_from_full_rank_ica_whitening"
+      }
+    }
+  }
+}

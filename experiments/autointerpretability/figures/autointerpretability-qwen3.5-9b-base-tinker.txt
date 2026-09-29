@@ -1,0 +1,15 @@
+Autointerpretability comparison. Points are finite per-feature Pearson
+correlations over five held-out top-activating and five random fragments.
+Large markers show means; error bars are deterministic feature-level bootstrap
+95% intervals (10,000 resamples). Faint markers show individual features.
+
+panel	layer	method	defined/selected	mean	bootstrap_95_low	bootstrap_95_high
+# Qwen 3.5 9B Base: tinker · thinkingmachines/Inkling → Qwen/Qwen3.8-27B
+Qwen 3.5 9B Base	7	ICA	150/150	0.464933	0.422873	0.506320
+Qwen 3.5 9B Base	7	SAE	150/150	0.452995	0.408025	0.499186
+Qwen 3.5 9B Base	15	ICA	150/150	0.210290	0.172694	0.249606
+Qwen 3.5 9B Base	15	SAE	150/150	0.289760	0.246493	0.333592
+Qwen 3.5 9B Base	23	ICA	150/150	0.449267	0.403595	0.494086
+Qwen 3.5 9B Base	23	SAE	150/150	0.353700	0.314473	0.394122
+Qwen 3.5 9B Base	31	ICA	150/150	0.335925	0.291082	0.380652
+Qwen 3.5 9B Base	31	SAE	150/150	0.303898	0.259083	0.350512

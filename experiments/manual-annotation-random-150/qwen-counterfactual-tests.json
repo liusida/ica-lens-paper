@@ -1,0 +1,147 @@
+{
+  "format": "icalens.manual_annotation_counterfactual_tests",
+  "schema_version": 1,
+  "model": "qwen3.5-9b",
+  "components": [
+    {
+      "layer": 1,
+      "component": 3036,
+      "label": "Do something / nothing",
+      "dominant_sign": "negative",
+      "tests": [
+        {
+          "expected": "activate",
+          "prompt": "The committee did nothing to prevent the closure.",
+          "target": "nothing"
+        },
+        {
+          "expected": "activate",
+          "prompt": "Please do something to fix the broken lock.",
+          "target": "something"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "The committee knew about the closure.",
+          "target": "knew"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "Please use a wrench to fix the broken lock.",
+          "target": "wrench"
+        }
+      ]
+    },
+    {
+      "layer": 9,
+      "component": 2175,
+      "label": "Children’s / preschool educational content",
+      "dominant_sign": "negative",
+      "tests": [
+        {
+          "expected": "activate",
+          "prompt": "Designed for preschoolers learning colors, this is a picture book.",
+          "target": "book"
+        },
+        {
+          "expected": "activate",
+          "prompt": "A cheerful alphabet song teaches young children their ABC.",
+          "target": "ABC"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "Designed for graduate engineers studying thermodynamics, this is a reference book.",
+          "target": "book"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "The television affiliate announced a change to its ABC schedule.",
+          "target": "ABC"
+        }
+      ]
+    },
+    {
+      "layer": 19,
+      "component": 146,
+      "label": "Italian / Italy-related context",
+      "dominant_sign": "positive",
+      "tests": [
+        {
+          "expected": "activate",
+          "prompt": "Rome, Milan, and Naples are cities in Italy.",
+          "target": "Italy"
+        },
+        {
+          "expected": "activate",
+          "prompt": "She ordered pasta and espresso while traveling through Italy.",
+          "target": "Italy"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "Beijing, Shanghai, and Guangzhou are cities in China.",
+          "target": "China"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "She ordered sushi and tea while traveling through Japan.",
+          "target": "Japan"
+        }
+      ]
+    },
+    {
+      "layer": 25,
+      "component": 1260,
+      "label": "Maryland / Baltimore",
+      "dominant_sign": "positive",
+      "tests": [
+        {
+          "expected": "activate",
+          "prompt": "The court issued its ruling under the laws of Maryland.",
+          "target": "Maryland"
+        },
+        {
+          "expected": "activate",
+          "prompt": "After leaving Annapolis, the train continued toward Baltimore.",
+          "target": "Baltimore"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "The court issued its ruling under the laws of California.",
+          "target": "California"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "After leaving Providence, the train continued toward Boston.",
+          "target": "Boston"
+        }
+      ]
+    },
+    {
+      "layer": 26,
+      "component": 1210,
+      "label": "Deep-learning framework/model",
+      "dominant_sign": "positive",
+      "tests": [
+        {
+          "expected": "activate",
+          "prompt": "Built with PyTorch, the classifier is a deep-learning model.",
+          "target": "model"
+        },
+        {
+          "expected": "activate",
+          "prompt": "Using TensorFlow, we trained a convolutional neural network.",
+          "target": "network"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "Built from cardboard, the display is an architectural model.",
+          "target": "model"
+        },
+        {
+          "expected": "not_activate",
+          "prompt": "Using fiber optics, the offices share a communication network.",
+          "target": "network"
+        }
+      ]
+    }
+  ]
+}

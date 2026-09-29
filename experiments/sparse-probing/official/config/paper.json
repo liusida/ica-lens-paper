@@ -1,0 +1,21 @@
+{
+  "name": "paper",
+  "datasets": [
+    "LabHC/bias_in_bios_class_set1",
+    "LabHC/bias_in_bios_class_set2",
+    "LabHC/bias_in_bios_class_set3",
+    "canrager/amazon_reviews_mcauley_1and5",
+    "canrager/amazon_reviews_mcauley_1and5_sentiment",
+    "codeparrot/github-code",
+    "fancyzhx/ag_news",
+    "Helsinki-NLP/europarl"
+  ],
+  "k_values": [1, 2, 5, 10, 20, 50, 100],
+  "probe_train_size": 4000,
+  "probe_test_size": 1000,
+  "context_length": 128,
+  "random_seed": 42,
+  "llm_batch_size": 1,
+  "sae_batch_size": 125,
+  "llm_dtype": "float32"
+}

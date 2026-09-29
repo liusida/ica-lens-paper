@@ -1,0 +1,908 @@
+{
+  "gpt2": [
+    {
+      "layer": 0,
+      "component": 421,
+      "label": "Key",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 459,
+      "label": "Full",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 524,
+      "label": "Personal",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 642,
+      "label": "Light",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 191,
+      "label": "5",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 284,
+      "label": "Accented Latin characters",
+      "confidence": 4
+    },
+    {
+      "layer": 2,
+      "component": 46,
+      "label": "First token after <|endoftext|>",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 61,
+      "label": "’",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 393,
+      "label": "Contact relative clause / omitted “that”",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 409,
+      "label": "Christ",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 455,
+      "label": "Item",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 650,
+      "label": "Include",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 728,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 4,
+      "component": 32,
+      "label": "Be",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 103,
+      "label": "Numerations/lists",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 66,
+      "label": "He",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 312,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 5,
+      "component": 333,
+      "label": "Studies",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 482,
+      "label": "Post-{ newline",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 598,
+      "label": "Pre",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 751,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 6,
+      "component": 159,
+      "label": "://",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 174,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 7,
+      "component": 215,
+      "label": "Combining, Interaction",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 222,
+      "label": "Been",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 347,
+      "label": "Name",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 380,
+      "label": "Post-colon newline",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 395,
+      "label": "Sentence-ending period",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 422,
+      "label": "Repeated variable in later polynomial term",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 452,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 7,
+      "component": 467,
+      "label": "Repeated math questions",
+      "confidence": 1
+    },
+    {
+      "layer": 7,
+      "component": 625,
+      "label": "//",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 628,
+      "label": "Prefix non-",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 757,
+      "label": "Post-URL for details or name a few",
+      "confidence": 1
+    },
+    {
+      "layer": 8,
+      "component": 152,
+      "label": "Post-quote reporting verb",
+      "confidence": 5
+    },
+    {
+      "layer": 8,
+      "component": 396,
+      "label": "Programming/API specification language",
+      "confidence": 5
+    },
+    {
+      "layer": 8,
+      "component": 743,
+      "label": "Mr",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 56,
+      "label": "Do/does",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 119,
+      "label": "Japanese language",
+      "confidence": 4
+    },
+    {
+      "layer": 9,
+      "component": 464,
+      "label": "Group/list",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 619,
+      "label": "Way/approach descriptor",
+      "confidence": 4
+    },
+    {
+      "layer": 9,
+      "component": 730,
+      "label": "Who",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 294,
+      "label": "Suffix comp-",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 307,
+      "label": "Opening parentheses in code",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 445,
+      "label": "Expecting a temporal-duration phrase",
+      "confidence": 4
+    },
+    {
+      "layer": 10,
+      "component": 446,
+      "label": "Opening quotation mark",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 493,
+      "label": "Occupational title or official role",
+      "confidence": 5
+    },
+    {
+      "layer": 11,
+      "component": 243,
+      "label": "Expecting letter D but need more conditions",
+      "confidence": 3
+    },
+    {
+      "layer": 11,
+      "component": 593,
+      "label": "Official agency or department",
+      "confidence": 4
+    },
+    {
+      "layer": 11,
+      "component": 752,
+      "label": "?",
+      "confidence": 0
+    }
+  ],
+  "gemma-2-2b": [
+    {
+      "layer": 0,
+      "component": 603,
+      "label": "Pressure",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 761,
+      "label": "3rd-person singular present verb",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 1423,
+      "label": "Australian",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 1290,
+      "label": "Word related to diagnose",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 2180,
+      "label": "Super",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 1994,
+      "label": "Long underscore separator",
+      "confidence": 3
+    },
+    {
+      "layer": 3,
+      "component": 2037,
+      "label": "Substring tab or cat",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 271,
+      "label": "Why",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 494,
+      "label": "Programming errors / exceptions",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 1229,
+      "label": "Letter Q",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 1372,
+      "label": "Check",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 2205,
+      "label": "Fast",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 1839,
+      "label": "U.S. Supreme Court case citation",
+      "confidence": 4
+    },
+    {
+      "layer": 6,
+      "component": 1503,
+      "label": "Definitional statement",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 2082,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 7,
+      "component": 39,
+      "label": "Post-Soviet context",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 878,
+      "label": "Code syntax class=\"",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 1016,
+      "label": "Because of, a cause/reason expression",
+      "confidence": 5
+    },
+    {
+      "layer": 8,
+      "component": 138,
+      "label": "Previously introduced unfamiliar proper noun",
+      "confidence": 4
+    },
+    {
+      "layer": 10,
+      "component": 834,
+      "label": "Website/E-mail domain name",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 2197,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 12,
+      "component": 790,
+      "label": "Month-day in date",
+      "confidence": 4
+    },
+    {
+      "layer": 12,
+      "component": 1615,
+      "label": "PHP web-development",
+      "confidence": 5
+    },
+    {
+      "layer": 12,
+      "component": 2205,
+      "label": "Digit in document-initial Federal Reporter citation",
+      "confidence": 2
+    },
+    {
+      "layer": 12,
+      "component": 2262,
+      "label": "Long divider",
+      "confidence": 1
+    },
+    {
+      "layer": 13,
+      "component": 210,
+      "label": "Toy/example code",
+      "confidence": 5
+    },
+    {
+      "layer": 13,
+      "component": 528,
+      "label": "So",
+      "confidence": 5
+    },
+    {
+      "layer": 14,
+      "component": 211,
+      "label": "Second token position",
+      "confidence": 4
+    },
+    {
+      "layer": 14,
+      "component": 1109,
+      "label": "Data schema / field type definition",
+      "confidence": 5
+    },
+    {
+      "layer": 14,
+      "component": 1846,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 14,
+      "component": 1937,
+      "label": "Conditional compilation in C/C++ and other languages",
+      "confidence": 3
+    },
+    {
+      "layer": 15,
+      "component": 1900,
+      "label": "Present",
+      "confidence": 5
+    },
+    {
+      "layer": 18,
+      "component": 1304,
+      "label": "Nuclear medicine imaging",
+      "confidence": 5
+    },
+    {
+      "layer": 18,
+      "component": 1345,
+      "label": "Sentence-final additive/concessive adverb pattern, anyway",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 86,
+      "label": "C",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 736,
+      "label": "Banking / lending",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 949,
+      "label": "Decorative aesthetics",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 1154,
+      "label": "1960s–1970s American culture/history",
+      "confidence": 5
+    },
+    {
+      "layer": 21,
+      "component": 1514,
+      "label": "){",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 618,
+      "label": "After",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 1380,
+      "label": "Digit in numeric identifier",
+      "confidence": 4
+    },
+    {
+      "layer": 22,
+      "component": 1458,
+      "label": "Greek-letters in scientific notation",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 1852,
+      "label": "Am-, prefer capitalized, American",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 507,
+      "label": "7",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 776,
+      "label": "Adverse health effects / medical complications",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 1827,
+      "label": "Expecting \"include\"",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 2018,
+      "label": "JavaScript DOM property/method access",
+      "confidence": 4
+    },
+    {
+      "layer": 25,
+      "component": 1291,
+      "label": "Anticipated future change",
+      "confidence": 4
+    },
+    {
+      "layer": 25,
+      "component": 1701,
+      "label": "Salesforce development/customization",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 1952,
+      "label": "?",
+      "confidence": 0
+    }
+  ],
+  "qwen3.5-9b": [
+    {
+      "layer": 0,
+      "component": 609,
+      "label": "Store",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 3472,
+      "label": "Promise",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 3036,
+      "label": "Do something / nothing",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 3298,
+      "label": "spokesman",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 231,
+      "label": "User",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 2327,
+      "label": "---",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 3057,
+      "label": "-y, -ie nickname",
+      "confidence": 1
+    },
+    {
+      "layer": 4,
+      "component": 565,
+      "label": "Week / month",
+      "confidence": 4
+    },
+    {
+      "layer": 4,
+      "component": 1156,
+      "label": "Introduction",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 2219,
+      "label": "Measurement/unit-conversion math question",
+      "confidence": 4
+    },
+    {
+      "layer": 5,
+      "component": 3133,
+      "label": "Diabetes",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 269,
+      "label": "Figurative expression / metaphor",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 609,
+      "label": "Data",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 992,
+      "label": "Notice / note as information",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 2199,
+      "label": "Counterfactual / hypothetical conditional",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 2650,
+      "label": "/*",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 3045,
+      "label": "Helicopter / rotorcraft",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 3826,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 8,
+      "component": 935,
+      "label": "Repeated structured code / machine output",
+      "confidence": 4
+    },
+    {
+      "layer": 9,
+      "component": 2175,
+      "label": "Children’s / preschool educational content",
+      "confidence": 4
+    },
+    {
+      "layer": 10,
+      "component": 170,
+      "label": "Footnote / reference marker",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 4002,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 13,
+      "component": 637,
+      "label": "Online forum / discussion thread",
+      "confidence": 4
+    },
+    {
+      "layer": 13,
+      "component": 889,
+      "label": "Commented-out code",
+      "confidence": 4
+    },
+    {
+      "layer": 15,
+      "component": 1201,
+      "label": "Enumerating numbers",
+      "confidence": 1
+    },
+    {
+      "layer": 16,
+      "component": 61,
+      "label": "Wikipedia category / category-page",
+      "confidence": 4
+    },
+    {
+      "layer": 16,
+      "component": 244,
+      "label": "Repeated previously mentioned name entity",
+      "confidence": 4
+    },
+    {
+      "layer": 16,
+      "component": 1365,
+      "label": "Closing tag </",
+      "confidence": 4
+    },
+    {
+      "layer": 16,
+      "component": 3363,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 17,
+      "component": 530,
+      "label": "Country/state/region name",
+      "confidence": 2
+    },
+    {
+      "layer": 18,
+      "component": 3329,
+      "label": "Mc- surname prefix",
+      "confidence": 5
+    },
+    {
+      "layer": 19,
+      "component": 146,
+      "label": "Italian / Italy-related context",
+      "confidence": 4
+    },
+    {
+      "layer": 19,
+      "component": 1472,
+      "label": "HTML DOM access/manipulation",
+      "confidence": 4
+    },
+    {
+      "layer": 19,
+      "component": 2291,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 19,
+      "component": 3174,
+      "label": "?",
+      "confidence": 0
+    },
+    {
+      "layer": 20,
+      "component": 352,
+      "label": "Both",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 1145,
+      "label": "Related to letter F or expecting F",
+      "confidence": 1
+    },
+    {
+      "layer": 20,
+      "component": 2259,
+      "label": "Document/source attribution",
+      "confidence": 4
+    },
+    {
+      "layer": 21,
+      "component": 704,
+      "label": "Microsoft platform technical documentation",
+      "confidence": 4
+    },
+    {
+      "layer": 22,
+      "component": 2808,
+      "label": "Urination / bladder function",
+      "confidence": 4
+    },
+    {
+      "layer": 22,
+      "component": 3385,
+      "label": "Right-wing / conservative political context",
+      "confidence": 4
+    },
+    {
+      "layer": 23,
+      "component": 1583,
+      "label": "Limit",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 602,
+      "label": "Lawsuit / civil litigation",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 1260,
+      "label": "Maryland / Baltimore",
+      "confidence": 4
+    },
+    {
+      "layer": 25,
+      "component": 2695,
+      "label": "Tell",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 3939,
+      "label": "Causal graphical-model reasoning",
+      "confidence": 3
+    },
+    {
+      "layer": 26,
+      "component": 68,
+      "label": "Suffix Sh-",
+      "confidence": 5
+    },
+    {
+      "layer": 26,
+      "component": 1210,
+      "label": "Deep-learning framework/model",
+      "confidence": 5
+    },
+    {
+      "layer": 28,
+      "component": 3025,
+      "label": "Suffix Var-",
+      "confidence": 4
+    },
+    {
+      "layer": 30,
+      "component": 2683,
+      "label": "Expecting \"see\"",
+      "confidence": 5
+    }
+  ]
+}

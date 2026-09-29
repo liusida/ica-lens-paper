@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "backends": {
+    "paper-standard": {
+      "repository": "https://github.com/adamkarvonen/SAEBench.git",
+      "commit": "2a7480bf67f9f82f79e742be55fc1f5ec404bfa9",
+      "python": "3.11"
+    }
+  },
+  "models": {
+    "openai-community/gpt2": {
+      "backend": "paper-standard",
+      "saebench_model_name": "gpt2-small",
+      "status": "verified"
+    },
+    "google/gemma-2-2b": {
+      "backend": "paper-standard",
+      "saebench_model_name": "gemma-2-2b",
+      "status": "verified"
+    },
+    "Qwen/Qwen3.5-2B-Base": {
+      "backend": "paper-standard",
+      "saebench_model_name": "Qwen/Qwen3.5-2B-Base",
+      "status": "verified"
+    },
+    "Qwen/Qwen3.5-9B-Base": {
+      "backend": "paper-standard",
+      "saebench_model_name": "Qwen/Qwen3.5-9B-Base",
+      "status": "verified"
+    }
+  }
+}

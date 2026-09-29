@@ -1,0 +1,218 @@
+{
+  "candidates": [
+    {
+      "feature": 4945,
+      "offset": 91.62779998779297,
+      "rank": 0
+    },
+    {
+      "feature": 7719,
+      "offset": 71.56903076171875,
+      "rank": 1
+    },
+    {
+      "feature": 1858,
+      "offset": -34.48350143432617,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "sae",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "japanese",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "sae-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 4945,
+          "offset": 91.62779998779297,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible forコンピューター to do things that人間 cannot.\nIt enablesコンピューター to learn fromデータ and to判断 what is正しい and what is誤り.\nIt also enablesコンピューター todo things that人間 cannot, such as"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 7719,
+          "offset": 71.56903076171875,
+          "offset_multiplier": 1.0,
+          "text": " it makes the internet more secure. The technology is used to make the internet more secure and prevent people from being hacked. The technology is also used to make the internet more efficient and to make it more accessible to everyone.\n\nA computer program that can"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 1858,
+          "offset": -34.48350143432617,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would otherwise require human intelligence. AI is used in a variety of fields, including healthcare, finance, and manufacturing. In healthcare, AI is used to diagnose and treat diseases, while in finance, it"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 4945,
+          "offset": 91.62779998779297,
+          "offset_multiplier": 1.0,
+          "text": " of色素。色素は色を付ける物質です。葉は色素をたくさん持っています。色素は葉の表面に薄く薄く塗られています。葉の表面に色素を塗ることで、葉は色"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 7719,
+          "offset": 71.56903076171875,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and it appears red. The blue light is absorbed and the green pigment chlorophyl is reflected by the leaf and it appears green. When the chlorophyll"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 1858,
+          "offset": -34.48350143432617,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and appears as red. The blue light is absorbed and the green pigment is not reflected, so the green color is not seen. The yellow color is"
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 4945,
+          "offset": 91.62779998779297,
+          "offset_multiplier": 1.0,
+          "text": " to use aコンタクトボックス。コンタクトボックスは、キッチンを整理するために最適なアイテムです。コンタクトボックスは、キッチンを整理するために最適なアイテムです。コンタクトボックスは、キッチンを整理するために最適な"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 7719,
+          "offset": 71.56903076171875,
+          "offset_multiplier": 1.0,
+          "text": " to buy a small table. The table can be used as a place to put the kitchen utensils, as well as a place to cook and eat. A small table will give you more space to move around, and it will also make it easier to"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 1858,
+          "offset": -34.48350143432617,
+          "offset_multiplier": 1.0,
+          "text": " to use a cabinet for storage. This is a great way to keep food and other items out of sight and out of mind.\n\nThe best way to organize a small kitchen is to use the space wisely. This means using cabinets and shelves to store"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "feature": 4945,
+          "offset": 91.62779998779297,
+          "offset_multiplier": 1.0,
+          "text": " that weather is短lived、不恒久的、短期的な、時短的な、短期間的な、一時的な、一時的に、一時、時短、短期、一時的な、一時的な、一時的な、一時的な、一時的な、一時"
+        },
+        {
+          "candidate_rank": 1,
+          "feature": 7719,
+          "offset": 71.56903076171875,
+          "offset_multiplier": 1.0,
+          "text": " that weather is the short term conditions of the atmosphere, while climate is a long term average of the weather. Weather is the short term conditions of the atmosphere, while climate is a long term average of the weather.\n\nWhat is the difference between weather"
+        },
+        {
+          "candidate_rank": 2,
+          "feature": 1858,
+          "offset": -34.48350143432617,
+          "offset_multiplier": 1.0,
+          "text": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/sae-english-to-japanese-layer20-9500519b88b25919.json",
+    "calibration_cache_hit": false,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + offset * unit_decoder_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "sae",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/jpn-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "sae": {
+      "activation": "jumprelu",
+      "apply_b_dec_to_input": false,
+      "checkpoint": "layer_20/width_16k/average_l0_71/params.npz",
+      "checkpoint_format": "npz",
+      "feature_source": "encoder",
+      "hook_name_template": "model.layers.{layer}",
+      "layer_checkpoints": {
+        "0": "layer_0/width_16k/average_l0_25/params.npz",
+        "1": "layer_1/width_16k/average_l0_20/params.npz",
+        "10": "layer_10/width_16k/average_l0_39/params.npz",
+        "11": "layer_11/width_16k/average_l0_41/params.npz",
+        "12": "layer_12/width_16k/average_l0_41/params.npz",
+        "13": "layer_13/width_16k/average_l0_43/params.npz",
+        "14": "layer_14/width_16k/average_l0_43/params.npz",
+        "15": "layer_15/width_16k/average_l0_41/params.npz",
+        "16": "layer_16/width_16k/average_l0_42/params.npz",
+        "17": "layer_17/width_16k/average_l0_42/params.npz",
+        "18": "layer_18/width_16k/average_l0_40/params.npz",
+        "19": "layer_19/width_16k/average_l0_40/params.npz",
+        "2": "layer_2/width_16k/average_l0_24/params.npz",
+        "20": "layer_20/width_16k/average_l0_38/params.npz",
+        "21": "layer_21/width_16k/average_l0_38/params.npz",
+        "22": "layer_22/width_16k/average_l0_38/params.npz",
+        "23": "layer_23/width_16k/average_l0_38/params.npz",
+        "24": "layer_24/width_16k/average_l0_38/params.npz",
+        "25": "layer_25/width_16k/average_l0_28/params.npz",
+        "3": "layer_3/width_16k/average_l0_28/params.npz",
+        "4": "layer_4/width_16k/average_l0_31/params.npz",
+        "5": "layer_5/width_16k/average_l0_34/params.npz",
+        "6": "layer_6/width_16k/average_l0_36/params.npz",
+        "7": "layer_7/width_16k/average_l0_36/params.npz",
+        "8": "layer_8/width_16k/average_l0_37/params.npz",
+        "9": "layer_9/width_16k/average_l0_37/params.npz"
+      },
+      "layers": "all_transformer_layers",
+      "name": "Gemma Scope 2B residual width 16k",
+      "repo_id": "google/gemma-scope-2b-pt-res",
+      "revision": "fd571b47c1c64851e9b1989792367b9babb4af63",
+      "weights_file": "/home/liusida/hf_cache/hub/models--google--gemma-scope-2b-pt-res/snapshots/fd571b47c1c64851e9b1989792367b9babb4af63/layer_20/width_16k/average_l0_71/params.npz",
+      "width": 16384
+    },
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "Japanese",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}

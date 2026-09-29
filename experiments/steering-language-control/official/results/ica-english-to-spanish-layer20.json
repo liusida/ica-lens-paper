@@ -1,0 +1,176 @@
+{
+  "candidates": [
+    {
+      "component": 581,
+      "offset": 18.864870071411133,
+      "rank": 0
+    },
+    {
+      "component": 42,
+      "offset": 17.221805572509766,
+      "rank": 1
+    },
+    {
+      "component": 546,
+      "offset": 8.320948600769043,
+      "rank": 2
+    }
+  ],
+  "command": "uv run python experiments/steering-language-control/run.py --method all --layer 20 --output experiments/steering-language-control/runs/official",
+  "configuration": {
+    "final_token_mode": "text",
+    "format_version": 1,
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model_id": "google/gemma-2-2b",
+    "model_revision": "c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": "1",
+    "pairs": 1000,
+    "sae_checkpoint_override": "layer_20/width_16k/average_l0_71/params.npz",
+    "seed": 0,
+    "steering_convention": "all-positions",
+    "target_language": "spanish",
+    "temperature": 0.5,
+    "top_features": 3
+  },
+  "experiment": "ica-language-steering-pilot",
+  "generations": [
+    {
+      "baseline": " it makes it possible for machines to perform tasks that would be too complex for humans to perform. It also makes it possible for machines to learn and adapt to new situations and to make decisions on their own.\n\nArtificial intelligence is important because it makes it",
+      "prompt": "Artificial intelligence is important because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 581,
+          "offset": 18.864870071411133,
+          "offset_multiplier": 1.0,
+          "text": " it makes the internet more secure. The technology is used to make the internet more secure and to protect the privacy of users.\n\nArtificial intelligence is important because it can be used to make the internet more secure.\n\n<h2>Is Artificial Intelligence Important?</h2>"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 42,
+          "offset": 17.221805572509766,
+          "offset_multiplier": 1.0,
+          "text": " de-humanización de las tareas y la falta de empatía en la interacción con el usuario son problemas que la IA puede resolver.\n\nLa inteligencia artificial (IA) es la imitación de la capacidad de un sistema para pensar, aprender, razon"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 8.320948600769043,
+          "offset_multiplier": 1.0,
+          "text": " it makes it possible for machines to perform tasks that would be difficult or impossible for humans to do. Some of the most common applications of AI include:\n\n* <strong>Machine learning:</strong> This is a type of AI that allows machines to learn from"
+        }
+      ]
+    },
+    {
+      "baseline": " of the pigment chlorophyll, which absorbs red and blue light. The red light is reflected by the leaf and is seen as red. The blue light is absorbed by chlorophyll and is not reflected, so the green color is seen. As the days shorten,",
+      "prompt": "Leaves change color in autumn because",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 581,
+          "offset": 18.864870071411133,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment Chlorophyll. Chlorophyll is a green pigment that gives the leaves their color. It is also responsible for photosynthesis, which is the process of converting sunlight into energy. When the days become shorter and the nights longer, the leaves begin to"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 42,
+          "offset": 17.221805572509766,
+          "offset_multiplier": 1.0,
+          "text": " las células de las hojas se separan y se deshacen en el suelo.\n\nEl color de las hojas cambia porque las células se separan en el suelo.\n\nLas células se separan y se deshacen en el suelo.\n\n"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 8.320948600769043,
+          "offset_multiplier": 1.0,
+          "text": " of the pigment chlorophyll, which absorbs red and blue light.\n\nChlorophyll is a pigment that helps plants absorb light energy. When plants absorb light energy, they use it to grow.\n\nChlorophyll is a pigment that helps plants absorb light energy."
+        }
+      ]
+    },
+    {
+      "baseline": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are",
+      "prompt": "A practical way to organize a small kitchen is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 581,
+          "offset": 18.864870071411133,
+          "offset_multiplier": 1.0,
+          "text": " to use a Kitchen Island. A Kitchen Island can be a great addition to any kitchen, especially if you have limited space. Kitchen Islands are multifunctional and can be used for a variety of purposes. They can be used as a workstation, a place to"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 42,
+          "offset": 17.221805572509766,
+          "offset_multiplier": 1.0,
+          "text": " a <strong>pantry</strong>. A pantry es una pequeña pieza de mobiliario donde se guardan los alimentos y donde se puede encontrar todo lo que se necesita para la cocina.\n\nLos armarios de la cocina son muy útiles para guardar los utensilios"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 8.320948600769043,
+          "offset_multiplier": 1.0,
+          "text": " to use a small table. A small table can be used for cooking, dining, or even as a coffee table. There are many different types of small tables available, so it is important to find one that will fit your needs.\n\nThere are"
+        }
+      ]
+    },
+    {
+      "baseline": " that weather is the condition of the atmosphere at a particular time and place while climate is the average weather over a long period of time.\n\nThe change in the temperature of the atmosphere is called weather. Weather changes as a result of the movement of air",
+      "prompt": "The difference between weather and climate is",
+      "steered": [
+        {
+          "candidate_rank": 0,
+          "component": 581,
+          "offset": 18.864870071411133,
+          "offset_multiplier": 1.0,
+          "text": " the weather is the condition of the atmosphere at a particular place and time and the climate is the average weather conditions of the place over a long period of time.\n\nThe climate of a place is determined by the following factors:\n\n<strong>(1)"
+        },
+        {
+          "candidate_rank": 1,
+          "component": 42,
+          "offset": 17.221805572509766,
+          "offset_multiplier": 1.0,
+          "text": " que los datos de la climatología las puedes encontrar en los datos de la meteorología.\n\n¿Qué es la meteorología?\n\nLa meteorología es la ciencia que estudia los fenómenos meteorológicos.\n\n¿Qué es la climatología?\n\nLa"
+        },
+        {
+          "candidate_rank": 2,
+          "component": 546,
+          "offset": 8.320948600769043,
+          "offset_multiplier": 1.0,
+          "text": " that weather is the condition of the atmosphere at a particular time and place, while climate is the average weather conditions over a long period of time.\n\nClimate is the average weather conditions over a long period of time.\n\nClimate is the average weather conditions"
+        }
+      ]
+    }
+  ],
+  "protocol": {
+    "calibration_cache": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/steering-language-control/calibration-cache/ica-english-to-spanish-layer20-92832410e3581df4.json",
+    "calibration_cache_hit": true,
+    "final_token_mode": "text",
+    "intervention": "x_prime = x + score_offset * ICA_writing_direction",
+    "layer": 20,
+    "lens": "sida/icalens-gemma-2-2b-pile10k",
+    "max_new_tokens": 50,
+    "method": "ica",
+    "model": "google/gemma-2-2b@c5ebcd40d208330abc697524c919956e692655cf",
+    "offset_multipliers": [
+      1.0
+    ],
+    "pairs": 1000,
+    "parallel_corpus": {
+      "source": "Tatoeba via ManyThings",
+      "url": "https://www.manythings.org/anki/spa-eng.zip"
+    },
+    "reference": "https://arxiv.org/abs/2507.13410",
+    "seed": 0,
+    "selection": "final_token_target_minus_english_mean",
+    "source_language": "English",
+    "steering_convention": "all-positions",
+    "target_language": "Spanish",
+    "temperature": 0.5,
+    "top_features": 3
+  }
+}
