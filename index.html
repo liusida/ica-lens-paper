@@ -1,474 +1,59 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ICA Lens: interpreting language models without training another dictionary.">
-    <link rel="canonical" href="https://liusida.github.io/ica-lens-paper/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="ICA Lens">
-    <meta property="og:title" content="ICA Lens">
-    <meta property="og:description" content="Interpreting language models without training another dictionary.">
-    <meta property="og:url" content="https://liusida.github.io/ica-lens-paper/">
-    <meta property="og:image" content="https://liusida.github.io/ica-lens-paper/assets/preview.png">
-    <meta property="og:image:alt" content="ICA Lens project page hero with links to the Explorer, paper, and code.">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ICA Lens">
-    <meta name="twitter:description" content="Interpreting language models without training another dictionary.">
-    <meta name="twitter:image" content="https://liusida.github.io/ica-lens-paper/assets/preview.png">
-    <title>ICA Lens</title>
-    <link rel="stylesheet" href="styles.css?v=20260610-3">
-    <script defer src="https://analytics.liusida.com/umami/script.js"
-      data-website-id="64322a37-ae7f-4635-ac78-8869ef79997b"
-      data-tag="ica-lens-paper"></script>
-  </head>
-  <body>
-    <header class="site-header" aria-label="Site header">
-      <a class="brand" href="#top" aria-label="ICA Lens home">ICA Lens</a>
-    </header>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="ICA Lens is a practical workflow for discovering, annotating, and evaluating non-Gaussian directions in LLM residual-stream activations.">
+  <link rel="canonical" href="https://liusida.github.io/ica-lens-paper/">
+  <meta property="og:type" content="website"><meta property="og:site_name" content="ICA Lens"><meta property="og:title" content="ICA Lens"><meta property="og:description" content="Non-Gaussianity reveals interpretable directions in language models."><meta property="og:url" content="https://liusida.github.io/ica-lens-paper/"><meta property="og:image" content="https://liusida.github.io/ica-lens-paper/assets/v2/non-gaussian-intuition.png">
+  <meta name="twitter:card" content="summary_large_image"><title>ICA Lens | Non-Gaussian Directions in Language Models</title>
+  <link rel="stylesheet" href="styles.css?v=20260930-2"><script defer src="https://analytics.liusida.com/umami/script.js" data-website-id="64322a37-ae7f-4635-ac78-8869ef79997b" data-tag="ica-lens-paper"></script><script defer src="app.js?v=20260930-2"></script>
+</head>
+<body>
+<header class="site-header"><a class="brand" href="#top">ICA Lens</a><div class="header-links"><a href="https://icalens.readthedocs.io/" target="_blank" rel="noopener noreferrer">Docs</a><a href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">GitHub</a></div></header>
+<nav class="side-nav" aria-label="Section navigation"><a href="#toy" data-section-nav="toy">Toy</a><a href="#evidence" data-section-nav="evidence">Evidence</a><a href="#workflow" data-section-nav="workflow">Workflow</a><a href="#interpretability" data-section-nav="interpretability">Meaning</a><a href="#correlation" data-section-nav="correlation">Link</a><a href="#benchmarks" data-section-nav="benchmarks">Benchmarks</a><a href="#intervention" data-section-nav="intervention">Intervention</a><a href="#efficiency" data-section-nav="efficiency">Efficiency</a><a href="#use" data-section-nav="use">Use</a><a href="#paper" data-section-nav="paper">Paper</a></nav>
+<main id="top">
+  <section class="hero"><div class="hero-media" aria-hidden="true"></div><div class="hero-shade"></div><div class="hero-content"><p class="eyebrow">Feature discovery from activation geometry</p><h1>ICA Lens</h1><p class="hero-title">Non-Gaussianity Reveals Interpretable Directions in Language Models</p><p class="hero-copy">We introduce ICA Lens, a practical workflow for efficient discovery, reliable annotation, and faithful evaluation of non-Gaussian directions in LLM residual-stream activations.</p><div class="hero-actions"><a class="button primary" href="https://arxiv.org/abs/2606.11722" target="_blank" rel="noopener noreferrer">Read the paper</a><a class="button" href="https://colab.research.google.com/drive/1n1loME2voyOdeiLdaLRJw41bTJL7qUgQ" target="_blank" rel="noopener noreferrer">Open quickstart</a><a class="button" href="https://icalens.readthedocs.io/" target="_blank" rel="noopener noreferrer">Documentation</a><a class="button" href="https://pypi.org/project/icalens/" target="_blank" rel="noopener noreferrer">PyPI</a></div></div></section>
+  <section class="claim-band"><div class="section-inner claim-grid"><p class="section-kicker">The central result</p><h2>Interpretable structure leaves a statistical signature.</h2><p>Along a typical random direction, natural-text activations look close to Gaussian. Along many interpretable directions, most contexts form a quiet background while a recurring pattern occupies a selective tail. ICA Lens searches for that structure directly.</p></div></section>
 
-    <nav class="side-nav" aria-label="Section navigation">
-      <a href="#inspect" data-section-nav="inspect">Inspect</a>
-      <a href="#labels" data-section-nav="labels">Labels</a>
-      <a href="#tour" data-section-nav="tour">Random</a>
-      <a href="#erf" data-section-nav="erf">ERF</a>
-      <a href="#sae" data-section-nav="sae">ICA/SAE</a>
-      <a href="#evidence" data-section-nav="evidence">Evidence</a>
-      <a href="#try" data-section-nav="try">Try</a>
-      <a href="#build" data-section-nav="build">Build</a>
-      <a href="#cite" data-section-nav="cite">Cite</a>
-    </nav>
+  <section class="section" id="toy"><div class="section-inner split feature-split"><div><p class="section-kicker">01 / A toy example</p><h2>A selective tail can reveal a coherent concept.</h2><p class="lead">At GPT-2 layer 0, a random projection of all 50,256 non-special token activations is nearly Gaussian. An ICA direction instead places a related family—<em>neither</em>, <em>either</em>, <em>both</em>, and <em>between</em>—in a sparse, distant tail while most tokens remain near zero.</p><p class="support-copy">Whitening equalizes variance, then ICA finds a rotation whose standardized projection is unusually non-Gaussian.</p><div class="demo-actions"><a class="button primary" href="https://colab.research.google.com/drive/1wyI6S3uu91FrfWYd1ypqoOL2ezzjBlHa" target="_blank" rel="noopener noreferrer">Run the GPT-2 toy example</a></div></div><figure class="figure-panel wide-art"><img src="assets/v2/non-gaussian-intuition.png" alt="A random GPT-2 token projection produces a near-Gaussian distribution while an ICA direction isolates related tokens in one tail."><figcaption>Figure 1 intuition: a generic direction mixes the vocabulary; a recovered non-Gaussian direction separates recurring structure into a selective tail.</figcaption></figure></div></section>
 
-    <main id="top">
-      <section class="hero" aria-label="ICA Lens overview">
-        <div class="hero-shade"></div>
-        <div class="hero-content">
-          <p class="eyebrow">Independent Component Analysis for LLM activations</p>
-          <h1>ICA Lens</h1>
-          <p class="hero-title">Interpreting language models without training another dictionary</p>
-          <p class="hero-copy">The first ICA-centered toolkit for exploring LLM activations.</p>
-          <div class="hero-actions">
-            <a class="button primary hf-link" id="hero-case-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Try ICA Explorer</a>
-            <a class="button" href="https://arxiv.org/pdf/2606.11722" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 18h4"/></svg>Paper PDF</a>
-            <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/><path d="m14.5 4-5 16"/></svg>Code</a>
-          </div>
-        </div>
-      </section>
+  <section class="section evidence-section" id="evidence"><div class="section-inner result-strip result-strip-flipped"><div class="result-copy"><p class="section-kicker">02 / Evidence across models</p><h2>SAE directions expose the signal. ICA searches for it directly.</h2><p>Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 9B Base, random directions remain near the Gaussian reference and PCA captures little heavy-tailed structure. Public SAE feature directions are already substantially non-Gaussian. ICA optimizes this property directly and finds the strongest heavy-tailed projections throughout the residual stream.</p><div class="model-specs"><span><strong>GPT-2 Small</strong> 12 layers · d=768</span><span><strong>Gemma 2 2B</strong> 26 layers · d=2304</span><span><strong>Qwen 3.5 9B Base</strong> 32 layers · d=4096</span></div></div><figure class="figure-panel"><img src="assets/v2/non-gaussianity-by-layer.png" alt="Mean excess kurtosis of ICA, SAE, PCA, and random directions across three models."><figcaption>Figure 3: mean excess kurtosis by layer. ICA consistently recovers stronger departures from Gaussianity than the comparison directions.</figcaption></figure></div></section>
 
-      <section class="intro-band" aria-label="Core idea">
-        <div class="section-inner intro-grid">
-          <div>
-            <p class="section-kicker">The idea</p>
-            <h2>Activation geometry already contains interpretable non-Gaussian structure.</h2>
-          </div>
-          <p>
-            Many meaningful activation directions are selective: they fire for recurring
-            words, constructions, topics, contexts, or discourse patterns rather than for
-            typical random projections. That selectivity leaves a non-Gaussian footprint.
-            ICA Lens turns this footprint into a practical workflow for finding, inspecting,
-            and testing compact signed directions before reaching for costly learned
-            dictionaries such as large SAEs.
-          </p>
-        </div>
-      </section>
+  <section class="section workflow-section" id="workflow"><div class="section-inner"><div class="section-heading"><p class="section-kicker">03 / Practical workflow</p><h2>Collect, fit, profile, apply.</h2><p>ICA Lens connects statistical discovery to inspectable evidence and downstream use in four concrete stages.</p></div><div class="workflow-line" aria-label="ICA Lens workflow"><article><span>1</span><h3>Collect</h3><p>Capture residual-stream activations from representative text or conversations.</p></article><article><span>2</span><h3>Fit</h3><p>Center, whiten, and run GPU-parallel symmetric FastICA.</p></article><article><span>3</span><h3>Profile</h3><p>Store score statistics, the skewness-selected semantic tail, corpus occurrences, Logit Lens tokens, and optional R-Lens readouts.</p></article><article><span>4</span><h3>Apply</h3><p>Inspect new inputs, reconstruct activations, probe concepts, or intervene on generation.</p></article></div><div class="workflow-demo"><div><strong>A complete mini target</strong><p>Fit GPT-2 layer 8 from 100,000 Pile-10k activations for 50 iterations, profile the components, then apply the new Lens to held-out text. Every stage reports its runtime and artifact path.</p></div><a class="button primary" href="https://colab.research.google.com/drive/10B_7QUQULzXPKmqeP9vJIPPTD22J-EPc" target="_blank" rel="noopener noreferrer">Run the full workflow</a></div></div></section>
 
-      <section class="section visual-section" id="inspect">
-        <div class="section-inner split">
-          <div>
-            <p class="section-kicker">Human inspection</p>
-            <h2>The same surface word decomposes differently by context.</h2>
-            <p>
-              The paper probes repeated uses of <em>bank</em> across financial and
-              river-edge contexts. ICA exposes mixtures of lexical, syntactic, semantic,
-              positional, and longer-context components at the target token, and the
-              explorer lets readers inspect the signed scores and top examples directly.
-            </p>
-            <a class="text-link hf-link" id="bank-inline-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Open this exact paragraph</a>
-          </div>
-          <figure class="image-panel">
-            <img src="assets/figures/gpt2_bank_case_study.png" alt="ICA component mixtures for financial and river uses of the word bank in GPT-2 Small.">
-            <figcaption>GPT-2 Small decomposes repeated uses of bank into different lexical, syntactic, semantic, and context components.</figcaption>
-          </figure>
-        </div>
-      </section>
+  <section class="section" id="interpretability"><div class="section-inner"><div class="section-heading"><p class="section-kicker">04 / Interpretability</p><h2>Two complementary routes from direction to meaning.</h2><p>Human annotation tests whether convergent evidence supports a usable label. Automated annotation scales an explanation–prediction test across thousands of components.</p></div><div class="interpretability-grid">
+    <article class="method-panel manual-panel"><p class="section-kicker">Manual annotation</p><h3>Inspect, hypothesize, then test.</h3><p>Annotators combine top activation contexts with Logit Lens and R-Lens vocabulary readouts, then use controlled counterfactual prompts when the evidence is ambiguous.</p><div class="audit-number"><strong>123/150</strong><span>high-confidence labels (scores 4–5)</span></div><div class="annotation-examples"><article><strong>GPT-2 · L8/C396</strong><span>Programming/API specification language</span></article><article><strong>Gemma 2 · L20/C1154</strong><span>1960s–1970s American culture and history</span></article><article><strong>Qwen 3.5 · L20/C352</strong><span>Both / paired alternatives</span></article></div><dl class="compact-stats"><div><dt>GPT-2 Small</dt><dd>41/50 · 82%</dd></div><div><dt>Gemma 2 2B</dt><dd>42/50 · 84%</dd></div><div><dt>Qwen 3.5 9B</dt><dd>40/50 · 80%</dd></div></dl><div class="demo-actions"><a class="button" href="components.html">Browse all 150 components</a><a class="button primary" href="https://colab.research.google.com/drive/1NtXtIp_dVMKWkkA7R7QXYQYU3m4sCOIq" target="_blank" rel="noopener noreferrer">Test GPT-2 L8/C396</a></div></article>
+    <article class="method-panel auto-panel"><p class="section-kicker">Automated interpretability</p><h3>Explanation–prediction, with ICA’s sign handled fairly.</h3><p>Following the Cunningham-style protocol, an explainer proposes a description from high-scoring examples and a simulator predicts token scores on held-out fragments. Agreement is measured by Pearson correlation.</p><aside class="sign-note"><strong>The protocol correction.</strong> FastICA signs are arbitrary. Evaluating only the positive ICA tail can select the weaker semantic side by chance. The corrected protocol orients every component toward its stronger tail using skewness.</aside><div class="auto-tabs" role="tablist" aria-label="Automated interpretability results"><button class="auto-tab active" type="button" data-auto="pythia" aria-selected="true">Pythia reproduction</button><button class="auto-tab" type="button" data-auto="gpt2" aria-selected="false">GPT-2</button><button class="auto-tab" type="button" data-auto="gemma" aria-selected="false">Gemma 2</button><button class="auto-tab" type="button" data-auto="qwen" aria-selected="false">Qwen 3.5</button></div><figure class="auto-figure active" data-auto-panel="pythia"><img src="assets/v2/figure-4a-pythia.png" alt="Paper Figure 4a reproducing the sign-sensitive Pythia 70M comparison."><figcaption>Paper Figure 4(a): arbitrary-sign evaluation reproduces the reported ICA–SAE gap on Pythia 70M; stronger-tail orientation recovers much of it.</figcaption></figure><figure class="auto-figure" data-auto-panel="gpt2" hidden><img src="assets/v2/auto-interpretability-gpt2-clean.png" alt="Mean ICA and SAE automated interpretability results for GPT-2 Small."><figcaption>GPT-2 Small: means over 150 components per layer with 95% confidence intervals.</figcaption></figure><figure class="auto-figure" data-auto-panel="gemma" hidden><img src="assets/v2/auto-interpretability-gemma-clean.png" alt="Mean ICA and SAE automated interpretability results for Gemma 2 2B."><figcaption>Gemma 2 2B: corrected stronger-tail ICA evaluation against the matched SAE.</figcaption></figure><figure class="auto-figure" data-auto-panel="qwen" hidden><img src="assets/v2/auto-interpretability-qwen-clean.png" alt="Mean ICA and SAE automated interpretability results for Qwen 3.5 9B Base."><figcaption>Qwen 3.5 9B Base: corrected stronger-tail ICA evaluation against the matched SAE.</figcaption></figure></article>
+  </div></div></section>
 
-      <section class="section validation-section" id="labels">
-        <div class="section-inner">
-          <div class="section-heading">
-            <p class="section-kicker">Label testing</p>
-            <h2>Working labels are checked with matched sentences.</h2>
-            <p>
-              After inspecting top examples, annotators write label-consistent prompts
-              that should activate a signed component and matched controls that should
-              not. Large signed scores and high target-token ranks support the label;
-              weak scores or low ranks force the label to be revised.
-            </p>
-          </div>
-          <div class="validation-layout">
-            <div class="validation-tabs" id="validation-tabs" aria-label="Matched prompt components"></div>
-            <article class="validation-panel">
-              <div class="validation-panel-head">
-                <div>
-                  <p class="preview-label" id="validation-meta">GPT-2 Small</p>
-                  <h3 id="validation-title">After</h3>
-                </div>
-              </div>
-              <div class="validation-prompts" id="validation-prompts"></div>
-            </article>
-          </div>
-        </div>
-      </section>
+  <section class="section correlation-section" id="correlation"><div class="section-inner split correlation-split"><div><p class="section-kicker">05 / The statistical link</p><h2>Interpretability rises as fitting finds more non-Gaussian directions.</h2><p class="lead">The experiment follows the same 400 Qwen components—100 each from layers 7, 15, 23, and 31—throughout FastICA. Mean sign-corrected automated interpretability rises with non-Gaussianity and then saturates.</p><div class="rho-inline"><strong>ρ<sub>s</sub> = 0.45</strong><span>At iteration 50, excess kurtosis is positively associated with automated interpretability across the 400 components.</span></div></div><figure class="figure-panel"><img src="assets/v2/figure-5a-convergence.png" alt="Automated interpretability, logcosh deviation, and excess kurtosis across FastICA iterations for 400 Qwen components."><figcaption>Figure 5(a): fitting dynamics averaged across four Qwen 3.5 9B Base layers. Error bars show the 95% confidence interval for auto-interpretability.</figcaption></figure></div></section>
 
-      <section class="section" id="tour">
-        <div class="section-inner">
-          <div class="section-heading">
-            <p class="section-kicker">Random cases</p>
-            <h2>Open the live lens on random-audit examples.</h2>
-            <p>
-              These cases are live Hugging Face Space links built from the random-150
-              component audit. Each opens a different model, layer, prompt, and signed
-              component so readers can inspect how ICA directions behave beyond the
-              main bank example.
-            </p>
-          </div>
+  <section class="section utility-section" id="benchmarks"><div class="section-inner"><div class="section-heading"><p class="section-kicker">06 / ICA versus SAE</p><h2>Evaluate the coordinates on the tasks SAEs are built to serve.</h2><p>The comparison covers information preservation, sparse concept readout, and selective causal removal using matched public SAEs.</p></div><div class="evidence-tabs" role="tablist" aria-label="ICA and SAE evaluation results"><button class="evidence-tab active" type="button" role="tab" aria-selected="true" data-evidence="reconstruction">Sparse Reconstruction</button><button class="evidence-tab" type="button" role="tab" aria-selected="false" data-evidence="probing">Sparse Probing</button><button class="evidence-tab" type="button" role="tab" aria-selected="false" data-evidence="tpp">Targeted Probe Perturbation</button></div><div class="evidence-panels"><article class="evidence-panel active" data-panel="reconstruction"><div><p class="section-kicker">Sparse Reconstruction</p><h3>How much of an activation survives a small coordinate budget?</h3><p>Keeping only the largest coordinates, ICA is competitive with matched public SAEs and consistently stronger than PCA and random-direction baselines.</p></div><figure><img src="assets/v2/reconstruction.png" alt="Sparse reconstruction cosine similarity across three models."></figure></article><article class="evidence-panel" data-panel="probing" hidden><div><p class="section-kicker">Sparse Probing</p><h3>How compactly do individual coordinates expose labeled concepts?</h3><p>ICA outperforms the public SAE on GPT-2 Small and remains competitive on Gemma 2 2B and Qwen 3.5 9B Base.</p></div><figure><img src="assets/v2/sparse-probing.png" alt="Sparse probing accuracy across three models."></figure></article><article class="evidence-panel" data-panel="tpp" hidden><div><p class="section-kicker">Targeted Probe Perturbation</p><h3>Can target-associated coordinates be removed selectively?</h3><p>TPP ablates coordinates associated with one target and measures the target-probe drop relative to non-target probes. ICA produces higher TPP scores than the matched public SAEs.</p></div><figure><img src="assets/v2/tpp.png" alt="Targeted Probe Perturbation results across three models."></figure></article></div></div></section>
 
-          <div class="case-layout">
-            <div class="case-list" id="case-list" aria-label="Explorer cases"></div>
-            <aside class="case-preview" aria-live="polite">
-              <p class="preview-label" id="preview-model">GPT-2 Small, layer 6</p>
-              <h3 id="preview-title">Same word, different mixtures</h3>
-              <p id="preview-copy">
-                The word bank appears in financial and river contexts. ICA exposes
-                different component mixtures for the same surface token.
-              </p>
-              <div class="token-strip" id="token-strip" aria-label="Highlighted text tokens"></div>
-              <a class="button primary full hf-link" id="preview-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Open in ICA Explorer</a>
-            </aside>
-          </div>
-        </div>
-      </section>
+  <section class="section intervention-section" id="intervention"><div class="section-inner steering-band"><div><p class="section-kicker">07 / Intervention</p><h2>One Qwen coordinate can steer language in both directions.</h2><p>In the paper’s Qwen 3.5 9B Base case study, layer 26 component C9 is causally linked to French-language generation. Adding its writing direction moves an English prompt toward French; clamping the coordinate moves a French prompt toward English.</p><div class="runtime-note"><strong>Paper-exact demo:</strong> requires an A100-class/high-memory CUDA GPU. A free T4 is insufficient. The notebook can also be downloaded and run locally.</div><div class="demo-actions"><a class="button primary" href="https://colab.research.google.com/drive/1cmLa-SY36LApBw9SsS9vAx7jbxLALFOC" target="_blank" rel="noopener noreferrer">Run in Colab</a><a class="button" href="https://drive.google.com/uc?export=download&amp;id=1cmLa-SY36LApBw9SsS9vAx7jbxLALFOC">Download notebook</a><a class="text-link" href="https://icalens.readthedocs.io/en/latest/steering/" target="_blank" rel="noopener noreferrer">Steering documentation</a></div></div><div class="intervention-comparisons"><article><header><span>English prompt</span><strong>Add C9 → French</strong></header><p class="shared-prompt">Deep learning is a machine learning technique that…</p><div class="outcome baseline"><small>Baseline</small><p><mark lang="en">uses artificial neural networks to learn from data.</mark></p></div><div class="outcome steered"><small>With L26/C9 steering</small><p><mark lang="fr">utilise des réseaux de neurones artificiels pour apprendre à partir de données.</mark></p></div></article><article><header><span>French prompt</span><strong>Remove C9 → English</strong></header><p class="shared-prompt">L’apprentissage profond est une technique d’apprentissage automatique qui…</p><div class="outcome baseline"><small>Baseline</small><p><mark lang="fr">utilise des réseaux de neurones artificiels pour apprendre à partir de données.</mark></p></div><div class="outcome steered"><small>With L26/C9 clamped to zero</small><p><mark lang="en">uses neural networks to learn from data.</mark></p></div></article></div></div></section>
 
-      <section class="section erf-section" id="erf">
-        <div class="section-inner split">
-          <div>
-            <p class="section-kicker">Effective Receptive Field</p>
-            <h2>Layer roles are mixtures, not hard cutoffs.</h2>
-            <p>
-              ERF asks how much left context is sufficient to recover the same
-              signed component response at a target token. That turns each ICA
-              direction into evidence about what scope of text it uses, revealing
-              layer specialization as changing distributions rather than a clean
-              local-to-global handoff.
-            </p>
-            <ul class="insight-list" aria-label="What ERF reveals about LLM layers">
-              <li>
-                <strong>Early layers are mostly local, but not only local.</strong>
-                <span>Even shallow layers contain context-dependent directions.</span>
-              </li>
-              <li>
-                <strong>Later layers become more contextual, but not purely global.</strong>
-                <span>Deep layers still retain many token-local components.</span>
-              </li>
-              <li>
-                <strong>Middle layers carry many broad-context directions.</strong>
-                <span>The largest-ERF components often peak before the final layers.</span>
-              </li>
-            </ul>
-          </div>
-          <figure class="image-panel">
-            <img src="assets/figures/erf_by_layer.png" alt="Layer-wise effective receptive field distributions for ICA components in GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base.">
-            <figcaption>ERF turns layer specialization into a distribution over component scopes: local, phrase-level, sentence-level, and unrecovered or long-context directions coexist at each depth.</figcaption>
-          </figure>
-        </div>
-      </section>
+  <section class="section efficiency-section" id="efficiency"><div class="section-inner"><div class="section-heading light-heading"><p class="section-kicker">08 / Practical efficiency</p><h2>Full-width ICA fits in minutes per layer.</h2><p>Reported fitting times use one million activations, 50 fixed FastICA iterations, and one NVIDIA GB10.</p></div><div class="metrics-grid"><article><strong>&lt;1 min</strong><span>GPT-2 Small / layer</span></article><article><strong>5.5 min</strong><span>Gemma 2 2B / layer</span></article><article><strong>12–13 min</strong><span>Qwen 3.5 9B / layer</span></article><article><strong>7–43×</strong><span>less parameter memory than the matched SAEs</span></article></div><p class="efficiency-note">The practical advantage is fitting: ICA recovers one coordinate per residual-stream dimension without training a large overcomplete dictionary.</p></div></section>
 
-      <section class="section contrast-section" id="sae">
-        <div class="section-inner sae-stack">
-          <div class="section-heading compact">
-            <p class="section-kicker">ICA and SAE</p>
-            <h2>Complementary patterns, partial overlap.</h2>
-            <p>
-              SAEs and ICA both expose directions in activation space, but their
-              objectives shape different kinds of evidence. Sparse reconstruction often
-              yields localized feature events; non-Gaussian ICA directions can trace
-              compact contextual factors across neighboring tokens.
-            </p>
-          </div>
+  <section class="section use-section" id="use"><div class="section-inner"><div class="section-heading"><p class="section-kicker">09 / Use ICA Lens</p><h2>Install, load a Lens, inspect text.</h2><p>The Python package supports text, conversations, profiles, reconstruction, interventions, fitting, and publication of new lenses.</p></div><div class="use-grid"><div class="code-column"><div class="terminal-head"><span>Quick start</span><button class="copy-button" type="button" data-copy-target="quickstart-code">Copy</button></div><pre id="quickstart-code"><code>pip install icalens
 
-          <div class="sae-block split">
-            <div>
-              <p class="section-kicker">Pattern difference</p>
-              <h3>Same sentence, different response shapes.</h3>
-              <p>
-                On the bank sentence, selected SAE features mostly peak at one token or
-                a short span. ICA scores vary more smoothly across related words such as
-                bank, deposit, check, withdraw, and cash. That is why the methods are
-                useful together: SAE highlights sparse events, while ICA exposes broader
-                contextual traces in a compact basis.
-              </p>
-            </div>
-            <figure class="image-panel">
-              <img src="assets/figures/gpt2_layer_06_ica_sae_top1_sentence_ridgeline.png" alt="Ridgeline comparison of ICA and SAE activations for the same bank sentence.">
-              <figcaption>Token-wise ICA and SAE traces on the same GPT-2 Small sentence. Rows are normalized within direction to show response shape.</figcaption>
-            </figure>
-          </div>
+from icalens import ICALens
 
-          <div class="sae-block overlap-block">
-            <div class="section-heading compact">
-              <p class="section-kicker">Directional overlap</p>
-              <h3>Some ICA components have close SAE neighbors.</h3>
-              <p>
-                For each ICA component, the paper finds the public SAE decoder direction
-                with the largest absolute cosine in the same layer. The distributions are
-                broad: many components have moderate or weak nearest-SAE overlap, while a
-                high-overlap tail gives convergent evidence and useful label cross-checks.
-              </p>
-            </div>
-            <div class="overlap-layout">
-              <figure class="image-panel overlap-figure">
-                <img src="assets/figures/all_models_ica_sae_nearest_cosine_distribution.png" alt="Nearest SAE cosine distributions for ICA components across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base.">
-                <figcaption>Nearest-SAE cosine distributions show partial agreement rather than a one-to-one correspondence.</figcaption>
-              </figure>
-              <div class="overlap-list" aria-label="High-overlap ICA and SAE examples">
-                <article class="overlap-row">
-                  <div>
-                    <span>GPT-2 Small L10/C142</span>
-                    <strong>Conditional repetition</strong>
-                    <small>Closest SAE feature <span class="metric-chip">F29658</span> with cosine similarity <span class="metric-chip">|cos| = 0.75</span>.</small>
-                  </div>
-                  <div class="overlap-actions">
-                    <a class="mini-link hf-link" id="overlap-gpt2-explorer" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Explorer</a>
-                    <a class="mini-link" href="https://www.neuronpedia.org/gpt2-small/10-res_post_32k-oai/29658" target="_blank" rel="noopener noreferrer">Neuronpedia</a>
-                  </div>
-                </article>
-                <article class="overlap-row">
-                  <div>
-                    <span>Gemma 2 2B L24/C510</span>
-                    <strong>Female-centered narrative</strong>
-                    <small>Closest SAE feature <span class="metric-chip">F9501</span> with cosine similarity <span class="metric-chip">|cos| = 0.73</span>.</small>
-                  </div>
-                  <div class="overlap-actions">
-                    <a class="mini-link hf-link" id="overlap-gemma-explorer" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Explorer</a>
-                    <a class="mini-link" href="https://www.neuronpedia.org/gemma-2-2b/24-gemmascope-res-16k/9501" target="_blank" rel="noopener noreferrer">Neuronpedia</a>
-                  </div>
-                </article>
-                <article class="overlap-row">
-                  <div>
-                    <span>Qwen 3.5 2B Base L22/C511</span>
-                    <strong>Alternative construction</strong>
-                    <small><span class="label-note">Examples: either / whether ... or.</span> Closest SAE feature <span class="metric-chip">F8570</span> with cosine similarity <span class="metric-chip">|cos| = 0.68</span>.</small>
-                  </div>
-                  <div class="overlap-actions">
-                    <a class="mini-link hf-link" id="overlap-qwen-explorer" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Explorer</a>
-                    <a class="mini-link" id="overlap-qwen-sae" href="https://eeeailab-icaexplorer.hf.space/sae-explorer" target="_blank" rel="noopener noreferrer">SAE Explorer</a>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+lens = ICALens.from_pretrained(
+    "sida/icalens-gpt2-small-pile10k"
+)
+result = lens.analyze(
+    "The API accepts a JSON object and returns a response.",
+    layer=8,
+)
+result</code></pre><div class="link-row"><a class="button primary" href="https://colab.research.google.com/drive/1n1loME2voyOdeiLdaLRJw41bTJL7qUgQ" target="_blank" rel="noopener noreferrer">Open quickstart</a><a class="button" href="https://icalens.readthedocs.io/en/latest/getting-started/" target="_blank" rel="noopener noreferrer">Documentation</a><a class="button" href="https://huggingface.co/collections/sida/ica-lens" target="_blank" rel="noopener noreferrer">Model collection</a></div></div><figure class="notebook-shot"><img src="assets/v2/notebook-analysis.png" alt="Interactive ICA Lens token-level analysis in a notebook."><figcaption>Interactive signed scores and component evidence display directly in Jupyter and Colab.</figcaption></figure></div></div></section>
 
-      <section class="section" id="evidence">
-        <div class="section-inner evidence-stack">
-          <div class="section-heading">
-            <p class="section-kicker">Quantitative checks</p>
-            <h2>Three checks, one story.</h2>
-            <p>
-              The paper starts from a statistical clue, then asks whether the resulting
-              ICA coordinates carry task-relevant information and support selective
-              interventions in SAE-style benchmarks.
-            </p>
-          </div>
-
-          <article class="evidence-block split">
-            <div>
-              <p class="section-kicker">Non-Gaussianity</p>
-              <h3>Feature-like directions leave a measurable footprint.</h3>
-              <p>
-                Random directions in row-normalized activation space are close to
-                Gaussian, while public SAE decoder directions are much more kurtotic.
-                ICA makes that clue explicit: after centering and whitening normalized
-                activations, it searches for a compact basis whose one-dimensional
-                projections are as non-Gaussian as possible.
-              </p>
-              <p>
-                Across GPT-2 Small, Gemma 2 2B, and Qwen 3.5 2B Base, the fitted ICA
-                directions are substantially more non-Gaussian than random directions
-                and typically exceed public SAE decoder projections.
-              </p>
-            </div>
-            <figure class="image-panel">
-              <img src="assets/figures/all_models_nongaussianity_by_layer.png" alt="Non-Gaussianity of ICA directions compared with random directions and SAE decoder directions across layers.">
-              <figcaption>Excess kurtosis separates random directions, public SAE decoders, and the ICA directions found from normalized activations.</figcaption>
-            </figure>
-          </article>
-
-          <article class="evidence-block">
-            <div class="section-heading compact">
-              <p class="section-kicker">SAEBench Sparse Probe</p>
-              <h3>Compact ICA coordinates are competitive probe features.</h3>
-              <p>
-                SAEBench sparse probing trains supervised probes on the top-k feature
-                activations, so it tests the coordinates directly rather than decoder
-                reconstruction. Despite using far fewer directions, ICA remains
-                competitive with public SAEs and consistently outperforms PCA and ITDA.
-                On the Gemma 2 layer-12 comparison, ICA also stays strong against the
-                prefix-restricted Matryoshka SAE variants.
-              </p>
-            </div>
-            <div class="sparse-probe-layout">
-              <figure class="image-panel sparse-main-figure">
-                <img src="assets/figures/sparse_probe_baselines_by_model.png" alt="Sparse probing comparison between ICA, public SAE, ITDA, and PCA features across three models.">
-                <figcaption>Across models, sparse probes recover class information from a small set of ICA coordinates.</figcaption>
-              </figure>
-              <div class="sparse-detail">
-                <div class="sparse-detail-copy">
-                  <strong>Gemma 2 layer 12 detail check</strong>
-                  <p>
-                    This extra comparison is narrower in scope but includes the two
-                    Matryoshka SAE budgets. It asks whether a prefix-restricted SAE
-                    dictionary closes the sparse-probe gap on the layer where those
-                    baselines are available.
-                  </p>
-                </div>
-                <figure class="image-panel sparse-detail-figure">
-                  <img src="assets/figures/gemma2_layer12_official_baselines.png" alt="Gemma 2 layer 12 sparse probing comparison including public SAE, Matryoshka SAE variants, ICA, ITDA, and PCA.">
-                  <figcaption>Gemma 2 layer 12 includes the public SAE, two Matryoshka SAE budgets, ICA, ITDA, and PCA baselines.</figcaption>
-                </figure>
-              </div>
-            </div>
-          </article>
-
-          <article class="evidence-block split">
-            <div>
-              <p class="section-kicker">SAEBench Targeted Probe Perturbation</p>
-              <h3>Small ICA interventions can move the target cleanly.</h3>
-              <p>
-                Targeted Probe Perturbation chooses the top-N latents for a class,
-                zero-ablates them, and measures both intended effects on the target
-                probe and unintended effects on other probes. A useful dictionary should
-                move the intended probe while limiting spillover.
-              </p>
-              <p>
-                ICA is strongest in the small-N regime: a few directions produce large
-                intended effects while keeping unintended effects comparatively low. At
-                N = 500, ICA has consumed a much larger fraction of its compact basis,
-                so broad disruption and unintended change naturally rise.
-              </p>
-            </div>
-            <figure class="image-panel">
-              <img src="assets/figures/all_models_saebench_tpp_intended_unintended.png" alt="SAEBench targeted probe perturbation scores for ICA and SAE features, split into intended and unintended effects.">
-              <figcaption>TPP reads ICA as a strong low-to-medium budget intervention basis, not a replacement for high-capacity SAE dictionaries.</figcaption>
-            </figure>
-          </article>
-        </div>
-      </section>
-
-      <section class="section try-section" id="try">
-        <div class="section-inner try-stack">
-          <div class="try-grid">
-            <div>
-              <p class="section-kicker">Try it</p>
-              <h2>Use the hosted explorer, or run the release locally.</h2>
-              <p>
-                The hosted Space is the fastest route for inspection. The GitHub repo
-                contains the released pipeline, artifact manifest, reproduction scripts,
-                and a local FastAPI explorer for the mini or full databases.
-              </p>
-              <div class="link-row">
-                <a class="button primary hf-link" href="https://huggingface.co/spaces/EEEAILab/ICAExplorer" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/><path d="M5 5v14h14"/></svg>Hosted Explorer</a>
-                <a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                <a class="button" href="https://huggingface.co/datasets/sida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Artifacts</a>
-              </div>
-            </div>
-            <pre><code># Clone the repo and run the local Explorer
-uv sync
-uv run python scripts/fetch_artifacts.py --models --databases
-uv run python scripts/verify_artifacts.py
-uv run python -m server.app --port 8001</code></pre>
-          </div>
-
-          <div class="fit-strip">
-            <div>
-              <p class="section-kicker">Fit a new model</p>
-              <h3>Adapt ICA Lens to another LLM.</h3>
-              <p>Follow a one-layer Qwen3.6-27B walkthrough from activation capture to a local explorer database.</p>
-            </div>
-            <a class="button" href="https://github.com/liusida/ica-lens-paper/blob/main/docs/fit_one_layer_qwen36_27b.md" target="_blank" rel="noopener noreferrer">Open tutorial</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section build-section" id="build">
-        <div class="section-inner build-grid">
-          <div>
-            <p class="section-kicker">Build on ICA Lens</p>
-            <h2>Research directions opened by ICA lens.</h2>
-            <p>
-              Fitting ICA on a new model is only the first step. The same artifacts,
-              fitting pipeline, and explorer can support follow-up work on automatic
-              annotation, better ERF metrics, multi-site activation analysis, and the
-              geometry exposed by normalization.
-            </p>
-            <a class="button primary" href="future-projects.html">Explore possible projects</a>
-          </div>
-          <div class="build-list" aria-label="Future project directions">
-            <article>
-              <span>01</span>
-              <strong>Automatic annotation</strong>
-              <p>Generate candidate labels from top examples, opposite-side evidence, ERF, traces, and prompt tests before human review.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <strong>Better ERF</strong>
-              <p>Turn the current context-recovery heuristic into a more principled metric for component scope and annotation difficulty.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <strong>Multi-site ICA</strong>
-              <p>Study residual streams, MLP outputs, attention outputs, and residual updates together rather than one layer at a time.</p>
-            </article>
-            <article>
-              <span>04</span>
-              <strong>Activation geometry</strong>
-              <p>Use row normalization as a clue that directions, not only norms, organize useful structure in activation space.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section cite-section" id="cite">
-        <div class="section-inner">
-          <div class="section-heading compact">
-            <p class="section-kicker">Citation</p>
-            <h2>ICA Lens</h2>
-            <p>Please cite the <a href="https://arxiv.org/abs/2606.11722" target="_blank" rel="noopener noreferrer">arXiv paper</a>.</p>
-          </div>
-          <pre><code>@article{liu2026icalens,
-  title={ICA Lens: Interpreting Language Models Without Training Another Dictionary},
+  <section class="section paper-section" id="paper"><div class="section-inner paper-grid"><div><p class="section-kicker">Paper and resources</p><h2>Non-Gaussianity Reveals Interpretable Directions in Language Models</h2><p class="lead">Sida Liu and Feijiang Han</p><div class="link-row"><a class="button primary" href="https://arxiv.org/abs/2606.11722" target="_blank" rel="noopener noreferrer">arXiv</a><a class="button" href="https://github.com/liusida/ica-lens-paper" target="_blank" rel="noopener noreferrer">Code</a><a class="button" href="https://icalens.readthedocs.io/" target="_blank" rel="noopener noreferrer">Documentation</a><a class="button" href="https://pypi.org/project/icalens/" target="_blank" rel="noopener noreferrer">PyPI</a><a class="button" href="https://huggingface.co/collections/sida/ica-lens" target="_blank" rel="noopener noreferrer">Models</a></div></div><div class="citation-block"><div class="terminal-head"><span>BibTeX</span><button class="copy-button" type="button" data-copy-target="citation-code">Copy</button></div><pre id="citation-code"><code>@article{liu2026nonGaussianity,
+  title={Non-Gaussianity Reveals Interpretable
+         Directions in Language Models},
   author={Liu, Sida and Han, Feijiang},
   journal={arXiv preprint arXiv:2606.11722},
   year={2026}
-}</code></pre>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="footer-main">
-        <span>ICA Lens</span>
-        <div class="footer-authors" aria-label="Authors">
-          <span>Authors</span>
-          <a href="https://liusida.com/" target="_blank" rel="noopener noreferrer">Sida Liu</a>
-          <a href="https://feijianghan.com/" target="_blank" rel="noopener noreferrer">Feijiang Han</a>
-        </div>
-      </div>
-      <div class="footer-qr">
-        <img src="assets/wechat_QR.png" alt="WeChat QR code">
-      </div>
-    </footer>
-
-    <script src="app.js"></script>
-  </body>
-</html>
+}</code></pre></div></div></section>
+</main>
+<footer><div><strong>ICA Lens</strong><span>Feature discovery from higher-order activation geometry.</span></div><div class="footer-links"><a href="https://liusida.com" target="_blank" rel="noopener noreferrer">Sida Liu</a><a href="https://feijianghan.com" target="_blank" rel="noopener noreferrer">Feijiang Han</a></div></footer>
+</body></html>
