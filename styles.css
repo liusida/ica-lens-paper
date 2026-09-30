@@ -149,6 +149,8 @@ p { margin: 0; }
 .button.primary { border-color: var(--teal); background: var(--teal); color: white; }
 .button:hover, .button:focus-visible { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(23,32,38,.14); }
 .button.primary:hover, .button.primary:focus-visible { background: var(--teal-dark); }
+.colab-button { gap: 8px; }
+.colab-icon { width: 20px; height: 20px; flex: 0 0 20px; object-fit: contain; }
 
 .section, .claim-band { padding: clamp(64px, 8vw, 112px) clamp(20px, 5vw, 72px); }
 .section-inner { width: min(1280px, 100%); min-width: 0; margin: 0 auto; }

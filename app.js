@@ -108,7 +108,24 @@ function initCopyButtons() {
   });
 }
 
+function initColabButtons() {
+  const selector = 'a.button[href^="https://colab.research.google.com/"]';
+  document.querySelectorAll(selector).forEach((link) => {
+    if (link.querySelector(".colab-icon")) return;
+    const icon = document.createElement("img");
+    icon.src = "assets/colab-icon.png";
+    icon.alt = "";
+    icon.className = "colab-icon";
+    icon.width = 20;
+    icon.height = 20;
+    icon.setAttribute("aria-hidden", "true");
+    link.classList.add("colab-button");
+    link.prepend(icon);
+  });
+}
+
 initSectionNav();
 initEvidenceTabs();
 initAutoTabs();
 initCopyButtons();
+initColabButtons();
