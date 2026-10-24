@@ -42,6 +42,20 @@ In Jupyter or Colab, `result` displays the interactive explorer inline. Use
 - Save, load, and share lenses through local folders or Hugging Face Hub.
 - Scale fitting to large token collections with bounded GPU and CPU memory.
 
+## Video overview
+
+<div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 10px;">
+  <iframe
+    src="https://www.youtube-nocookie.com/embed/e9FLjfcw-L4?rel=0&amp;playsinline=1"
+    title="ICA Lens paper explained in six minutes"
+    loading="lazy"
+    style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>
+
 ## Authors
 
 - [Sida Liu](https://liusida.com/)
