@@ -297,8 +297,6 @@ class ICALens:
             ),
         )
         self._hidden_size = hidden_size
-        self._local_root = None
-        self._hub_source = None
         return self
 
     def transform(self, activations: Any, *, layer: int) -> Any:
