@@ -39,6 +39,20 @@ result
 - 通过本地目录或 Hugging Face Hub 保存、加载和分享 Lens。
 - 在控制 GPU 和 CPU 内存占用的同时，扩展到大型 token 集合。
 
+## 视频概览
+
+<div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 10px;">
+  <iframe
+    src="https://www.youtube-nocookie.com/embed/e9FLjfcw-L4?rel=0&amp;playsinline=1"
+    title="六分钟了解 ICA Lens 论文"
+    loading="lazy"
+    style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>
+
 ## 作者
 
 - [Sida Liu](https://liusida.com/)

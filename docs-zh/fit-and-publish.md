@@ -91,6 +91,9 @@ checkpoint。
 每篇文档通过模型一次，并把各层的 `bfloat16` 激活值追加到磁盘；它不会把所有层同时
 保存在 CPU 内存中。
 
+若由其他推理系统捕获激活值，请将其写为
+[ActivationDataset 格式](activation-dataset-format.md)，即可使用同一套 CLI 进行拟合。
+
 ```bash
 icalens capture text \
   --model openai-community/gpt2 \
