@@ -96,6 +96,9 @@ For large refits, capture all requested layers directly to an external disk firs
 streams each document through the model once and appends `bfloat16` rows to per-layer files; it
 does not retain all layers in CPU memory.
 
+If activations are captured by another inference system, write them in the
+[ActivationDataset format](activation-dataset-format.md) so they can be fitted by the same CLI.
+
 ```bash
 icalens capture text \
   --model openai-community/gpt2 \
