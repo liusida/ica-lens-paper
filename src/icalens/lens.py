@@ -658,7 +658,7 @@ class ICALens:
         preprocessing_mode = cast(Literal["none", "l2", "geometric-median-l2"], preprocessing_mode)
         lens = cls(
             model_id=str(model["repo_id"]),
-            model_revision=str(model.get("revision") or "unknown"),
+            model_revision=None if model.get("revision") is None else str(model["revision"]),
             model_type=_validate_model_type(str(model.get("type", "base"))),
             activation_site=str(manifest["activation_site"]),
             layer_indexing=str(manifest.get("layer_indexing", "hidden_states")),

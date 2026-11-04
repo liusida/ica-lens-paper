@@ -37,6 +37,34 @@ def test_save_and_local_load_round_trip(tmp_path, mixed_signals: np.ndarray) -> 
     np.testing.assert_allclose(loaded.transform(mixed_signals[:10], layer=6), expected)
 
 
+@pytest.mark.parametrize(
+    ("revision", "include_revision"),
+    [(None, True), (None, False), ("abc123", True), ("unknown", True)],
+    ids=["null", "missing", "pinned", "branch-named-unknown"],
+)
+def test_model_revision_round_trip(
+    tmp_path,
+    mixed_signals: np.ndarray,
+    revision: str | None,
+    include_revision: bool,
+) -> None:
+    original = ICALens(model_id="example/model", model_revision=revision).fit(
+        mixed_signals[:32], layer=6, n_components=2, max_iter=2
+    )
+    artifact_dir = original.save(tmp_path / "artifact")
+    manifest_path = artifact_dir / "icalens.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["model"]["revision"] == revision
+    if not include_revision:
+        del manifest["model"]["revision"]
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    loaded = ICALens.from_pretrained(artifact_dir)
+
+    assert loaded.model_revision == revision
+    assert loaded.metadata["model"]["revision"] == revision
+
+
 def test_save_replaces_existing_artifact(tmp_path, mixed_signals: np.ndarray) -> None:
     target = tmp_path / "artifact"
     make_lens().fit(mixed_signals, layer=1, n_components=2).save(target)

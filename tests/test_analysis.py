@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
+from unittest.mock import Mock
 
 import numpy as np
 import pytest
@@ -101,6 +102,39 @@ class DummyAutoregressiveGenerationModel(DummyGenerationModel):
         self.block_outputs.append(self.transformer.h[0](decode)[0])
         new_token = torch.full((input_ids.shape[0], 1), 9, device=input_ids.device)
         return torch.cat((input_ids, new_token), dim=1)
+
+
+@pytest.mark.parametrize("entrypoint", ["capture", "analyze", "generate"])
+def test_reloaded_lens_resolves_model_revision(
+    tmp_path,
+    mixed_signals: np.ndarray,
+    monkeypatch: pytest.MonkeyPatch,
+    entrypoint: str,
+) -> None:
+    original = ICALens(
+        model_id="example/model", activation_site="hidden_states", layer_indexing="hidden_states"
+    ).fit(mixed_signals[:32], layer=0, n_components=2, max_iter=2)
+    loaded = ICALens.from_pretrained(original.save(tmp_path / "artifact"))
+    revision = "1234567890abcdef1234567890abcdef12345678"
+    model_info = Mock(return_value=SimpleNamespace(sha=revision))
+    load_tokenizer = Mock(return_value=DummyGenerationTokenizer())
+    model = DummyGenerationModel() if entrypoint == "generate" else DummyModel()
+    load_model = Mock(return_value=model)
+    monkeypatch.setattr("huggingface_hub.HfApi.model_info", model_info)
+    monkeypatch.setattr("transformers.AutoTokenizer.from_pretrained", load_tokenizer)
+    monkeypatch.setattr("transformers.AutoModelForCausalLM.from_pretrained", load_model)
+
+    options = {"max_new_tokens": 1} if entrypoint == "generate" else {"layer": 0}
+    result = getattr(loaded, entrypoint)("one two", device="cpu", **options)
+
+    load_tokenizer.assert_called_once_with("example/model", revision=revision, use_fast=True)
+    load_model.assert_called_once_with("example/model", revision=revision)
+    model_info.assert_called_once_with("example/model")
+    assert loaded.model_revision == revision
+    if entrypoint == "generate":
+        assert result == "t9"
+    else:
+        assert result.tokens == ("t1", "t2")
 
 
 def test_analyze_raw_text_returns_scores_and_energy(mixed_signals: np.ndarray) -> None:
