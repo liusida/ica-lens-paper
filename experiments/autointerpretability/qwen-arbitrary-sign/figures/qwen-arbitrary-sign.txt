@@ -1,0 +1,15 @@
+Qwen 3.5 9B Base: mean automated-interpretability score with feature-bootstrap 95% intervals (Tinker: Inkling explainer, Qwen3.8-27B simulator).
+layer	method	n	mean	bootstrap_95_low	bootstrap_95_high
+7	SAE	150	0.452995	0.408541	0.496570
+7	ICA (arbitrary sign)	150	0.335000	0.291818	0.377833
+7	ICA (stronger-tail sign)	150	0.464933	0.422649	0.506580
+15	SAE	150	0.289760	0.247048	0.333549
+15	ICA (arbitrary sign)	150	0.166976	0.135281	0.200174
+15	ICA (stronger-tail sign)	150	0.210290	0.172935	0.249399
+23	SAE	150	0.353700	0.313044	0.395383
+23	ICA (arbitrary sign)	150	0.353158	0.308925	0.399311
+23	ICA (stronger-tail sign)	150	0.449267	0.404038	0.495934
+31	SAE	150	0.303898	0.258048	0.350428
+31	ICA (arbitrary sign)	150	0.245485	0.202216	0.290768
+31	ICA (stronger-tail sign)	150	0.335925	0.291260	0.381778
+Arbitrary sign scores the raw fitted sign's positive tail; components the stronger-tail rule left unchanged reuse their stored scores.

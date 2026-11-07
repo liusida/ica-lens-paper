@@ -72,3 +72,4 @@ local-r-lens-models/
 paper/
 
 AGENTS.md
+/experiments/autointerpretability/qwen-arbitrary-sign/runs/

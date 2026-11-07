@@ -9,7 +9,7 @@ from pathlib import Path
 
 from icalens.cli._status import log
 
-TINKER_VERSION = "0.25.0"
+TINKER_VERSION = "0.39.0"
 TINKER_COOKBOOK_VERSION = "0.5.5"
 _ISOLATED = "ICALENS_TINKER_ISOLATED"
 
