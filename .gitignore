@@ -51,6 +51,8 @@ misc/
 /experiments/efficiency-measurement/results/
 /experiments/efficiency-measurement/smoke/
 /experiments/efficiency-measurement/fitting-time-results/
+/experiments/ravel/reference/
+
 pilot-experiments/output/
 /pilot-experiments/
 .worktrees/
