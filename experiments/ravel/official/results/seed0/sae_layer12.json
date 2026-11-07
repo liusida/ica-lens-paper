@@ -1,0 +1,125 @@
+{
+  "method": "sae",
+  "layer": 12,
+  "add_error": false,
+  "full_swap": false,
+  "budget": null,
+  "default_config": true,
+  "seed": 0,
+  "featurizer_cfg": {
+    "hook_layer": "12",
+    "hook_name": "model.layers.12",
+    "d_sae": "16384",
+    "d_in": "2304",
+    "architecture": "jumprelu",
+    "model_name": "google/gemma-2-2b",
+    "notes": "{'checkpoint': 'layer_12/width_16k/average_l0_41'}"
+  },
+  "ravel_config": {
+    "entity_attribute_selection": "{'city': ['Country', 'Continent', 'Language'], 'nobel_prize_winner': ['Country of Birth', 'Field', 'Gender']}",
+    "top_n_entities": "500",
+    "top_n_templates": "90",
+    "full_dataset_downsample": "None",
+    "num_pairs_per_attribute": "5000",
+    "train_test_split": "0.7",
+    "force_dataset_recompute": "False",
+    "model_name": "google/gemma-2-2b",
+    "llm_dtype": "bfloat16",
+    "llm_batch_size": "8",
+    "learning_rate": "0.001",
+    "num_epochs": "2",
+    "train_mdas": "False",
+    "n_generated_tokens": "6",
+    "random_seed": "0",
+    "artifact_dir": "/workspace/run/runs/20261107-204957_ravel-default-sae-seed0/outputs/dataset"
+  },
+  "d_sae": 16384,
+  "elapsed_seconds": 2730.8,
+  "metrics": {
+    "disentanglement_score": 0.6621397152594661,
+    "cause_score": 0.5986747352446695,
+    "isolation_score": 0.7256046952742627
+  },
+  "per_attribute": {
+    "city_results": {
+      "city_Country": {
+        "cause_score": 0.6357000663570007,
+        "isolation_score": 0.4621567314132619,
+        "disentangle_score": 0.5489283988851313
+      },
+      "city_Continent": {
+        "cause_score": 0.44436952124072826,
+        "isolation_score": 0.6941331575477917,
+        "disentangle_score": 0.56925133939426
+      },
+      "city_Language": {
+        "cause_score": 0.5661619486504279,
+        "isolation_score": 0.45847400405131666,
+        "disentangle_score": 0.5123179763508723
+      }
+    },
+    "nobel_prize_winner_results": {
+      "nobel_prize_winner_Country of Birth": {
+        "cause_score": 0.6261872455902306,
+        "isolation_score": 0.9148099606815203,
+        "disentangle_score": 0.7704986031358755
+      },
+      "nobel_prize_winner_Field": {
+        "cause_score": 0.7685185185185185,
+        "isolation_score": 0.9294354838709677,
+        "disentangle_score": 0.8489770011947431
+      },
+      "nobel_prize_winner_Gender": {
+        "cause_score": 0.5511111111111111,
+        "isolation_score": 0.8946188340807175,
+        "disentangle_score": 0.7228649725959143
+      }
+    }
+  },
+  "mask_selection_in_attribute_order": [
+    {
+      "selected": 1981,
+      "total": 16384
+    },
+    {
+      "selected": 1775,
+      "total": 16384
+    },
+    {
+      "selected": 1672,
+      "total": 16384
+    },
+    {
+      "selected": 2371,
+      "total": 16384
+    },
+    {
+      "selected": 2627,
+      "total": 16384
+    },
+    {
+      "selected": 1800,
+      "total": 16384
+    }
+  ],
+  "args": {
+    "method": "sae",
+    "default_config": "True",
+    "dataset_only": "False",
+    "dataset_workdir": "/tmp/ravel_dataset_work",
+    "tag": "",
+    "seed": "0",
+    "budget": "None",
+    "full_swap": "False",
+    "layer": "12",
+    "attributes": "Country,Continent",
+    "downsample": "6000",
+    "top_n_entities": "100",
+    "pairs": "400",
+    "epochs": "1",
+    "batch_size": "16",
+    "add_error": "False",
+    "output": "/workspace/run/runs/20261107-204957_ravel-default-sae-seed0/outputs",
+    "dataset_dir": "dataset_default"
+  }
+}

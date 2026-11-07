@@ -151,7 +151,7 @@ with plt.rc_context(PAPER_STYLE):
     fig, ax = plt.subplots(figsize=(3.3, 3.05))
     pts = {m: overall_point(m) for m in LEGEND_ORDER}
     tradeoff_axes(ax, pts, 0.60, 0.82, (0.65, 0.70, 0.75, 0.80),
-                  labels={"ica": (6, 2, "left"), "sae": (6, -2, "left"),
+                  labels={"ica": (6, 2, "left"), "sae": (5, -9, "left"),
                           "pca": (6, -7, "left"), "random": (-6, 5, "right")})
     ax.set_xticks([0.60, 0.65, 0.70, 0.75, 0.80])
     ax.set_yticks([0.60, 0.65, 0.70, 0.75, 0.80])

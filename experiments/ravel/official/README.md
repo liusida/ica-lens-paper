@@ -64,14 +64,18 @@ min-max whiskers, and updates the captions.
 - mask sizes and the elapsed time;
 - the resolved RAVEL and featurizer configs.
 
-Seed 42:
+Disentangle by seed, then the mean (overall Cause and Isolation in the last two
+columns):
 
-| Method | Disentangle | Cause | Isolation |
-|---|---|---|---|
-| ICA | 0.768 | 0.753 | 0.782 |
-| PCA | 0.719 | 0.690 | 0.748 |
-| Random | 0.718 | 0.688 | 0.748 |
-| SAE (Gemma Scope 16k `l0_41`) | 0.665 | 0.631 | 0.699 |
+| Method | Seed 42 | Seed 0 | Mean | Cause (mean) | Isolation (mean) |
+|---|---|---|---|---|---|
+| ICA | 0.768 | 0.767 | **0.767** | 0.751 | 0.783 |
+| PCA | 0.719 | 0.723 | 0.721 | 0.690 | 0.752 |
+| Random | 0.718 | 0.723 | 0.720 | 0.689 | 0.752 |
+| SAE (Gemma Scope 16k `l0_41`) | 0.665 | 0.662 | 0.664 | 0.615 | 0.713 |
+
+Disentangle moves by at most 0.005 between seeds. ICA's 0.046 lead over PCA and
+Random is about ten times larger than that.
 
 For reference, Chanin (2026) reports Disentangle 0.706 ± 0.001 under the same
 config for the canonical 65k Gemma Scope SAE.
@@ -81,7 +85,7 @@ Figures:
 - `figures/ravel-gemma2-layer12-attributes.*` has one panel per attribute test
   set.
 
-## Provenance (seed 42)
+## Provenance
 
 | Run | RunPod run ID | Pod time | Cost |
 |---|---|---|---|
@@ -90,3 +94,7 @@ Figures:
 | ICA | `20261107-191206_ravel-default-ica` | 36 min | $0.53 |
 | PCA | `20261107-191226_ravel-default-pca` | 42 min | $0.62 |
 | Random | `20261107-191246_ravel-default-random` | 43 min | $0.63 |
+| SAE seed 0 | `20261107-204957_ravel-default-sae-seed0` | 48 min | $0.72 |
+| ICA seed 0 | `20261107-205017_ravel-default-ica-seed0` | 32 min | $0.48 |
+| PCA seed 0 | `20261107-205037_ravel-default-pca-seed0` | 23 min | $0.34 |
+| Random seed 0 | `20261107-205057_ravel-default-random-seed0` | 37 min | $0.55 |

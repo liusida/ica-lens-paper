@@ -1,0 +1,125 @@
+{
+  "method": "random",
+  "layer": 12,
+  "add_error": false,
+  "full_swap": false,
+  "budget": null,
+  "default_config": true,
+  "seed": 0,
+  "featurizer_cfg": {
+    "hook_layer": "12",
+    "hook_name": "model.layers.12",
+    "d_sae": "4608",
+    "d_in": "2304",
+    "architecture": "random_orthogonal_split_sign",
+    "model_name": "google/gemma-2-2b",
+    "notes": "{'lens': 'icalens-gemma-2-2b-pile10k', 'components': 2304, 'seed': 0}"
+  },
+  "ravel_config": {
+    "entity_attribute_selection": "{'city': ['Country', 'Continent', 'Language'], 'nobel_prize_winner': ['Country of Birth', 'Field', 'Gender']}",
+    "top_n_entities": "500",
+    "top_n_templates": "90",
+    "full_dataset_downsample": "None",
+    "num_pairs_per_attribute": "5000",
+    "train_test_split": "0.7",
+    "force_dataset_recompute": "False",
+    "model_name": "google/gemma-2-2b",
+    "llm_dtype": "bfloat16",
+    "llm_batch_size": "8",
+    "learning_rate": "0.001",
+    "num_epochs": "2",
+    "train_mdas": "False",
+    "n_generated_tokens": "6",
+    "random_seed": "0",
+    "artifact_dir": "/workspace/run/runs/20261107-205057_ravel-default-random-seed0/outputs/dataset"
+  },
+  "d_sae": 4608,
+  "elapsed_seconds": 2092.4,
+  "metrics": {
+    "disentanglement_score": 0.7232409014110956,
+    "cause_score": 0.6902006224733426,
+    "isolation_score": 0.7562811803488486
+  },
+  "per_attribute": {
+    "city_results": {
+      "city_Country": {
+        "cause_score": 0.7796947577969475,
+        "isolation_score": 0.5539182853315472,
+        "disentangle_score": 0.6668065215642474
+      },
+      "city_Continent": {
+        "cause_score": 0.708024275118004,
+        "isolation_score": 0.8009228740936059,
+        "disentangle_score": 0.7544735746058049
+      },
+      "city_Language": {
+        "cause_score": 0.6708360763660303,
+        "isolation_score": 0.6637407157326131,
+        "disentangle_score": 0.6672883960493217
+      }
+    },
+    "nobel_prize_winner_results": {
+      "nobel_prize_winner_Country of Birth": {
+        "cause_score": 0.5780189959294437,
+        "isolation_score": 0.8263433813892529,
+        "disentangle_score": 0.7021811886593483
+      },
+      "nobel_prize_winner_Field": {
+        "cause_score": 0.7824074074074074,
+        "isolation_score": 0.8205645161290323,
+        "disentangle_score": 0.8014859617682198
+      },
+      "nobel_prize_winner_Gender": {
+        "cause_score": 0.6222222222222222,
+        "isolation_score": 0.8721973094170403,
+        "disentangle_score": 0.7472097658196313
+      }
+    }
+  },
+  "mask_selection_in_attribute_order": [
+    {
+      "selected": 2835,
+      "total": 4608
+    },
+    {
+      "selected": 1960,
+      "total": 4608
+    },
+    {
+      "selected": 2334,
+      "total": 4608
+    },
+    {
+      "selected": 2799,
+      "total": 4608
+    },
+    {
+      "selected": 2742,
+      "total": 4608
+    },
+    {
+      "selected": 1899,
+      "total": 4608
+    }
+  ],
+  "args": {
+    "method": "random",
+    "default_config": "True",
+    "dataset_only": "False",
+    "dataset_workdir": "/tmp/ravel_dataset_work",
+    "tag": "",
+    "seed": "0",
+    "budget": "None",
+    "full_swap": "False",
+    "layer": "12",
+    "attributes": "Country,Continent",
+    "downsample": "6000",
+    "top_n_entities": "100",
+    "pairs": "400",
+    "epochs": "1",
+    "batch_size": "16",
+    "add_error": "False",
+    "output": "/workspace/run/runs/20261107-205057_ravel-default-random-seed0/outputs",
+    "dataset_dir": "dataset_default"
+  }
+}
