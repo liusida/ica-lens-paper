@@ -1,0 +1,1522 @@
+{
+ "run": "/home/liusida/research/ICA-paper/icalens_pypi/experiments/tpp/official/results/seed-0/gemma2",
+ "layer": 12,
+ "methods": {
+  "ica": {
+   "d_features": 2304,
+   "tpp_check": {
+    "1": {
+     "stored": null,
+     "reproduced": 0.009124994277954102
+    },
+    "2": {
+     "stored": 0.017125000059604645,
+     "reproduced": 0.012812496721744537
+    },
+    "5": {
+     "stored": 0.046899995207786566,
+     "reproduced": 0.03774999231100082
+    },
+    "10": {
+     "stored": 0.09707500338554383,
+     "reproduced": 0.09168749004602433
+    },
+    "20": {
+     "stored": 0.18972500413656235,
+     "reproduced": 0.20043748766183855
+    },
+    "50": {
+     "stored": 0.3604000136256218,
+     "reproduced": 0.36306248754262926
+    },
+    "100": {
+     "stored": 0.375425037741661,
+     "reproduced": 0.3634999811649322
+    }
+   },
+   "tpp_reproduced": {
+    "tpp_threshold_1_total_metric": 0.009124994277954102,
+    "tpp_threshold_1_intended_diff_only": 0.015900057554244996,
+    "tpp_threshold_1_unintended_diff_only": 0.006775063276290894,
+    "tpp_threshold_2_total_metric": 0.012812496721744537,
+    "tpp_threshold_2_intended_diff_only": 0.021400058269500734,
+    "tpp_threshold_2_unintended_diff_only": 0.008587561547756195,
+    "tpp_threshold_5_total_metric": 0.03774999231100082,
+    "tpp_threshold_5_intended_diff_only": 0.04915005564689636,
+    "tpp_threshold_5_unintended_diff_only": 0.011400063335895537,
+    "tpp_threshold_10_total_metric": 0.09168749004602433,
+    "tpp_threshold_10_intended_diff_only": 0.11065005064010619,
+    "tpp_threshold_10_unintended_diff_only": 0.01896256059408188,
+    "tpp_threshold_20_total_metric": 0.20043748766183855,
+    "tpp_threshold_20_intended_diff_only": 0.22640005350112913,
+    "tpp_threshold_20_unintended_diff_only": 0.025962565839290616,
+    "tpp_threshold_50_total_metric": 0.36306248754262926,
+    "tpp_threshold_50_intended_diff_only": 0.41090005040168764,
+    "tpp_threshold_50_unintended_diff_only": 0.04783756285905838,
+    "tpp_threshold_100_total_metric": 0.3634999811649322,
+    "tpp_threshold_100_intended_diff_only": 0.4389000415802002,
+    "tpp_threshold_100_unintended_diff_only": 0.07540006041526795
+   },
+   "rows": [
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.011813540094643984,
+     "token_abs": 1.7540568432257788,
+     "token_nonzero": 0.61491270112975,
+     "pooled_rel": 0.0171585436463356
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.016238671041277734,
+     "token_abs": 2.4039559774584904,
+     "token_nonzero": 0.8138034919548099,
+     "pooled_rel": 0.021395265579223634
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.029198445415137688,
+     "token_abs": 4.318129265983396,
+     "token_nonzero": 0.9737624101335159,
+     "pooled_rel": 0.03422267150878906
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.04747542984964749,
+     "token_abs": 6.966310659876754,
+     "token_nonzero": 0.9993837726805889,
+     "pooled_rel": 0.0535987331867218
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.12111947879445181,
+     "token_abs": 17.678595943170148,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.13981680822372436
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.1563928502653201,
+     "token_abs": 22.86352683156453,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.17398483180999755
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.189655842792494,
+     "token_abs": 27.705891175967135,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.207295223236084
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.022879048170842606,
+     "token_abs": 3.4332418398022937,
+     "token_nonzero": 0.6112016432728518,
+     "pooled_rel": 0.03146919572353363
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.036294597141222774,
+     "token_abs": 5.393917724024306,
+     "token_nonzero": 0.8386716877781581,
+     "pooled_rel": 0.04661758518218994
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.04508002574049582,
+     "token_abs": 6.683788220001712,
+     "token_nonzero": 0.9786511468675111,
+     "pooled_rel": 0.05367055296897888
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.05895429079029014,
+     "token_abs": 8.72504905212256,
+     "token_nonzero": 0.9986716877781582,
+     "pooled_rel": 0.0678880410194397
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.07762989643623223,
+     "token_abs": 11.47561510398836,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.08701432514190674
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.12607465671538,
+     "token_abs": 18.625259970900377,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.1398421688079834
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.18136788289541253,
+     "token_abs": 26.774998074289627,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.20319238567352296
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.011597219282370322,
+     "token_abs": 1.7030696291402774,
+     "token_nonzero": 0.5655871276959945,
+     "pooled_rel": 0.016209239661693572
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.018313784914366065,
+     "token_abs": 2.659181292258644,
+     "token_nonzero": 0.7997808969530983,
+     "pooled_rel": 0.023274813532829286
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.030901335990824792,
+     "token_abs": 4.505531348960116,
+     "token_nonzero": 0.9759260527216707,
+     "pooled_rel": 0.03580638408660888
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.04720522338908978,
+     "token_abs": 6.876017657694283,
+     "token_nonzero": 0.9985073604929818,
+     "pooled_rel": 0.054393347024917604
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.0675166773706297,
+     "token_abs": 9.836450701814448,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.07637869787216187
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.11686662098676609,
+     "token_abs": 17.09258173570695,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.12549318027496337
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.19714903176218546,
+     "token_abs": 28.613189083361863,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.20846675872802733
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.018952831410659742,
+     "token_abs": 2.694153282533807,
+     "token_nonzero": 0.6399726121191373,
+     "pooled_rel": 0.02980382513999939
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.027276055617758525,
+     "token_abs": 3.9356511843118795,
+     "token_nonzero": 0.8141047586442999,
+     "pooled_rel": 0.038784930586814884
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.046191988392914454,
+     "token_abs": 6.621172730871277,
+     "token_nonzero": 0.9731872646353988,
+     "pooled_rel": 0.05969207572937012
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.05810832430099388,
+     "token_abs": 8.327636217262924,
+     "token_nonzero": 0.998630605956864,
+     "pooled_rel": 0.0711333224773407
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.07382623021466321,
+     "token_abs": 10.587002471328312,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.08553110837936401
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.10652708957963347,
+     "token_abs": 15.308670403971243,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.11570930337905884
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.1403371171647659,
+     "token_abs": 20.22108310510099,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.14518050098419188
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.014924654674954465,
+     "token_abs": 2.1788758398236907,
+     "token_nonzero": 0.4126532009585758,
+     "pooled_rel": 0.018916183471679688
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.020968216396855477,
+     "token_abs": 3.060283066051866,
+     "token_nonzero": 0.670085587127696,
+     "pooled_rel": 0.025727947652339937
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.04105531017978646,
+     "token_abs": 6.0231887222911675,
+     "token_nonzero": 0.9523587812393016,
+     "pooled_rel": 0.048068402886390686
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.060716283602977365,
+     "token_abs": 8.83674833105101,
+     "token_nonzero": 0.9976172543649435,
+     "pooled_rel": 0.067195631980896
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.08722655414188206,
+     "token_abs": 12.730911395926054,
+     "token_nonzero": 0.9999863060595686,
+     "pooled_rel": 0.09668610095977784
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.14286591255268957,
+     "token_abs": 20.767763822321122,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.1551843023300171
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.18788814848965465,
+     "token_abs": 27.20923110664156,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.19771644496917726
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.007747628535344569,
+     "token_abs": 1.188139572231444,
+     "token_nonzero": 0.477102368666067,
+     "pooled_rel": 0.011076160132884979
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.014008435152695516,
+     "token_abs": 2.1257358083827462,
+     "token_nonzero": 0.7652243210402563,
+     "pooled_rel": 0.017585584819316866
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.029134469150501736,
+     "token_abs": 4.3806138820835105,
+     "token_nonzero": 0.9789960390727327,
+     "pooled_rel": 0.03187786781787872
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.042710977381040884,
+     "token_abs": 6.416178393122031,
+     "token_nonzero": 0.9997554009058057,
+     "pooled_rel": 0.04522464966773987
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.08109475298804793,
+     "token_abs": 12.199825747802553,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.08661866474151611
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.12892596321218527,
+     "token_abs": 19.398167750595718,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.1393133020401001
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.1570521207505839,
+     "token_abs": 23.632701789321278,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.15961902713775636
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.005666626327638175,
+     "token_abs": 0.8664281632864157,
+     "token_nonzero": 0.47811232621628874,
+     "pooled_rel": 0.00809789264202118
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.016729797284782848,
+     "token_abs": 2.528603407595788,
+     "token_nonzero": 0.8321418990358062,
+     "pooled_rel": 0.021057114243507386
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.04029010255663073,
+     "token_abs": 6.0661835341413,
+     "token_nonzero": 0.9894112263093942,
+     "pooled_rel": 0.048154111862182616
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.0605345165583354,
+     "token_abs": 9.143105326046648,
+     "token_nonzero": 0.9998027426659724,
+     "pooled_rel": 0.06837175416946412
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.07002937263799754,
+     "token_abs": 10.59796421801275,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.07458287382125854
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.10377354474326465,
+     "token_abs": 15.68545690716281,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.107628333568573
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.15777084441364764,
+     "token_abs": 23.64800131472013,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.15445516395568848
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.010472922931705998,
+     "token_abs": 1.6092966364419117,
+     "token_nonzero": 0.49468194227461376,
+     "pooled_rel": 0.015082284569740296
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.016659567521616937,
+     "token_abs": 2.5330314802979377,
+     "token_nonzero": 0.7811390427496094,
+     "pooled_rel": 0.0214329274892807
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.047580245294811564,
+     "token_abs": 7.236358699886774,
+     "token_nonzero": 0.9801164607300099,
+     "pooled_rel": 0.05803276419639587
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.06146789626871726,
+     "token_abs": 9.35435547892108,
+     "token_nonzero": 0.9995818144518613,
+     "pooled_rel": 0.07279612827301025
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.09126159198904679,
+     "token_abs": 13.86916099798403,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.1089883189201355
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.13097595138753274,
+     "token_abs": 19.794482021966576,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.14747722816467285
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.16917204670634498,
+     "token_abs": 25.591781001948902,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.18909448337554932
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.0056900109955649305,
+     "token_abs": 0.8716040377713274,
+     "token_nonzero": 0.37308463128659125,
+     "pooled_rel": 0.008180286467075347
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.014213812255474106,
+     "token_abs": 2.1479846094896557,
+     "token_nonzero": 0.7094715081506731,
+     "pooled_rel": 0.017315850496292116
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.02803042572728933,
+     "token_abs": 4.261884261231833,
+     "token_nonzero": 0.9540784926383563,
+     "pooled_rel": 0.03045738649368286
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.04866399784428555,
+     "token_abs": 7.411436974062633,
+     "token_nonzero": 0.9992267512506114,
+     "pooled_rel": 0.053388441562652586
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.0637431999001508,
+     "token_abs": 9.6759185287759,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.0666078314781189
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.10910381836107018,
+     "token_abs": 16.50381865541511,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.10911988258361817
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.14999685389962955,
+     "token_abs": 22.629776339771812,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.1419791555404663
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.00945282924523095,
+     "token_abs": 1.4487526756108073,
+     "token_nonzero": 0.5283261531663748,
+     "pooled_rel": 0.013550401329994202
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.016464305335239918,
+     "token_abs": 2.5339210029992976,
+     "token_nonzero": 0.7766021240669728,
+     "pooled_rel": 0.020954792618751526
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.04149791918169768,
+     "token_abs": 6.2859653441055565,
+     "token_nonzero": 0.9794142246208714,
+     "pooled_rel": 0.04948410248756409
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.056433750648560536,
+     "token_abs": 8.557149209885749,
+     "token_nonzero": 0.9996922785589168,
+     "pooled_rel": 0.06356954002380372
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.07828728846308428,
+     "token_abs": 11.860392477986082,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.0826959810256958
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.12580490238720826,
+     "token_abs": 19.024052449738832,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.12960307502746582
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.16997621323123294,
+     "token_abs": 25.718096954938535,
+     "token_nonzero": 1.0,
+     "pooled_rel": 0.17479174041748047
+    }
+   ]
+  },
+  "sae": {
+   "d_features": 16384,
+   "tpp_check": {
+    "1": {
+     "stored": null,
+     "reproduced": 0.002937495708465576
+    },
+    "2": {
+     "stored": 0.010850010812282563,
+     "reproduced": 0.008187498152256011
+    },
+    "5": {
+     "stored": 0.016499999165534972,
+     "reproduced": 0.011437498033046722
+    },
+    "10": {
+     "stored": 0.02712501436471939,
+     "reproduced": 0.02674999386072159
+    },
+    "20": {
+     "stored": 0.05249999761581421,
+     "reproduced": 0.054749995470047
+    },
+    "50": {
+     "stored": 0.09960000514984131,
+     "reproduced": 0.09868750274181366
+    },
+    "100": {
+     "stored": 0.15407501459121703,
+     "reproduced": 0.16231249272823334
+    }
+   },
+   "tpp_reproduced": {
+    "tpp_threshold_1_total_metric": 0.002937495708465576,
+    "tpp_threshold_1_intended_diff_only": 0.007400059700012207,
+    "tpp_threshold_1_unintended_diff_only": 0.0044625639915466305,
+    "tpp_threshold_2_total_metric": 0.008187498152256011,
+    "tpp_threshold_2_intended_diff_only": 0.01440005898475647,
+    "tpp_threshold_2_unintended_diff_only": 0.006212560832500458,
+    "tpp_threshold_5_total_metric": 0.011437498033046722,
+    "tpp_threshold_5_intended_diff_only": 0.019900065660476685,
+    "tpp_threshold_5_unintended_diff_only": 0.008462567627429963,
+    "tpp_threshold_10_total_metric": 0.02674999386072159,
+    "tpp_threshold_10_intended_diff_only": 0.033650058507919314,
+    "tpp_threshold_10_unintended_diff_only": 0.006900064647197723,
+    "tpp_threshold_20_total_metric": 0.054749995470047,
+    "tpp_threshold_20_intended_diff_only": 0.06515005826950074,
+    "tpp_threshold_20_unintended_diff_only": 0.010400062799453736,
+    "tpp_threshold_50_total_metric": 0.09868750274181366,
+    "tpp_threshold_50_intended_diff_only": 0.10815006494522095,
+    "tpp_threshold_50_unintended_diff_only": 0.009462562203407288,
+    "tpp_threshold_100_total_metric": 0.16231249272823334,
+    "tpp_threshold_100_intended_diff_only": 0.17590005397796632,
+    "tpp_threshold_100_unintended_diff_only": 0.013587561249732972
+   },
+   "rows": [
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.0027627436911068074,
+     "token_abs": 0.4308300060623519,
+     "token_nonzero": 0.03304347826086956,
+     "pooled_rel": 0.004205100013175979
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.004112892371054913,
+     "token_abs": 0.6342650037463174,
+     "token_nonzero": 0.05773365285861007,
+     "pooled_rel": 0.005717571432003752
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.010052102770310729,
+     "token_abs": 1.5013756939745324,
+     "token_nonzero": 0.13903457719958917,
+     "pooled_rel": 0.012091824481263757
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.0175723025260907,
+     "token_abs": 2.596311254974752,
+     "token_nonzero": 0.21874700445053064,
+     "pooled_rel": 0.019823923230171205
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.028309284851429438,
+     "token_abs": 4.14237175638159,
+     "token_nonzero": 0.3220677850051352,
+     "pooled_rel": 0.02854727417230606
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.14965496435429862,
+     "token_abs": 21.587716856384798,
+     "token_nonzero": 0.9854022595001711,
+     "pooled_rel": 0.18775683975219726
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "0",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.19291398928288686,
+     "token_abs": 28.51765737333105,
+     "token_nonzero": 0.9869907565902089,
+     "pooled_rel": 0.22025345706939697
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.002936998913852126,
+     "token_abs": 0.4396053471184887,
+     "token_nonzero": 0.04031496062992126,
+     "pooled_rel": 0.003901396763511002
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.004904365957456678,
+     "token_abs": 0.7275373481455343,
+     "token_nonzero": 0.07293392673741869,
+     "pooled_rel": 0.006162363199517131
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.007080078999990472,
+     "token_abs": 1.0628600121393306,
+     "token_nonzero": 0.09592605272167067,
+     "pooled_rel": 0.008371415365487337
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.009458999356273428,
+     "token_abs": 1.4287297006389614,
+     "token_nonzero": 0.116987333105101,
+     "pooled_rel": 0.010635642163455486
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.016767365894102146,
+     "token_abs": 2.523553587571679,
+     "token_nonzero": 0.2197329681615885,
+     "pooled_rel": 0.017695842452347278
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.0876185440225415,
+     "token_abs": 14.018021814019171,
+     "token_nonzero": 0.6811229031153715,
+     "pooled_rel": 0.10737204122543335
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "1",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.1145607796485846,
+     "token_abs": 17.935984305460458,
+     "token_nonzero": 0.802478603218076,
+     "pooled_rel": 0.12119482851028443
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.00767854347819949,
+     "token_abs": 1.1187482024822608,
+     "token_nonzero": 0.1031153714481342,
+     "pooled_rel": 0.010691003641113639
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.010381709804521853,
+     "token_abs": 1.516628022525295,
+     "token_nonzero": 0.13462512838069154,
+     "pooled_rel": 0.013608092293143272
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.013316087828071017,
+     "token_abs": 1.9555797209408299,
+     "token_nonzero": 0.147072920232797,
+     "pooled_rel": 0.016623000036925076
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.02486862518247861,
+     "token_abs": 3.6207974480325658,
+     "token_nonzero": 0.2846970215679562,
+     "pooled_rel": 0.028396417826414107
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.05811403791041702,
+     "token_abs": 8.473184322577884,
+     "token_nonzero": 0.5877028414926395,
+     "pooled_rel": 0.060658824920654296
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.0911016492572642,
+     "token_abs": 12.970710801095516,
+     "token_nonzero": 0.6844642245806231,
+     "pooled_rel": 0.07305873560905457
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "2",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.10996097009665996,
+     "token_abs": 15.66486177678877,
+     "token_nonzero": 0.7729681615884971,
+     "pooled_rel": 0.08170237398147583
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.01256669138931567,
+     "token_abs": 1.7227274681647646,
+     "token_nonzero": 0.14385484423142758,
+     "pooled_rel": 0.020478741754777728
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.016178304502630185,
+     "token_abs": 2.2883529512639815,
+     "token_nonzero": 0.16,
+     "pooled_rel": 0.023784736608155072
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.022581086215888013,
+     "token_abs": 3.2062382886051437,
+     "token_nonzero": 0.20483396097226977,
+     "pooled_rel": 0.03065424872934818
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.02686625430046063,
+     "token_abs": 3.802630562996138,
+     "token_nonzero": 0.21836357411845259,
+     "pooled_rel": 0.035316986486315725
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.08614528949845943,
+     "token_abs": 10.952804743666553,
+     "token_nonzero": 0.49251626155426226,
+     "pooled_rel": 0.09067866349220276
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.0965379070737761,
+     "token_abs": 12.504842466193084,
+     "token_nonzero": 0.5583156453269428,
+     "pooled_rel": 0.09608332443237305
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "6",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.11005282414118667,
+     "token_abs": 14.559627589010613,
+     "token_nonzero": 0.6743170147209859,
+     "pooled_rel": 0.10033891105651856
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.004476773188727149,
+     "token_abs": 0.6384245550252934,
+     "token_nonzero": 0.05843204382060938,
+     "pooled_rel": 0.0053551056105643514
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.007386437497780528,
+     "token_abs": 1.0718735362584768,
+     "token_nonzero": 0.09707634371790483,
+     "pooled_rel": 0.00841182069806382
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.012022272158836266,
+     "token_abs": 1.760743813362892,
+     "token_nonzero": 0.1360082163642588,
+     "pooled_rel": 0.01254876192775555
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.016397102679834102,
+     "token_abs": 2.409195640117328,
+     "token_nonzero": 0.17159876754536119,
+     "pooled_rel": 0.01605865828320384
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.022766578789240526,
+     "token_abs": 3.3271997906124295,
+     "token_nonzero": 0.22115713796644984,
+     "pooled_rel": 0.02095693165063858
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.04300596869918264,
+     "token_abs": 6.259054489579767,
+     "token_nonzero": 0.43982197877439233,
+     "pooled_rel": 0.03757121694087982
+    },
+    {
+     "dataset": "LabHC/bias_in_bios_class_set1",
+     "class": "9",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.08829519301234594,
+     "token_abs": 12.75798843503937,
+     "token_nonzero": 0.8004792879150976,
+     "pooled_rel": 0.08843282794952392
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.0016763875030120932,
+     "token_abs": 0.2581057679830188,
+     "token_nonzero": 0.030685350881345767,
+     "pooled_rel": 0.0023951793555170298
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.002823302057265001,
+     "token_abs": 0.43528797691622245,
+     "token_nonzero": 0.05045842604428032,
+     "pooled_rel": 0.003698302250355482
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.0043987654118139916,
+     "token_abs": 0.6759771136262037,
+     "token_nonzero": 0.07152550931843646,
+     "pooled_rel": 0.004868807766586542
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.006206535879543667,
+     "token_abs": 0.9549149504199855,
+     "token_nonzero": 0.08448926131073553,
+     "pooled_rel": 0.006593876801431179
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.018886501027699152,
+     "token_abs": 2.8628193519184264,
+     "token_nonzero": 0.29932616894696146,
+     "pooled_rel": 0.019651126384735106
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.029109257197496324,
+     "token_abs": 4.391559414155581,
+     "token_nonzero": 0.44838959112499804,
+     "pooled_rel": 0.024708981871604918
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "1",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.07281278053306206,
+     "token_abs": 10.711287076981646,
+     "token_nonzero": 0.7607426344111474,
+     "pooled_rel": 0.05009126019477844
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.003046755168487207,
+     "token_abs": 0.4626205322254067,
+     "token_nonzero": 0.05701525982736038,
+     "pooled_rel": 0.004336131609976292
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.004391172034594957,
+     "token_abs": 0.6732308210277119,
+     "token_nonzero": 0.07233031924126938,
+     "pooled_rel": 0.005950549457222223
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.006831881137216963,
+     "token_abs": 1.0645707859176017,
+     "token_nonzero": 0.09823415234578421,
+     "pooled_rel": 0.008515198029577732
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.013893181559553006,
+     "token_abs": 2.1466861630884186,
+     "token_nonzero": 0.20801969417222932,
+     "pooled_rel": 0.015288444340229034
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.04826885687456295,
+     "token_abs": 7.209882265727328,
+     "token_nonzero": 0.6403683188940965,
+     "pooled_rel": 0.052350212335586545
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.06560712037564084,
+     "token_abs": 9.786516832461455,
+     "token_nonzero": 0.7630071486057851,
+     "pooled_rel": 0.0593978259563446
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "2",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.08217230633090017,
+     "token_abs": 12.31536047791507,
+     "token_nonzero": 0.8406634158658018,
+     "pooled_rel": 0.06860438442230224
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.000661332227193148,
+     "token_abs": 0.10379271496803753,
+     "token_nonzero": 0.011898562388549607,
+     "pooled_rel": 0.0009735577888786793
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.0025422108623163494,
+     "token_abs": 0.3892256923023531,
+     "token_nonzero": 0.049700957881614036,
+     "pooled_rel": 0.0034793271496891976
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.004449272146731994,
+     "token_abs": 0.6903231280864609,
+     "token_nonzero": 0.07970774353390458,
+     "pooled_rel": 0.005466363847255707
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.006975622456593986,
+     "token_abs": 1.0963491620323522,
+     "token_nonzero": 0.1178099701746911,
+     "pooled_rel": 0.007890175402164459
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.016791283927240493,
+     "token_abs": 2.551968808499128,
+     "token_nonzero": 0.2791743597026937,
+     "pooled_rel": 0.016025015234947204
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.041475658864923354,
+     "token_abs": 6.296279067101027,
+     "token_nonzero": 0.5855781217945684,
+     "pooled_rel": 0.03220069098472595
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "3",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.060846168457747846,
+     "token_abs": 9.297175694148558,
+     "token_nonzero": 0.6955293597815967,
+     "pooled_rel": 0.04609822297096253
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.0016415947584843356,
+     "token_abs": 0.2565512514872124,
+     "token_nonzero": 0.0287364484211523,
+     "pooled_rel": 0.002417571862228215
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.001991351757323613,
+     "token_abs": 0.3154186690693997,
+     "token_nonzero": 0.030772144108317946,
+     "pooled_rel": 0.0028507482605054976
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.0034269770360827855,
+     "token_abs": 0.5391807566386031,
+     "token_nonzero": 0.04791775158200382,
+     "pooled_rel": 0.004595369771122932
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.0075904391574894235,
+     "token_abs": 1.1565662166055661,
+     "token_nonzero": 0.111986933674194,
+     "pooled_rel": 0.008691701829433442
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.031166229443088916,
+     "token_abs": 4.769629077309094,
+     "token_nonzero": 0.42461613722798214,
+     "pooled_rel": 0.034395158529281614
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.04677727430540145,
+     "token_abs": 7.168367518029321,
+     "token_nonzero": 0.5873849989742619,
+     "pooled_rel": 0.041439237594604494
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "5",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.08555620581127503,
+     "token_abs": 12.914328119328852,
+     "token_nonzero": 0.8506446369676025,
+     "pooled_rel": 0.07062982225418091
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 1,
+     "n_selected": 1,
+     "token_rel": 0.0004056779030392949,
+     "token_abs": 0.06218752185072849,
+     "token_nonzero": 0.00799286717480156,
+     "pooled_rel": 0.0005847998266108334
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 2,
+     "n_selected": 2,
+     "token_rel": 0.0010744004933273368,
+     "token_abs": 0.17033984335317373,
+     "token_nonzero": 0.02041218892518424,
+     "pooled_rel": 0.0015312672294676304
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 5,
+     "n_selected": 5,
+     "token_rel": 0.004401135101135357,
+     "token_abs": 0.691592806508925,
+     "token_nonzero": 0.07927377739904369,
+     "pooled_rel": 0.005240509256720543
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 10,
+     "n_selected": 10,
+     "token_rel": 0.012735479662741894,
+     "token_abs": 1.954417940918223,
+     "token_nonzero": 0.21475800470261483,
+     "pooled_rel": 0.013069705158472061
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 20,
+     "n_selected": 20,
+     "token_rel": 0.028443720415637846,
+     "token_abs": 4.387191597404685,
+     "token_nonzero": 0.42564976565828716,
+     "pooled_rel": 0.028300256848335266
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 50,
+     "n_selected": 50,
+     "token_rel": 0.0396357269954105,
+     "token_abs": 6.092248933330966,
+     "token_nonzero": 0.5284050560999858,
+     "pooled_rel": 0.03503092706203461
+    },
+    {
+     "dataset": "canrager/amazon_reviews_mcauley_1and5",
+     "class": "6",
+     "k": 100,
+     "n_selected": 100,
+     "token_rel": 0.0740404252284055,
+     "token_abs": 11.264349114906341,
+     "token_nonzero": 0.7745664283798072,
+     "pooled_rel": 0.052272304534912106
+    }
+   ]
+  }
+ }
+}
