@@ -210,7 +210,7 @@ figcaption { margin-top: 13px; color: var(--muted); font-size: .86rem; line-heig
 .workflow-demo p { max-width: 800px; margin-top: 7px; color: var(--muted); }
 .workflow-demo .button { flex: none; }
 
-.interpretability-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; align-items: start; }
+.interpretability-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; align-items: stretch; }
 .method-panel { min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 8px; background: white; }
 .method-panel > p:not(.section-kicker) { margin-top: 14px; color: var(--muted); }
 .manual-panel { border-top: 4px solid var(--coral); }
@@ -222,6 +222,13 @@ figcaption { margin-top: 13px; color: var(--muted); font-size: .86rem; line-heig
 .compact-stats div { display: flex; justify-content: space-between; gap: 18px; padding: 10px 0; border-top: 1px solid var(--line); }
 .compact-stats dt { color: var(--muted); }
 .compact-stats dd { margin: 0; font-weight: 800; }
+.annotator-stats dd { display: grid; grid-template-columns: 96px 96px; gap: 8px; text-align: right; font-variant-numeric: tabular-nums; }
+.annotator-stats dd b { font-weight: 800; }
+.annotator-stats dd span { color: var(--muted); font-weight: 600; }
+.annotator-stats .stats-head { padding: 0 0 6px; border-top: 0; }
+.annotator-stats .stats-head dt, .annotator-stats .stats-head dd span { white-space: nowrap; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.annotator-stats .stats-head dd span:first-child { color: var(--coral); }
+@media (max-width: 520px) { .annotator-stats dd { grid-template-columns: 66px 66px; } .annotator-stats .stats-head dd span { white-space: normal; font-size: .6rem; letter-spacing: .02em; } .annotator-stats dd { gap: 10px; } }
 .annotation-examples { display: grid; gap: 8px; margin: 0 0 22px; }
 .annotation-examples article { display: grid; gap: 2px; padding: 12px 14px; border-left: 3px solid var(--coral); background: var(--soft-coral); }
 .annotation-examples strong { font-size: .78rem; }
