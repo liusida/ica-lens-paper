@@ -86,3 +86,36 @@ exactly once and map to one tokenizer token. Results report the component's raw
 signed score and its one-based rank by absolute ICA score at that target. A
 completed component is the durable resume unit; outputs are written under
 `results-counterfactual/`.
+
+## Second annotator
+
+Annotator 2 labeled the same 150 components on the same 0–5 confidence scale.
+
+- `raw/annotator2-upload-2026-11-09.csv` is the uploaded sheet, renamed only
+  (uploaded as `ica-lens-two-annotators-2026-11-09 (1).csv`). It is annotator 1's
+  sheet with `new_annotation` and `new_confidence` columns added, plus
+  component context (skewness, kurtosis, top tokens and contexts).
+- `annotations-annotator2.json` holds annotator 2 in the same schema as
+  `annotations.json` (annotator 1). Regenerate it with:
+
+```bash
+uv run python experiments/manual-annotation-random-150/extract_annotator2.py --force
+```
+
+The extractor fails if the CSV's annotator-1 columns differ from
+`annotations.json`; all 150 rows match.
+
+Confidence agreement is computed with:
+
+```bash
+uv run python experiments/manual-annotation-random-150/agreement.py
+```
+
+It writes `agreement/agreement.json` and `agreement/agreement.md`
+(exact and within-1 agreement, weighted Cohen's κ, Spearman ρ, and agreement on
+confidence ≥ 4). Labels are not compared: annotator 1 uses short names and
+annotator 2 uses longer descriptive phrases, so label agreement needs a
+by-meaning judgment.
+
+To record: how annotator 2's labels were produced, and whether annotator 1's
+labels (present in the uploaded sheet) were visible during annotation.

@@ -1,0 +1,58 @@
+{
+  "all": {
+    "n": 150,
+    "exact": 0.7266666666666667,
+    "within_1": 0.9333333333333333,
+    "kappa_quadratic": 0.7721993925317134,
+    "kappa_linear": 0.6464060346703417,
+    "spearman": 0.7330760715286491,
+    "mean_annotator1": 4.053333333333334,
+    "mean_annotator2": 4.46,
+    "high_annotator1": 0.82,
+    "high_annotator2": 0.8933333333333333,
+    "high_agreement": 0.9266666666666666,
+    "high_kappa": 0.7046186895810955
+  },
+  "gpt2": {
+    "n": 50,
+    "exact": 0.76,
+    "within_1": 0.9,
+    "kappa_quadratic": 0.6672428694900605,
+    "kappa_linear": 0.5674740484429066,
+    "spearman": 0.7069536256885088,
+    "mean_annotator1": 4.1,
+    "mean_annotator2": 4.56,
+    "high_annotator1": 0.82,
+    "high_annotator2": 0.92,
+    "high_agreement": 0.9,
+    "high_kappa": 0.5674740484429068
+  },
+  "gemma-2-2b": {
+    "n": 50,
+    "exact": 0.82,
+    "within_1": 1.0,
+    "kappa_quadratic": 0.9583101723179545,
+    "kappa_linear": 0.8443983402489627,
+    "spearman": 0.7677106959553266,
+    "mean_annotator1": 4.24,
+    "mean_annotator2": 4.38,
+    "high_annotator1": 0.84,
+    "high_annotator2": 0.86,
+    "high_agreement": 0.98,
+    "high_kappa": 0.9216300940438871
+  },
+  "qwen3.5-9b": {
+    "n": 50,
+    "exact": 0.6,
+    "within_1": 0.9,
+    "kappa_quadratic": 0.7021163080206294,
+    "kappa_linear": 0.537865235539654,
+    "spearman": 0.7379127432901991,
+    "mean_annotator1": 3.82,
+    "mean_annotator2": 4.44,
+    "high_annotator1": 0.8,
+    "high_annotator2": 0.9,
+    "high_agreement": 0.9,
+    "high_kappa": 0.6153846153846153
+  }
+}

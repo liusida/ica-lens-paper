@@ -1,0 +1,908 @@
+{
+  "gpt2": [
+    {
+      "layer": 0,
+      "component": 421,
+      "label": "Key",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 459,
+      "label": "Full",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 524,
+      "label": "Personal",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 642,
+      "label": "Light",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 191,
+      "label": "5",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 284,
+      "label": "Accented / Diacritic Latin Characters",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 46,
+      "label": "Document-Start Position & Title Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 61,
+      "label": "English Contraction / Possessive Apostrophe",
+      "confidence": 4
+    },
+    {
+      "layer": 3,
+      "component": 393,
+      "label": "Relative Clause Subordinate Component",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 409,
+      "label": "Christianity / Biblical Term Detector",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 455,
+      "label": "Item",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 650,
+      "label": "Inclusion & Feature Semantic Lexical Detector",
+      "confidence": 5
+    },
+    {
+      "layer": 3,
+      "component": 728,
+      "label": "Western Names (output activated)",
+      "confidence": 1
+    },
+    {
+      "layer": 4,
+      "component": 32,
+      "label": "Be",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 103,
+      "label": "List element separator / predicting list continuation or closure (etc.)",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 66,
+      "label": "He",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 312,
+      "label": "Proper Noun / Entity Completion & Reflexive Predicate Predictor",
+      "confidence": 4
+    },
+    {
+      "layer": 5,
+      "component": 333,
+      "label": "Studies",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 482,
+      "label": "Code/JSON Object Block Opener & Closing Brace Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 598,
+      "label": "Prefix \"pre-\" Stem Completion & Subword Assembler",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 751,
+      "label": "African related output",
+      "confidence": 0
+    },
+    {
+      "layer": 6,
+      "component": 159,
+      "label": "URL Scheme (\"://\") to Subdomain / Hostname Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 174,
+      "label": "Multi-token Word Initial Subword & Completion Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 215,
+      "label": "Reciprocal / Combination Concept & Relational Preposition (\"between\" / \"with\") Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 222,
+      "label": "Perfect Aspect (\"been\") to Temporal Adverb (\"lately\" / \"recently\" / \"since\") Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 347,
+      "label": "Name",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 380,
+      "label": "Post-Colon Newline Code / Shell Block Starter Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 395,
+      "label": "Sentence-Ending Period (\".\") to Capitalized Sentence-Starter Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 422,
+      "label": "Algebraic Variable in Polynomial to Exponentiation Operator (\"**\" / \"^\") Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 452,
+      "label": "Proper noun / entity subjects leading to definitional or relational verbs",
+      "confidence": 4
+    },
+    {
+      "layer": 7,
+      "component": 467,
+      "label": "Math query anchor for quantitative attributes",
+      "confidence": 4
+    },
+    {
+      "layer": 7,
+      "component": 625,
+      "label": "Code comment (//) continuation feature",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 628,
+      "label": "\"non-\" prefix compound word completion",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 757,
+      "label": "Reference and documentation pointer feature",
+      "confidence": 2
+    },
+    {
+      "layer": 8,
+      "component": 152,
+      "label": "Post-quote speech attribution and reporting verbs",
+      "confidence": 5
+    },
+    {
+      "layer": 8,
+      "component": 396,
+      "label": "API specification and code constraint feature",
+      "confidence": 5
+    },
+    {
+      "layer": 8,
+      "component": 743,
+      "label": "Honorific \"Mr.\" surname predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 56,
+      "label": "\"do/does\" auxiliary verb for negation and generic object continuation",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 119,
+      "label": "Japanese language continuation feature",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 464,
+      "label": "Group/list aggregate noun membership predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 619,
+      "label": "Solution-evaluating adjectives predicting method and approach nouns",
+      "confidence": 5
+    },
+    {
+      "layer": 9,
+      "component": 730,
+      "label": "Who",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 294,
+      "label": "Suffix comp-",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 307,
+      "label": "Function/constructor argument list initiation feature",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 445,
+      "label": "Perfect aspect temporal duration predictor",
+      "confidence": 4
+    },
+    {
+      "layer": 10,
+      "component": 446,
+      "label": "Opening quotation mark",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 493,
+      "label": "Job title and official role",
+      "confidence": 5
+    },
+    {
+      "layer": 11,
+      "component": 243,
+      "label": "Character-level 'd'/'D' completion feature",
+      "confidence": 5
+    },
+    {
+      "layer": 11,
+      "component": 593,
+      "label": "Government domain modifier for institutional bodies/officials",
+      "confidence": 5
+    },
+    {
+      "layer": 11,
+      "component": 752,
+      "label": "noise feature",
+      "confidence": 0
+    }
+  ],
+  "gemma-2-2b": [
+    {
+      "layer": 0,
+      "component": 603,
+      "label": "Pressure",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 761,
+      "label": "Third-person singular present verb",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 1423,
+      "label": "Australian",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 1290,
+      "label": "diagnosis",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 2180,
+      "label": "Super",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 1994,
+      "label": "Document separator line and structural marker",
+      "confidence": 3
+    },
+    {
+      "layer": 3,
+      "component": 2037,
+      "label": "Subword feature for \"cat\" / \"tab\" tokens",
+      "confidence": 4
+    },
+    {
+      "layer": 4,
+      "component": 271,
+      "label": "Why",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 494,
+      "label": "Programming errors / exceptions",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 1229,
+      "label": "Letter Q",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 1372,
+      "label": "Check",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 2205,
+      "label": "Fast",
+      "confidence": 5
+    },
+    {
+      "layer": 5,
+      "component": 1839,
+      "label": "U.S. Supreme Court case reporter citation",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 1503,
+      "label": "Formal definition and concept explanation feature",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 2082,
+      "label": "noise feature",
+      "confidence": 0
+    },
+    {
+      "layer": 7,
+      "component": 39,
+      "label": "Russian/Soviet entity and translated text context feature",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 878,
+      "label": "Code class=\"",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 1016,
+      "label": "Reason expression",
+      "confidence": 5
+    },
+    {
+      "layer": 8,
+      "component": 138,
+      "label": "Initial subword prefix feature for multi-token words",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 834,
+      "label": "URL and email address domain",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 2197,
+      "label": "Noise",
+      "confidence": 0
+    },
+    {
+      "layer": 12,
+      "component": 790,
+      "label": "Date Day-of-Month Final Digit (Triggers Day-of-Week Context)",
+      "confidence": 5
+    },
+    {
+      "layer": 12,
+      "component": 1615,
+      "label": "PHP Code Context & Web Ecosystem Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 12,
+      "component": 2205,
+      "label": "Digit in Document-Initial Federal Reporter (F.2d/F.3d) Case Citation",
+      "confidence": 2
+    },
+    {
+      "layer": 12,
+      "component": 2262,
+      "label": "Repeated ASCII Punctuation Stream & Divider Line Feature",
+      "confidence": 1
+    },
+    {
+      "layer": 13,
+      "component": 210,
+      "label": "Code Snippets, Example Placeholders & Framework Templates Detector",
+      "confidence": 5
+    },
+    {
+      "layer": 13,
+      "component": 528,
+      "label": "So",
+      "confidence": 5
+    },
+    {
+      "layer": 14,
+      "component": 211,
+      "label": "Second Token after <bos>",
+      "confidence": 5
+    },
+    {
+      "layer": 14,
+      "component": 1109,
+      "label": "Database Schema, DDL & ORM Field Type Definition Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 14,
+      "component": 1846,
+      "label": "Archaic English Long-s ('ſ') Vocabulary Prediction",
+      "confidence": 1
+    },
+    {
+      "layer": 14,
+      "component": 1937,
+      "label": "Line-Break Before C/C++ Preprocessor Directive (#include / #define / #pragma)",
+      "confidence": 4
+    },
+    {
+      "layer": 15,
+      "component": 1900,
+      "label": "Present",
+      "confidence": 5
+    },
+    {
+      "layer": 18,
+      "component": 1304,
+      "label": "Nuclear Medicine, Radiopharmaceuticals & Radioisotope Imaging Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 18,
+      "component": 1345,
+      "label": "Clause-Final Adverbial / Discourse Particle Detector",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 86,
+      "label": "C-prefix",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 736,
+      "label": "Commercial Banking, Credit & Lending Domain Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 949,
+      "label": "Decorative Crafts, Interior Décor & Aesthetic Appreciation Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 1154,
+      "label": "1960s-1970s Counterculture, Vietnam War & Cultural Era Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 21,
+      "component": 1514,
+      "label": "){",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 618,
+      "label": "After",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 1380,
+      "label": "Multi-Digit Sequence Continuation & Next-Digit Predictor",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 1458,
+      "label": "Scientific & Biomedical Prefix Preceding Greek Letter Subtypes (Predicts Alpha/Beta/Gamma/Lambda)",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 1852,
+      "label": "Input Token & Subword Detector for Capitalized \"Am-\" / \"American\"",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 507,
+      "label": "7",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 776,
+      "label": "Clinical Diseases, Pathologies & Medical Symptoms Context Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 1827,
+      "label": "Inclusion & Exemplification Marker (Preceding Trigger for \"include\" / \"including\")",
+      "confidence": 5
+    },
+    {
+      "layer": 24,
+      "component": 2018,
+      "label": "JavaScript DOM property",
+      "confidence": 4
+    },
+    {
+      "layer": 25,
+      "component": 1291,
+      "label": "Future Projection & Modal Predicate (Predicts Temporal Adverbs & Conditionals)",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 1701,
+      "label": "Salesforce Platform & Apex/Aura Development Ecosystem Feature",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 1952,
+      "label": "Noise",
+      "confidence": 0
+    }
+  ],
+  "qwen3.5-9b": [
+    {
+      "layer": 0,
+      "component": 609,
+      "label": "Store",
+      "confidence": 5
+    },
+    {
+      "layer": 0,
+      "component": 3472,
+      "label": "Promise",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 3036,
+      "label": "Collocation detector: \"do / does / did / done\" + \"nothing / anything / something\"",
+      "confidence": 5
+    },
+    {
+      "layer": 1,
+      "component": 3298,
+      "label": "Spokesman",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 231,
+      "label": "User",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 2327,
+      "label": "Document-initial YAML front-matter / delimiter token (\"---\")",
+      "confidence": 5
+    },
+    {
+      "layer": 2,
+      "component": 3057,
+      "label": "Hypocoristic name suffixes (\"-ie\", \"-y\", \"-nie\") and informal tokens",
+      "confidence": 2
+    },
+    {
+      "layer": 4,
+      "component": 565,
+      "label": "Cross-lingual \"week\"",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 1156,
+      "label": "Academic / technical document \"Introduction\" section heading",
+      "confidence": 5
+    },
+    {
+      "layer": 4,
+      "component": 2219,
+      "label": "Elementary math and unit conversion problem context detector",
+      "confidence": 4
+    },
+    {
+      "layer": 5,
+      "component": 3133,
+      "label": "Diabetes",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 269,
+      "label": "Figurative language detector (metaphors, similes, and idioms)",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 609,
+      "label": "Data",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 992,
+      "label": "Note",
+      "confidence": 5
+    },
+    {
+      "layer": 6,
+      "component": 2199,
+      "label": "Subjunctive mood and counterfactual conditional clause detector",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 2650,
+      "label": "File-initial C-style block comment delimiter (\"/*\")",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 3045,
+      "label": "Helicopter and rotorcraft aviation / rotor aerodynamics detector",
+      "confidence": 5
+    },
+    {
+      "layer": 7,
+      "component": 3826,
+      "label": "Noise",
+      "confidence": 0
+    },
+    {
+      "layer": 8,
+      "component": 935,
+      "label": "Repeated machine logs and structured code boilerplate",
+      "confidence": 4
+    },
+    {
+      "layer": 9,
+      "component": 2175,
+      "label": "Children's picture books and preschool literature detector",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 170,
+      "label": "Footnote / reference marker",
+      "confidence": 5
+    },
+    {
+      "layer": 10,
+      "component": 4002,
+      "label": "Noise",
+      "confidence": 0
+    },
+    {
+      "layer": 13,
+      "component": 637,
+      "label": "Online forum / discussion board post boundary and paragraph break (\"\\n\\n\")",
+      "confidence": 5
+    },
+    {
+      "layer": 13,
+      "component": 889,
+      "label": "Commented-out code / disabled source code",
+      "confidence": 5
+    },
+    {
+      "layer": 15,
+      "component": 1201,
+      "label": "Intermediate element in ordered sequences / scale progressions",
+      "confidence": 4
+    },
+    {
+      "layer": 16,
+      "component": 61,
+      "label": "Wikipedia / MediaWiki \"Category:\" metadata tag",
+      "confidence": 5
+    },
+    {
+      "layer": 16,
+      "component": 244,
+      "label": "Initial subword of multi-token specialized terms and proper nouns",
+      "confidence": 4
+    },
+    {
+      "layer": 16,
+      "component": 1365,
+      "label": "HTML/XML closing tag delimiter (\"</\")",
+      "confidence": 5
+    },
+    {
+      "layer": 16,
+      "component": 3363,
+      "label": "Output-perspective \"preparation / upcoming / awaiting\" feature (Write-dominant)",
+      "confidence": 1
+    },
+    {
+      "layer": 17,
+      "component": 530,
+      "label": "Geopolitical jurisdiction",
+      "confidence": 5
+    },
+    {
+      "layer": 18,
+      "component": 3329,
+      "label": "Mc- surname prefix",
+      "confidence": 5
+    },
+    {
+      "layer": 19,
+      "component": 146,
+      "label": "Italian language, Italy entity, and Italian-influenced English",
+      "confidence": 5
+    },
+    {
+      "layer": 19,
+      "component": 1472,
+      "label": "HTML / DOM element manipulation and web markup context detector",
+      "confidence": 4
+    },
+    {
+      "layer": 19,
+      "component": 2291,
+      "label": "Uncapitalized proper nouns and brand names",
+      "confidence": 4
+    },
+    {
+      "layer": 19,
+      "component": 3174,
+      "label": "First-person candid emotional reflection and confessional introspection",
+      "confidence": 3
+    },
+    {
+      "layer": 20,
+      "component": 352,
+      "label": "Both",
+      "confidence": 5
+    },
+    {
+      "layer": 20,
+      "component": 1145,
+      "label": "Next-token predictor for letter 'f' / initial 'f'/'F' tokens",
+      "confidence": 4
+    },
+    {
+      "layer": 20,
+      "component": 2259,
+      "label": "Source attribution to documents and written statements",
+      "confidence": 5
+    },
+    {
+      "layer": 21,
+      "component": 704,
+      "label": "Microsoft ecosystem and Microsoft Graph API technical documentation",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 2808,
+      "label": "Urination, bladder physiology, and urinary incontinence",
+      "confidence": 5
+    },
+    {
+      "layer": 22,
+      "component": 3385,
+      "label": "Political conservatism and right-wing politics",
+      "confidence": 4
+    },
+    {
+      "layer": 23,
+      "component": 1583,
+      "label": "Concept and lexical root of limitation, restriction, and constraint",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 602,
+      "label": "Lawsuit / civil litigation",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 1260,
+      "label": "Geographical and legal context of Maryland and Baltimore",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 2695,
+      "label": "Tell",
+      "confidence": 5
+    },
+    {
+      "layer": 25,
+      "component": 3939,
+      "label": "Causality, causal discovery, and causal graphical models (DAGs)",
+      "confidence": 4
+    },
+    {
+      "layer": 26,
+      "component": 68,
+      "label": "Prefix Sh-",
+      "confidence": 5
+    },
+    {
+      "layer": 26,
+      "component": 1210,
+      "label": "Deep learning framework and neural network modeling context",
+      "confidence": 5
+    },
+    {
+      "layer": 28,
+      "component": 3025,
+      "label": "Subword completion and suffix prediction for \"var-\" stem",
+      "confidence": 5
+    },
+    {
+      "layer": 30,
+      "component": 2683,
+      "label": "Next-token prediction and promotion for \"see\" / \"seen\"",
+      "confidence": 5
+    }
+  ]
+}
