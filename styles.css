@@ -171,6 +171,8 @@ p { margin: 0; }
 .button.primary:hover, .button.primary:focus-visible { background: var(--teal-dark); }
 .colab-button { gap: 8px; }
 .colab-icon { width: 20px; height: 20px; flex: 0 0 20px; object-fit: contain; }
+/* The Neuronpedia mark is dark blue; on the dark hero it is shown in white. */
+.hero .neuronpedia-icon { filter: brightness(0) invert(1); }
 
 .section, .claim-band { padding: clamp(64px, 8vw, 112px) clamp(20px, 5vw, 72px); }
 .section-inner { width: min(1280px, 100%); min-width: 0; margin: 0 auto; }
