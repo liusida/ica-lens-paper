@@ -1,49 +1,5 @@
 # ICA Lens Rebuttals
 
-
-
-## **Official Review of Submission3245 by Reviewer DSqt**
-
-Official Reviewby Reviewer DSqt19 Oct 2026, 14:13 (modified: 06 Nov 2026, 07:15)Everyone[Revisions](https://openreview.net/revisions?id=wdkt2YAUyD)
-
-**Paper Summary:**
-
-The paper proposes using non-gaussianity of the distribution produced by projecting residual-stream activations onto a direction as a signal for the direction’s interpretability. They show that this consistently identifies interpretable directions and suggest applying ICA to the residual stream in order to discover non-gaussian directions unsupervised. They demonstrate that a previous work which used ICA underestimated its interpretability due to sign ambiguity and once correcting for it, ICA produces more interpretable directions competitive with SAEs on multiple metrics.
-
-**Presentation:** 3: Clear and easy to follow.
-
-**Informativeness:** 2: I learned something interesting or useful.
-
-**Soundness:** 2: I have minor or fixable concerns about the paper’s soundness.
-
-**Critical Strengths:**
-
-- The authors show that non-gaussianity is a strong signal for interpretable directions in activation space with a systematic evaluation including both human annotators and LLM based evaluation across 3 models. Their analysis goes beyond previously shown results for non-gaussianity [1] as a signal for interpretability, providing clear evidence of a correlation between the two.
-- The utilized method (FastICA) is a simple and computationally efficient alternative to training SAEs for discovering a set of interpretable directions.
-
-[1] Sparse Autoencoders Find Highly Interpretable Features in Language Models
-
-**Critical Weaknesses:**
-
-While the paper includes probe level interventions and some qualitative steering examples, the evaluations are mostly focused on showing that ICA directions are associated with interpretable concepts or contain concept-relevant information. While the TPP evaluation measures the effect of perturbations, it captures the effect on probes rather than directly on model behavior. In order to get a better sense of how well ICA holds in common featurizer applications, a more systematic causal evaluation such as MIB [2] or AxBench [3] would provide stronger evidence that ICA localizes features well. It would also provide a clearer comparison against commonly utilized featurizers and show what advantages the method has.
-
-[2] MIB: A Mechanistic Interpretability Benchmark
-
-[3] AxBench: Steering LLMs? Even Simple Baselines Outperform Sparse Autoencoders
-
-**Questions For Authors:**
-
-- Figure 4, side B seems to contain only two curves: SAE and stronger-tail sign. Do you have the results for the arbitrary sign ICA as well? It would help make the claim that sign ambiguity was the problem. Similarly, do you have the results for the other models?
-- How many annotators participated in the human eval and if multiple, could you report inter-annotator agreement ? It would help assess the reliability of the scores.
-
-**Flag For Ethics Review:** No
-
-**Rating:** 2: Weak rejection
-
-**Confidence:** 4: I have substantial direct research experience on this topic.
-
-
-
 ## Rebuttals DSqt
 
 We thank the reviewer for recognizing our evidence across three models that non-Gaussianity is a useful signal for discovering interpretable directions, as well as the simplicity and computational efficiency of FastICA.
@@ -87,49 +43,6 @@ Scores of 4 or 5 count as high confidence. The mean high-confidence rate across 
 
 We believe these additions address your concerns and questions.
 
-
-
-## **Official Review of Submission3245 by Reviewer piFb**
-
-Official Reviewby Reviewer piFb22 Oct 2026, 05:53 (modified: 06 Nov 2026, 07:15)Everyone[Revisions](https://openreview.net/revisions?id=87IOQIjJqL)
-
-**Paper Summary:**
-
-This paper investigates non-Gaussianity as a statistical signature of interpretable directions in language model activations and introduces ICA Lens, a lightweight framework based on FastICA. It also identifies and corrects a sign-related bias in previous ICA interpretability evaluations. Experiments across three language models show competitive performance against SAEs in interpretability, sparse reconstruction, sparse probing, and targeted probe perturbation, with substantially lower parameter memory. However, the independent contribution of non-Gaussianity, generation-time steering effectiveness, and comparison fairness require further investigation.
-
-**Presentation:** 2: Generally understandable, but requires substantial effort in places.
-
-**Informativeness:** 2: I learned something interesting or useful.
-
-**Soundness:** 2: I have minor or fixable concerns about the paper’s soundness.
-
-**Critical Strengths:**
-
-1. The paper presents comprehensive experiments cover GPT-2 Small, Gemma 2 2B, and Qwen 3.5 9B Base, combining human annotation, automated interpretability evaluation, and statistical analysis. Among 150 randomly sampled components, 123 receive high-confidence human labels. Sparse reconstruction, sparse probing, and targeted probe perturbation further assess practical utility beyond selected high-activation examples.
-2. The proposed method provides a lightweight alternative to SAEs. ICA fits a complete basis in approximately 12–13 minutes per layer for the 9B model and uses less parameter memory than matched public SAEs, while remaining competitive in sparse reconstruction and concept prediction.
-3. The analysis shows that both SAE decoder directions and concept-derived directions exhibit substantial non-Gaussianity, motivating direct feature discovery through ICA. Identifying and correcting the sign-sensitive evaluation bias is also a valuable methodological contribution.
-
-**Critical Weaknesses:**
-
-1. The contribution of non-Gaussianity is not fully isolated. High kurtosis may also arise from rare tokens, positional markers, code formatting, or a few extreme outliers. The experiments do not sufficiently distinguish non-Gaussianity from correlated factors such as activation sparsity and concept frequency. The component-level Spearman correlation of ρ = 0.45 supports an association but does not resolve these potential confounds.
-2. Evidence for generation-time control remains limited. TPP measures changes in target and non-target probe accuracy after ablation, directly supporting selective intervention at the probe level. It does not establish that the model selectively uses the corresponding concepts during generation.
-3. Matched feature counts may not ensure comparable interventions. ICA produces exactly (d) components, whereas SAEs use larger, overcomplete dictionaries. Although the comparisons match the top-k feature budget, equal feature counts need not imply equal activation sparsity or perturbation magnitude. Additional comparisons controlling for these factors would strengthen the conclusions.
-4. I suggest moving some example component interpretations from appendix D to Section 2.3.
-
-**Questions For Authors:**
-
-1. Does the correlation between non-Gaussianity and interpretability remain after controlling for activation sparsity and concept frequency in the text?
-2. Can the author reports intervention success rates and effects on unrelated capabilities, beyond probe-level TPP results?
-3. Do ICA’s advantages over SAEs persist when comparisons match perturbation magnitude or actual activation sparsity, rather than only the number of selected features?
-
-**Flag For Ethics Review:** No
-
-**Rating:** 3: Weak acceptance
-
-**Confidence:** 2: I have broad familiarity with this field but little or no direct research experience on this topic.
-
-
-
 ## Rebuttals piFb
 
 Thank you for highlighting the breadth of our evaluation across three models, the efficiency of ICA Lens, and the importance of correcting the sign bias in prior evaluations. 
@@ -169,52 +82,6 @@ We believe that comparisons should consider practical interpretability scenarios
 2. **Human attention is limited.** In real interpretability debugging, if an SAE needs 100 features to capture concepts that ICA can capture with just 5 components, it becomes much harder for researchers to track and understand those features and new activations. This is why we believe matching the absolute feature budget is meaningful for practical interpretability.
 3. Finally, we want to emphasize the intended role of ICA Lens. SAEs can provide more numerous and fine-grained features, and we do not claim that ICA covers the same number of unique concepts. **ICA Lens is meant to be a lightweight first lens**, helping researchers quickly identify promising layers and directions before investing substantial time and engineering effort into training additional SAEs for more detailed analysis.
 
-
-
-## **Official Review of Submission3245 by Reviewer zuSC**
-
-Official Reviewby Reviewer zuSC21 Oct 2026, 18:17 (modified: 06 Nov 2026, 07:15)Everyone[Revisions](https://openreview.net/revisions?id=QTkNKOAopz)
-
-**Paper Summary:**
-
-This paper focuses on the problem of finding interpretable directions in language models, which has been addressed in the past with several methods including sparse autoencoders (SAE), principal component analysis (PCA) and independent component analysis (ICA). Through analysis experiments, they find that the projection distributions of these interpretable directions from above methods are more non-Gaussian than random directions. Hence, they propose to discover these directions by directly searching for non-Gaussian directions using FastICA instead of training sparse dictionaries like in SAEs. They also find a correction is required to the FastICA components to make sure the more interpretable directions are chosen. Through extensive experiments, they show comparable performance to SAEs while being more efficient and using less memory.
-
-**Presentation:** 2: Generally understandable, but requires substantial effort in places.
-
-**Informativeness:** 2: I learned something interesting or useful.
-
-**Soundness:** 2: I have minor or fixable concerns about the paper’s soundness.
-
-**Critical Strengths:**
-
-- The paper is quite interesting and generally easy to follow. It focuses on ICA as a faster initial interpretability analysis step compared to more expensive SAE training, which will be valuable to the community.
-- Evaluating the non-Gaussianity of SAE directions as well as PCA on LLM activations is interesting and seems to be novel.
-
-**Critical Weaknesses:**
-
-- The comparison between ICA and SAEs does not seem completely fair to me. Like ICA can only discover (upto) d components while SAEs can discover k \times d (with k as the SAE expansion factor). Then, even if ICA and SAEs have comparable average performance on different metrics, the total number of useful components found in SAEs will be (roughly) k times more than in ICA. In that sense, ICA is k times less useful than an SAE but I do concede, also k times more efficient than an SAE (which the paper already does claim and I agree with it).
-  - Now, there are also other problems with SAEs like feature absorption [W1] and that not all SAE features are useful [W2, W3] which weakens my argument. But I feel that the current evaluation is on 150 features randomly sampled with matched eligibility filters, but it does not quantify the overall/total interpretability of SAE or ICA, it only quantifies the average on a small set.
-
-[W1] Chanin et al., "A is for Absorption: Studying Feature Splitting and Absorption in Sparse Autoencoders", NeurIPS 2025
-
-[W2] Arad et al., "SAEs Are Good for Steering – If You Select the Right Features", EMNLP 2025
-
-[W3] Kulkarni et al., "Interpretable and Steerable Concept Bottleneck Sparse Autoencoders", CVPR 2026
-
-**Questions For Authors:**
-
-- Please address the weaknesses section.
-
-- The full term "Independent Component Analysis" is first used on Page 9 but the acronym ICA is used from Page 1 itself. I suggest mentioning the full term on Page 1 so it is clear what ICA is.
-
-**Flag For Ethics Review:** No
-
-**Rating:** 3: Weak acceptance
-
-**Confidence:** 3: I am familiar with this topic and its relevant literature.
-
-
-
 ## Rebuttals zuSC
 
 Thank you for recognizing the novelty of our non-Gaussianity analysis and the practical value of ICA as a lightweight first step for interpretability.
@@ -247,16 +114,13 @@ We agree that a full-dictionary evaluation would be valuable, and we hope to col
 Thank you for catching this. We have added **independent component analysis (ICA)** at its first mention on Page 1.
 
 
-
-
-
-## Author Summary: Key Revisions, Scientific Contributions, and Broader Impact
+## Summary: Key Revisions, Scientific Contributions, and Broader Impact
 
 We thank all reviewers for their thoughtful feedback and for recognizing the novelty of our non-Gaussianity analysis, the importance of correcting the prior ICA evaluation bias, and the practical efficiency of ICA Lens.
 
-We have substantially strengthened the paper during the rebuttal period, particularly through new causal evaluations, independent human annotations, and additional analyses addressing the reviewers' concerns. Below, we summarize the key updates and clarify what we believe are the broader contributions of this work.
+We have strengthened the paper during the rebuttal period through new causal evaluations, independent human annotations, and additional analyses addressing the reviewers' concerns. Below, we summarize the key updates and broader contributions of this work.
 
-**1. Key Concerns and New Evidence**
+**Key Concerns and New Evidence**
 
 **Causal interventions beyond probing (DSqt, piFb).** We added RAVEL, a benchmark used in SAEBench and MIB, to evaluate selective control over model-generated answers. On Gemma 2 2B, ICA achieves a **Disentangle score of 0.767**, outperforming PCA (0.721) and Gemma Scope SAE (0.664) across six attribute tasks and two seeds. ICA also achieves higher mean Cause and Isolation scores than both baselines. This provides direct evidence of selective interventions on model outputs, beyond probe-level TPP.
 
@@ -264,84 +128,39 @@ We have substantially strengthened the paper during the rebuttal period, particu
 
 **Non-Gaussianity and generalization (piFb).** We added a fitting-data ablation from 1K to 1M tokens. With only 1K fitting activations, median excess kurtosis reaches 514.94 on training data but drops to 0.53 on held-out documents. With 1M activations, the held-out median rises to 11.83, suggesting that sufficient data helps ICA recover non-Gaussian structure that generalizes. We also extended our analysis to native MLP neurons, finding a positive association between excess kurtosis and lexical concentration (Spearman ρ = 0.55).
 
-**ICA–SAE comparison and feature budgets (piFb, zuSC).** We added compact Matryoshka SAE baselines with dictionary sizes of 128 and 512. Under matched sparse-probing budgets, ICA still outperforms these smaller dictionaries. We also clarify that matching feature counts measures utility under a limited analysis budget, rather than total concept coverage. We do not claim that ICA discovers as many distinct concepts as overcomplete SAEs.
+**ICA–SAE comparison and feature budgets (piFb, zuSC).** We added compact Matryoshka SAE baselines (128/512 features), which ICA still outperforms under matched sparse-probing budgets.  A comparison using Figure 9 also suggests that ICA remains competitive on TPP when matching dictionary proportions, using substantially fewer components. Matching absolute feature counts is meaningful because human attention is limited, and proportional matching favors larger dictionaries. We do not claim equal concept coverage. Instead, ICA Lens serves as a lightweight first lens, helping researchers identify promising layers and directions before investing in more expensive SAE training.
 
 **Sign-sensitive evaluation (DSqt).** We added the missing arbitrary-sign ICA results for Qwen 3.5 9B and additional comparisons with Gemma Scope SAEs, further supporting our finding that the arbitrary sign of ICA components contributed to their previously underestimated interpretability.
 
-**2. Why We Believe This Work Matters**
-
-We believe the contribution of this paper goes beyond showing that ICA can compete with SAEs. It addresses a more fundamental question: **what statistical structure makes a direction interpretable, and can we use that structure directly for feature discovery?**
-
-Our work contributes at several levels.
-
-**Scientific insight.** Rather than learning features through an indirect sparse-reconstruction objective and evaluating interpretability afterward, we show that non-Gaussianity itself provides a useful unsupervised signal for discovering interpretable directions. This offers a different perspective on the structure already present in language-model activations.
-
-**Correcting a prior evaluation bias.** An early ICA–SAE comparison reported substantially lower interpretability for ICA. We identify a sign-sensitive evaluation bias and show that correcting it recovers much of the reported gap, without changing the fitted ICA directions. We believe revisiting such established conclusions is important for developing reliable interpretability methods and benchmarks.
-
-**A practical first lens.** ICA Lens provides an efficient way to inspect models before committing to expensive dictionary learning. For Qwen 3.5 9B, we fit a complete ICA basis in approximately **12–13 minutes per layer on a single NVIDIA GB10**, while using **7–43× less parameter memory** than the matched public SAEs across our three models. This makes repeated analysis across models, layers, and checkpoints more practical.
-
-**Complementing, rather than replacing, SAEs.** SAEs remain valuable for discovering larger and more fine-grained feature dictionaries. Our goal is different: to recover useful interpretable structure quickly, helping researchers decide where more detailed analysis is worth the additional computational and engineering cost. In real interpretability workflows, the number of features a researcher can inspect and reason about is also a meaningful constraint.
-
-**3. Summary of Revisions**
-
 For convenience, the main additions to the revised manuscript are:
 
+- **Section 2.1:** Clarified the practical bottlenecks of applying ICA to modern LLM interpretability, including slow CPU-based implementations and limitations of conventional convergence criteria, while better highlighting our algorithmic and methodological contributions.
 - **Section 2.3.4 / Figure 10 / Appendix E.5:** New RAVEL causal intervention evaluation on generated answers.
 - **Section 2.2 / Appendix C.2:** Second independent human annotator, inter-annotator agreement, and complete annotations.
-- **Figure 4 / Appendix C.4:** Expanded sign-correction comparisons across Qwen and Gemma.
+- **Figure 4:** Expanded sign-correction comparisons across Qwen.
 - **Appendix B.5:** Fitting-data scaling and held-out non-Gaussianity analysis.
 - **Appendix A.2:** Non-Gaussianity analysis of native MLP neurons.
 - **Appendix E.3:** Compact Matryoshka SAE baselines and additional sparse-probing comparisons.
 
-Taken together, we believe ICA Lens makes **three complementary contributions: a scientific principle for discovering interpretable structure, a correction to an influential evaluation of ICA, and an efficient, practical workflow for model interpretability**.
+**Why We Believe This Work Matters**
 
-We hope these additional experiments and clarifications help address the reviewers' concerns and make the paper's contributions clearer. We thank the reviewers and ACs again for their time and consideration.
-
-
-
-
-
-第一部分：分类汇总审稿人的疑惑+我们的解决（突出重点+结果）
-
-第二部分：解释为什么我们的研究是重要的、对领域的影响（可以引用下面的table）
-
-- 我们的贡献涵盖了：scientific contribution、修正领域错误认知、补全领域评估gaps、实践价值
+We summarize the key gaps in prior work and our contributions below.
 
 | Prior work and gaps                                          | Our findings and contributions                               |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| SAEs discover interpretable directions through sparse reconstruction (Huben et al., 2024; Gao et al., 2025), but it remains unclear what statistical properties distinguish interpretable directions and whether these properties can directly guide feature discovery. | **Discovery Principle.** We propose non-Gaussianity as an inductive bias for interpretable feature discovery, showing that interpretable directions can be recovered by directly searching for non-Gaussian projections in activation space. |
-| An early ICA–SAE comparison reported low interpretability for ICA (Huben et al., 2024). ICA's potential for LLM interpretability has long been underestimated. | **Evaluation Correction.** We identify and correct a sign-sensitive evaluation bias, recovering much of the reported gap and making ICA competitive with the evaluated SAEs without changing the fitted directions. |
-| Earlier work found only a weak positive correlation between the kurtosis of SAE latent activations and automated interpretability (Huben et al., 2024), and did not examine this relationship for ICA directions. | **Interpretability Evidence.** We systematically examine the relationship between non-Gaussianity and interpretability across ICA fitting checkpoints and components, finding a clearer positive association. |
-| Training separate SAE dictionaries across models and layers can be costly (Lieberum et al., 2024), while prior ICA studies (Yamagiwa et al., 2023; Musil & Mareček, 2024) lacked a practical workflow for modern LLM interpretability. | **Efficient Workflow.** We release ICA Lens, to our knowledge the first ICA-focused, end-to-end workflow for LLM interpretability, combining GPU-accelerated fitting, better convergence diagnostics, systematic annotation, and faithful evaluation. It provides a lightweight first lens for understanding models. |
-| ICA remains underrepresented in widely used SAE benchmarks (Karvonen et al., 2025) and feature-visualization platforms (Neuronpedia), leaving its practical potential insufficiently explored. | **Downstream Utility.** We compare ICA with public SAEs on interpretability, sparse reconstruction, sparse probing, probe perturbation, and causal interventions, and illustrate its use for activation inspection and steering. |
+| **Scientific Gap.** SAEs discover interpretable directions through sparse reconstruction (Huben et al., 2024; Gao et al., 2025), but it remains unclear what statistical properties distinguish interpretable directions and whether these properties can directly guide feature discovery. | **Discovery Principle.** We propose non-Gaussianity as an inductive bias for interpretable feature discovery, showing that interpretable directions can be recovered by directly searching for non-Gaussian projections in activation space. |
+| **Evaluation Gap.** An early ICA–SAE comparison reported low interpretability for ICA (Huben et al., 2024). ICA's potential for LLM interpretability has long been underestimated. | **Evaluation Correction.** We identify and correct a sign-sensitive evaluation bias, recovering much of the reported gap and making ICA competitive with the evaluated SAEs without changing the fitted directions. |
+| **Analysis Gap.** Earlier work found only a weak positive correlation between the kurtosis of SAE latent activations and automated interpretability (Huben et al., 2024), and did not examine this relationship for ICA directions. | **Interpretability Evidence.** We systematically examine the relationship between non-Gaussianity and interpretability across ICA fitting checkpoints and components, finding a clearer positive association. |
+| **Engineering Gap.** Training separate SAE dictionaries across models and layers can be costly (Lieberum et al., 2024), while prior ICA studies (Yamagiwa et al., 2023; Musil & Mareček, 2024) did not address practical challenges at LLM scale, including slow CPU-based fitting and convergence criteria not tailored to interpretability analysis. | **Efficient Workflow.** We address these challenges and release ICA Lens, to our knowledge the first end-to-end workflow combining GPU-accelerated ICA fitting, improved convergence diagnostics, systematic annotation, and faithful evaluation. **Note**: We fitted our ICA on a single NVIDIA GB10 with 128 GB of unified memory (≈0.08 H100, 0.13 A100). it took 12 min per layer for the Qwen3.5-9B model. it might take just 1-5 min/layer on an A100/H100. |
+| **Applications Gap.** ICA remains underrepresented in widely used SAE benchmarks (Karvonen et al., 2025) and feature-visualization platforms (Neuronpedia), leaving its practical potential insufficiently explored. | **Downstream Utility.** We compare ICA with public SAEs on interpretability, sparse reconstruction, sparse probing, probe perturbation, and causal interventions, and illustrate its use for activation inspection and steering. |
 
-第三部分：汇总对论文的修改和额外补充（说清楚补充了什么、意义-从AC视角理解价值、论文对应修改的地方）
+We believe ICA Lens corrects a long-standing misconception in the interpretability community, offers a fresh perspective, and opens up promising directions for future research that could attract broader community interest. For example, with this lightweight first lens, we **(especially independent interp researchers who don't have too much GPUs)** can now explore the following directions much more freely:
 
-例如
+1. **Understanding how interpretable features emerge during training.** Because ICA Lens can be refitted efficiently, researchers could track residual directions across pretraining, post-training, and RL checkpoints to study when features emerge, strengthen, change meaning, or disappear, without training a new SAE dictionary at every checkpoint.
+2. **Exploring interpretability beyond individual residual-stream layers.** Non-Gaussian feature discovery could extend to attention-head outputs, MLP activations, and joint representations across layers, potentially revealing how interpretable structure develops and transforms throughout a model.
+3. **Extending feature discovery to reasoning and agents.** Rather than analyzing only individual tokens, researchers could examine representations at the reasoning-step or trajectory level, searching for directions associated with planning, uncertainty, recovery, or failure. Longer term, similar analyses could explore shared structure across language, vision, and action representations.
+4. Extend the analysis to language, vision, and action representations to investigate potential shared latent factors.
 
-实验补充：
+We hope ICA Lens encourages further research into these directions and inspires the community to revisit other simple but potentially overlooked approaches to understanding language models.
 
-- 额外的人工标注和分析聚合：展现可靠性
-- 不同输入数据规模fitting的分析
-- MLP neurons：展现非高斯性-可解释性更general的扩展
-
-效率换算补充：we fitted our ICA on a single NVIDIA GB10 with 128 GB of unified memory (≈0.08 H100, 0.13 A100). it took 12 min per layer for the Qwen3.5-9B model. it might take just 1-5 min/layer on an A100/H100.
-
-
-
-
-
-Importance：解释为什么我们的研究是重要的
-
-- 引入新的视角（scientific）
-- first lens
-- 修正的错误认知
-
-Impact：对领域的影响
-
-- 实践价值
-- 评估价值
-- 研究价值
-
-
-
+We thank the reviewers and ACs again for their time and consideration.
