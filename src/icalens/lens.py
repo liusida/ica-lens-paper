@@ -6,6 +6,7 @@ import copy
 import json
 import re
 import tempfile
+from collections.abc import Iterable
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, cast
@@ -382,11 +383,37 @@ class ICALens:
 
         return add_logit_effects(self, result, **kwargs)
 
-    def profile_components(self, inputs: Any, *, layer: int, **kwargs: Any) -> dict[str, Any]:
-        """Build sign, example-token, and logit-lens profiles without refitting."""
-        from .profiling import profile_components
+    def profile_components(
+        self,
+        inputs: Any = None,
+        *,
+        activations: torch.Tensor | None = None,
+        records: list[dict[str, Any]] | None = None,
+        layer: int,
+        additional_readouts: Iterable[dict[str, Any]] = (),
+        **kwargs: Any,
+    ) -> dict[str, Any]:
+        """Profile text or saved activations with one token record per row."""
+        if inputs is not None and activations is not None:
+            raise ValueError("pass only one of inputs or activations")
+        if activations is not None:
+            if records is None:
+                raise ValueError("records are required when profiling saved activations")
+            return self.profile_components_from_activations(
+                activations, records, layer=layer, additional_readouts=additional_readouts, **kwargs
+            )
+        if records is not None:
+            raise ValueError("records can only be supplied with activations")
 
-        return profile_components(self, inputs, layer=layer, **kwargs)
+        from .profiling import profile_components, profile_readouts
+
+        if inputs is None:
+            return profile_readouts(
+                self, layer=layer, additional_readouts=additional_readouts, **kwargs
+            )
+        return profile_components(
+            self, inputs, layer=layer, additional_readouts=additional_readouts, **kwargs
+        )
 
     def profile_components_from_activations(
         self,
@@ -656,9 +683,10 @@ class ICALens:
         if preprocessing_mode not in {"none", "l2", "geometric-median-l2"}:
             raise ArtifactError(f"unsupported icalens_preprocessing: {preprocessing_mode!r}")
         preprocessing_mode = cast(Literal["none", "l2", "geometric-median-l2"], preprocessing_mode)
+        model_revision = model.get("revision")
         lens = cls(
             model_id=str(model["repo_id"]),
-            model_revision=str(model.get("revision") or "unknown"),
+            model_revision=None if model_revision in (None, "", "unknown") else str(model_revision),
             model_type=_validate_model_type(str(model.get("type", "base"))),
             activation_site=str(manifest["activation_site"]),
             layer_indexing=str(manifest.get("layer_indexing", "hidden_states")),
@@ -758,7 +786,18 @@ class ICALens:
         summaries: dict[int, dict[str, Any]] = {}
         for component in profile["components"]:
             component_index = int(component["component"])
-            sign = str(component["dominant_sign"])
+            sign = component.get("dominant_sign")
+            if sign is None:
+                readouts = {"Logit Lens": component["logit_lens"]}
+                readouts.update(component.get("additional_readouts", {}))
+                summaries[component_index] = {
+                    "output_readouts": {
+                        name: {side: ranking[side]["top_tokens"][:10]
+                               for side in ("positive", "negative")}
+                        for name, ranking in readouts.items()
+                    },
+                }
+                continue
             summaries[component_index] = {
                 "dominant_sign": sign,
                 "tail_direction": component.get("tail_direction"),
@@ -791,6 +830,10 @@ class ICALens:
                     }
                     for token in component["logit_lens"]["dominant"]["top_tokens"][:10]
                 ],
+                "additional_readouts": {
+                    name: readout["dominant"]["top_tokens"][:10]
+                    for name, readout in component.get("additional_readouts", {}).items()
+                },
                 "r_lens_tokens": [
                     {
                         key: token[key]

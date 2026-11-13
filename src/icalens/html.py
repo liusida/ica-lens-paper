@@ -153,10 +153,10 @@ def _occurrence_target_span(item: dict[str, Any], context: str, target: str) -> 
 
 def _component_profile_document(profile: Any, *, layer: int) -> str:
     component = int(profile["component"])
-    sign = str(profile["dominant_sign"])
-    statistics = profile["sign_statistics"]
+    sign = profile.get("dominant_sign") or ""
+    statistics = profile.get("sign_statistics") or {}
     score_statistics = profile.get("score_statistics") or {}
-    examples = profile["examples"][sign]
+    examples = profile.get("examples", {}).get(sign, {})
     occurrences = examples.get("occurrences", [])
     logit_tokens = profile.get("logit_lens", {}).get("dominant", {}).get("top_tokens", [])[:10]
     r_lens_tokens = profile.get("r_lens", {}).get("dominant", {}).get("top_tokens", [])[:10]
@@ -212,10 +212,22 @@ def _component_profile_document(profile: Any, *, layer: int) -> str:
             f'<div class="profile-chips">{token_chips(r_lens_tokens)}</div></div>'
         )
 
-    position_positive = percentage(statistics["positive_fraction"])
-    position_negative = percentage(statistics["negative_fraction"])
-    energy_positive = percentage(statistics["positive_energy_fraction"])
-    energy_negative = percentage(statistics["negative_energy_fraction"])
+    readouts = dict(profile.get("additional_readouts", {}))
+    if not sign:
+        readouts = {"Logit Lens": profile["logit_lens"], **readouts}
+    for name, readout in readouts.items():
+        for side in ((sign,) if sign else ("positive", "negative")):
+            tokens = readout[side]["top_tokens"][:10]
+            r_lens += (
+                f'<div class="profile-token-row"><h3>{html.escape(name)} tokens · '
+                f'{html.escape(side)}</h3><div class="profile-chips">'
+                f'{token_chips(tokens)}</div></div>'
+            )
+
+    position_positive = percentage(statistics.get("positive_fraction", 0))
+    position_negative = percentage(statistics.get("negative_fraction", 0))
+    energy_positive = percentage(statistics.get("positive_energy_fraction", 0))
+    energy_negative = percentage(statistics.get("negative_energy_fraction", 0))
     excess_kurtosis = score_statistics.get("excess_kurtosis")
     excess_kurtosis_rank = score_statistics.get("excess_kurtosis_rank")
     skewness = score_statistics.get("skewness")
@@ -261,10 +273,21 @@ def _component_profile_document(profile: Any, *, layer: int) -> str:
             f"</div>{tail_shape_html}</div>"
         )
     )
+    logit_section = (
+        f'<div class="profile-token-row"><h3>Logit-lens tokens · {html.escape(sign)}</h3>'
+        f'<div class="profile-chips">{token_chips(logit_tokens)}</div></div>'
+        if sign else ""
+    )
+    input_sections = (
+        f'<section>{score_statistics_html}</section>'
+        f'<section class="profile-wide"><h3>Top-score occurrences · {html.escape(sign)}</h3>'
+        f'<ol>{occurrence_items}</ol></section>'
+        if sign else ""
+    )
     direction_label = (
         f"{html.escape(sign)} tail"
         if profile.get("tail_direction") is not None
-        else f"dominant {html.escape(sign)}"
+        else (f"dominant {html.escape(sign)}" if sign else "Vocabulary readouts")
     )
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -290,9 +313,8 @@ def _component_profile_document(profile: Any, *, layer: int) -> str:
 </style></head><body>
 <details class="panel" open><summary>Component profile — C{component} · layer {int(layer)} · {direction_label}</summary>
 <div class="profile-grid">
-  <section><div class="profile-token-row"><h3>Logit-lens tokens · {html.escape(sign)}</h3><div class="profile-chips">{token_chips(logit_tokens)}</div></div>{r_lens}</section>
-  <section>{score_statistics_html}</section>
-  <section class="profile-wide"><h3>Top-score occurrences · {html.escape(sign)}</h3><ol>{occurrence_items}</ol></section>
+  <section>{logit_section}{r_lens}</section>
+  {input_sections}
 </div></details>
 <script>
 const vscodeHost=(()=>{{
@@ -506,7 +528,8 @@ def _document(payload: str) -> str:
     .profile-grid {{ display: grid; grid-template-columns: minmax(0, 1fr) 150px;
       gap: 16px 24px; margin-top: 12px; }}
     .profile-wide {{ grid-column: 1 / -1; padding-top: 12px; border-top: 1px solid #e1e6ee; }}
-    .profile-section h3 {{ margin: 0 0 7px; font-size: 13px; }}
+    .profile-section h3, .profile-token-row > h3 {{ margin: 0 0 7px; font-size: 13px; }}
+    .profile-readouts-only {{ grid-column: 1 / -1; }}
     .profile-token-row + .profile-token-row {{ margin-top: 13px; }}
     .profile-stat-row {{ display: grid; grid-template-columns: 62px 48px minmax(100px, 1fr) 48px;
       gap: 7px; align-items: center; margin: 7px 0; color: #435066; font-size: 11px; }}
@@ -756,6 +779,7 @@ def _document(payload: str) -> str:
     function componentTooltip(component) {{
       const profile = data.component_profiles[String(component)] || data.component_profiles[component];
       if (!profile) return `C${{component}} · no component profile available`;
+      if (profile.output_readouts) return `C${{component}} · Vocabulary readouts`;
       const direction = profile.tail_direction
         ? `${{profile.tail_direction}} tail`
         : `dominant ${{profile.dominant_sign}}`;
@@ -822,6 +846,34 @@ def _document(payload: str) -> str:
         body.innerHTML = '<div class="profile-section">No component profile is available.</div>';
         return;
       }}
+      const rankedTokenChips = items => items.map((item, index) =>
+        `<span class="profile-token-chip" title="${{esc(tokenHint(item))}}"><span class="profile-value">#${{index + 1}}</span>` +
+        `<strong>${{esc(JSON.stringify(String(item.text || "")))}}</strong></span>`
+      ).join("");
+      if (profile.output_readouts) {{
+        const scoreAt = token => token?.metrics?.score?.[component];
+        const tokens = allTokens();
+        const source = tokenIndex === null
+          ? tokens.reduce((best, token) => {{
+              const score = scoreAt(token);
+              return Number.isFinite(score) && (!best || Math.abs(score) > Math.abs(scoreAt(best)))
+                ? token : best;
+            }}, null)
+          : tokens.find(token => token.token_index === tokenIndex);
+        const score = scoreAt(source);
+        const direction = Number.isFinite(score) && score !== 0
+          ? (score > 0 ? "positive" : "negative") : null;
+        const detail = direction
+          ? ` · ${{direction}} ICA score at “${{source.token_text || source.token}}”` : "";
+        summary.textContent = `Component profile — C${{component}} · Vocabulary readouts${{detail}}`;
+        body.innerHTML = `<section class="profile-section profile-readouts-only">${{Object.entries(profile.output_readouts).map(([name, sides]) =>
+          Object.entries(sides).filter(([side]) => !sides[direction] || side === direction).map(([side, tokens]) =>
+            `<div class="profile-token-row"><h3>${{esc(name)}} tokens · ${{esc(side)}}</h3>` +
+            `<div class="profile-chips">${{rankedTokenChips(tokens)}}</div></div>`
+          ).join("")
+        ).join("")}}</section>`;
+        return;
+      }}
       const direction = profile.tail_direction
         ? `${{profile.tail_direction}} tail`
         : `dominant ${{profile.dominant_sign}}`;
@@ -866,10 +918,6 @@ def _document(payload: str) -> str:
         `${{Number.isInteger(item.absolute_score_rank) && item.absolute_score_rank > 0 ? ` <span class="profile-occurrence-rank" title="Absolute-score rank among all components at this token">(#${{item.absolute_score_rank}})</span>` : ""}} · ` +
         `<span class="profile-metric" title="Component energy" aria-label="Component energy"><span class="profile-metric-icon">⚡</span> ${{percentage(item.energy)}}</span></span></li>`
       ).join("");
-      const tokenItems = items => items.map((item, index) =>
-        `<span class="profile-token-chip" title="${{esc(tokenHint(item))}}"><span class="profile-value">#${{index + 1}}</span>` +
-        `<strong>${{esc(JSON.stringify(String(item.text || "")))}}</strong></span>`
-      ).join("");
       const positionPositive = percentage(stats.positive_fraction);
       const positionNegative = percentage(stats.negative_fraction);
       const energyPositive = percentage(stats.positive_energy_fraction);
@@ -892,12 +940,15 @@ def _document(payload: str) -> str:
           <div class="profile-stat-row profile-stat-primary"><strong>Energy</strong><span>+${{energyPositive}}</span><span class="profile-bar"><span class="profile-bar-positive" style="width:${{energyPositive}}"></span><span class="profile-bar-negative"></span></span><span>−${{energyNegative}}</span></div>
           <div class="profile-stat-row profile-stat-secondary"><strong>Positions</strong><span>+${{positionPositive}}</span><span class="profile-bar"><span class="profile-bar-positive" style="width:${{positionPositive}}"></span><span class="profile-bar-negative"></span></span><span>−${{positionNegative}}</span></div></div>${{tailShapeRows}}</div>`;
       const rLensSection = profile.r_lens_tokens?.length
-        ? `<div class="profile-token-row"><h3>R-lens tokens · ${{profile.dominant_sign}}</h3><div class="profile-chips">${{tokenItems(profile.r_lens_tokens)}}</div></div>`
+        ? `<div class="profile-token-row"><h3>R-lens tokens · ${{profile.dominant_sign}}</h3><div class="profile-chips">${{rankedTokenChips(profile.r_lens_tokens)}}</div></div>`
         : "";
+      const additionalReadouts = Object.entries(profile.additional_readouts || {{}})
+        .map(([name, tokens]) => `<div class="profile-token-row"><h3>${{esc(name)}} tokens · ${{esc(profile.dominant_sign)}}</h3><div class="profile-chips">${{rankedTokenChips(tokens)}}</div></div>`).join("");
       body.innerHTML = `
         <section class="profile-section">
-          <div class="profile-token-row"><h3>Logit-lens tokens · ${{profile.dominant_sign}}</h3><div class="profile-chips">${{tokenItems(profile.logit_tokens)}}</div></div>
+          <div class="profile-token-row"><h3>Logit-lens tokens · ${{profile.dominant_sign}}</h3><div class="profile-chips">${{rankedTokenChips(profile.logit_tokens)}}</div></div>
           ${{rLensSection}}
+          ${{additionalReadouts}}
         </section>
         <section class="profile-section">${{scoreStatistics}}</section>
         <section class="profile-section profile-wide"><h3>Top-score occurrences · ${{profile.dominant_sign}}</h3><ol class="profile-list profile-occurrences">${{occurrenceItems}}</ol></section>`;

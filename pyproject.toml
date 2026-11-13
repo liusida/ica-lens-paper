@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "icalens"
-version = "0.4.0"
+version = "0.4.1"
 description = "Fit, share, and apply ICA lenses for language-model activations."
 readme = "README.md"
 requires-python = ">=3.10"

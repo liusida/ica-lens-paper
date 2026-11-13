@@ -369,7 +369,7 @@ profiling_inputs = ["First document...", "Second document..."]
 
 for layer in lens.available_layers:
     lens.profile_components(
-        profiling_inputs,
+        inputs=profiling_inputs,
         layer=layer,
         max_tokens=100000,
         top_k_examples=20,
@@ -392,6 +392,51 @@ lens.save(lens_path)
 条件允许时，应保留原始数据记录，而不是只保留解码后的 token。ICA Lens 会应用记录的
 tokenizer；对于对话，还会应用模型的 chat template。画像全部附加到 Lens 后，再调用
 `save()` 保存。
+
+### 使用已保存的激活建立画像
+
+使用与拟合 Lens 相同的模型检查点和激活位置捕获用于画像的激活。可以复用拟合语料来描述拟合时的数据分布，也可以使用留出语料来观察成分在未见数据上的表现。捕获时，按激活行的顺序为每个保留的 token 保存一条记录，包括 tokenizer 的原始 token 及其 ID、解码文本、在源文档中从 0 开始的位置、简短上下文和源文档编号。
+
+将记录以 JSON 数组的形式保存到 `icalens-output/profile-token-records.json`。下面的示例展示其中一条记录。
+
+```json
+[
+  {
+    "token": "Ġbank",
+    "token_id": 3331,
+    "text": " bank",
+    "position": 4,
+    "context": "She walked to the bank.",
+    "source_index": 0
+  }
+]
+```
+
+运行下面的 Python 脚本，读取已保存的激活和记录，并为每个已拟合层建立画像。
+
+```python
+import json
+from pathlib import Path
+
+from icalens import ActivationDataset, ICALens
+
+lens_path = "icalens-output/my-icalens"
+lens = ICALens.from_pretrained(lens_path)
+captured = ActivationDataset("icalens-output/profile-activations")
+records = json.loads(Path("icalens-output/profile-token-records.json").read_text())
+
+for layer in lens.available_layers:
+    lens.profile_components(
+        activations=captured.layer(layer),
+        records=records,
+        layer=layer,
+        progress=True,
+    )
+
+lens.save(lens_path)
+```
+
+该方法使用已保存的激活计算分数统计并选取样例，同时加载模型以计算词表读出。保存 Lens 时会一并写入画像文件和 manifest 中对应的条目。
 
 ### 查看已保存的画像
 
@@ -447,6 +492,33 @@ icalens profile add-r-lens \
 这样可以节省重新拟合 R-lens 的计算，同时仍使用指令模型自身的最终归一化层和
 unembedding。ICALens 仍会检查隐藏维度、激活位置和源层映射，并在产物中同时记录
 R-lens 来源模型与目标指令模型。由于指令微调改变了中间权重，这类读出应视为近似结果。
+
+### 添加具名读出
+
+从文本或已保存激活建立画像时，可以传入 `additional_readouts=`。如果 Jacobian Lens 检查点未记录模型 ID 或目标层，ICA Lens 默认使用已拟合 Lens 的模型 ID 和已加载模型的最后一层。
+
+```python
+additional_readouts = [
+    {
+        "name": "J Lens",
+        "format": "jacobian",
+        "path": "Qwen3.8-27B_jacobian_lens.pt",
+    },
+]
+lens.profile_components(
+    inputs=profiling_inputs,
+    layer=layer,
+    additional_readouts=additional_readouts,
+)
+```
+
+兼容的 R-lens 文件使用 `format="relp"`。如果 J++ Lens 采用相同的 `J` 矩阵格式，且映射到归一化前的最终层输出，则可使用 `format="jacobian"`。保存或发布 Lens 时会一并写入这些具名读出。
+
+如果只需计算词表读出，可以仅传入层编号和读出配置。已有的语料统计和样例会保留。如果该层只有读出，分析界面会根据所选 token 的 ICA 分数符号显示对应方向。未选择 token 时，使用提示中绝对值最大的分数。分数为零或不可用时，显示正负两个方向。
+
+```python
+lens.profile_components(layer=layer, additional_readouts=additional_readouts)
+```
 
 ### 完整产物包含什么
 

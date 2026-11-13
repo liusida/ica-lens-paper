@@ -399,7 +399,7 @@ profiling_inputs = ["First document...", "Second document..."]
 
 for layer in lens.available_layers:
     lens.profile_components(
-        profiling_inputs,
+        inputs=profiling_inputs,
         layer=layer,
         max_tokens=100000,
         top_k_examples=20,
@@ -423,6 +423,51 @@ conversation such as:
 Keep raw source records rather than decoded tokens when possible. ICA Lens
 applies the recorded tokenizer and, for conversations, the model's chat
 template. Call `save()` after the profiles have been attached to the Lens.
+
+### Profile from saved activations
+
+Use activations captured from the same checkpoint and activation site as the fitted lens. You can reuse the fitting corpus to describe the distribution the lens was fitted on, or use a held-out corpus to characterize its components on unseen data. During capture, save one token record per retained activation row, in the same order. For each record, store the tokenizer token and ID, the decoded token text, its zero-based position in the source, a short context, and the source document index.
+
+Save the records as a JSON array in `icalens-output/profile-token-records.json`. The example below shows one entry.
+
+```json
+[
+  {
+    "token": "Ġbank",
+    "token_id": 3331,
+    "text": " bank",
+    "position": 4,
+    "context": "She walked to the bank.",
+    "source_index": 0
+  }
+]
+```
+
+Run this Python script to load the saved activations and records and profile each fitted layer.
+
+```python
+import json
+from pathlib import Path
+
+from icalens import ActivationDataset, ICALens
+
+lens_path = "icalens-output/my-icalens"
+lens = ICALens.from_pretrained(lens_path)
+captured = ActivationDataset("icalens-output/profile-activations")
+records = json.loads(Path("icalens-output/profile-token-records.json").read_text())
+
+for layer in lens.available_layers:
+    lens.profile_components(
+        activations=captured.layer(layer),
+        records=records,
+        layer=layer,
+        progress=True,
+    )
+
+lens.save(lens_path)
+```
+
+This path reuses the saved activations for score statistics and examples. It loads the model for vocabulary readouts. The saved lens includes the profile files and their manifest entries.
 
 ### Inspect a stored profile
 
@@ -486,6 +531,33 @@ final normalization and unembedding. ICALens still checks the hidden size,
 activation site, and source-layer maps, and records both source and target model
 identities in the artifact. Because instruction tuning changes the intervening
 weights, transferred readouts should be treated as an approximation.
+
+### Add named readouts
+
+Pass `additional_readouts=` when profiling from text or saved activations. If the checkpoint omits the model ID or target layer, ICA Lens assumes the fitted lens’s model ID and uses the loaded model’s final block.
+
+```python
+additional_readouts = [
+    {
+        "name": "J Lens",
+        "format": "jacobian",
+        "path": "Qwen3.8-27B_jacobian_lens.pt",
+    },
+]
+lens.profile_components(
+    inputs=profiling_inputs,
+    layer=layer,
+    additional_readouts=additional_readouts,
+)
+```
+
+Use `format="relp"` for a compatible R-lens artifact. J++ checkpoints can use `format="jacobian"` if they use the same `J` matrix format and map to the final block before normalization. Save or publish the lens to include the named readouts.
+
+To compute vocabulary readouts without collecting corpus statistics or examples, call the same method with only the layer and readouts. Existing corpus statistics and examples are preserved. For readout-only profiles, the analysis view uses the signed ICA score at the selected token, or the strongest absolute score in the prompt when no token is selected. It shows both directions when that score is zero or unavailable.
+
+```python
+lens.profile_components(layer=layer, additional_readouts=additional_readouts)
+```
 
 ### Complete artifact contents
 

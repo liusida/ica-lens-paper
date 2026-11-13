@@ -176,6 +176,7 @@ def profile_components(
     logit_lens_top_k: int = 20,
     logit_lens_batch_size: int = 64,
     r_lens: str | Path | dict[str, Any] | None = None,
+    additional_readouts: Iterable[dict[str, Any]] = (),
     r_lens_top_k: int = 20,
     r_lens_batch_size: int = 8,
     allow_base_model_transfer: bool = False,
@@ -264,6 +265,7 @@ def profile_components(
         logit_lens_top_k=logit_lens_top_k,
         logit_lens_batch_size=logit_lens_batch_size,
         r_lens=r_lens,
+        additional_readouts=additional_readouts,
         r_lens_top_k=r_lens_top_k,
         r_lens_batch_size=r_lens_batch_size,
         allow_base_model_transfer=allow_base_model_transfer,
@@ -296,6 +298,7 @@ def profile_components_from_activations(
     logit_lens_top_k: int = 20,
     logit_lens_batch_size: int = 64,
     r_lens: str | Path | dict[str, Any] | None = None,
+    additional_readouts: Iterable[dict[str, Any]] = (),
     r_lens_top_k: int = 20,
     r_lens_batch_size: int = 8,
     allow_base_model_transfer: bool = False,
@@ -361,6 +364,7 @@ def profile_components_from_activations(
         logit_lens_top_k=logit_lens_top_k,
         logit_lens_batch_size=logit_lens_batch_size,
         r_lens=r_lens,
+        additional_readouts=additional_readouts,
         r_lens_top_k=r_lens_top_k,
         r_lens_batch_size=r_lens_batch_size,
         allow_base_model_transfer=allow_base_model_transfer,
@@ -754,8 +758,10 @@ def refresh_profile_statistics_from_activations(
             "negative_energy_fraction": negative_squared_fraction,
         }
         component["score_statistics"] = _component_score_statistics(statistics, index)
-        for readout_name in ("logit_lens", "r_lens"):
-            readout = component.get(readout_name)
+        for readout in (
+            component.get("logit_lens"), component.get("r_lens"),
+            *component.get("additional_readouts", {}).values(),
+        ):
             if isinstance(readout, dict) and tail_direction in readout:
                 readout["dominant"] = readout[tail_direction]
 
@@ -791,6 +797,7 @@ def _finish_profile(
     logit_lens_top_k: int,
     logit_lens_batch_size: int,
     r_lens: str | Path | dict[str, Any] | None,
+    additional_readouts: Iterable[dict[str, Any]],
     r_lens_top_k: int,
     r_lens_batch_size: int,
     allow_base_model_transfer: bool,
@@ -823,6 +830,10 @@ def _finish_profile(
                 batch_size=r_lens_batch_size,
                 progress=progress,
             )
+    readouts, readout_provenance = _additional_readouts(
+        lens, artifact, layer, additional_readouts,
+        top_k=r_lens_top_k, batch_size=r_lens_batch_size, progress=progress,
+    )
     components = []
     statistics = _population_score_statistics(score_moments, token_count)
     for component in range(artifact.n_components):
@@ -876,6 +887,11 @@ def _finish_profile(
                 "negative": r_lens_result[component]["negative"],
                 "dominant": r_lens_result[component][dominant],
             }
+        if readouts:
+            entry["additional_readouts"] = {
+                name: {**results[component], "dominant": results[component][dominant]}
+                for name, results in readouts.items()
+            }
         components.append(entry)
     profile = {
         "format": "icalens-component-profile",
@@ -893,8 +909,145 @@ def _finish_profile(
         },
         "provenance": provenance,
         "r_lens_provenance": r_lens_provenance,
+        **({"additional_readout_provenance": readout_provenance} if readouts else {}),
         "components": components,
     }
+    if artifact.profile_file is not None:
+        previous = lens._get_profile(artifact)
+        previous_provenance = previous.get("additional_readout_provenance", {})
+        if previous_provenance:
+            profile["additional_readout_provenance"] = {
+                **previous_provenance, **readout_provenance,
+            }
+        for old, new in zip(previous["components"], components, strict=True):
+            for name, ranking in old.get("additional_readouts", {}).items():
+                new.setdefault("additional_readouts", {}).setdefault(
+                    name, {**ranking, "dominant": ranking[new["dominant_sign"]]},
+                )
+    artifact.profile_file = f"component_profiles/{lens.activation_site}/layer_{layer:02d}.json.gz"
+    artifact.profile = profile
+    return profile
+
+
+def _additional_readouts(
+    lens: Any,
+    artifact: Any,
+    layer: int,
+    additional_readouts: Iterable[dict[str, Any]],
+    *,
+    top_k: int,
+    batch_size: int,
+    progress: bool,
+) -> tuple[dict[str, list[dict[str, Any]]], dict[str, Any]]:
+    readouts: dict[str, list[dict[str, Any]]] = {}
+    readout_provenance = {}
+    for spec in additional_readouts:
+        name = spec["name"]
+        if not isinstance(name, str) or not name.strip() or name in readouts:
+            raise ValueError("additional readouts require unique, nonempty names")
+        readout_format = spec["format"]
+        if readout_format == "relp":
+            mapping, metadata = _load_r_lens(lens, artifact, spec["path"])
+            source_map = _r_lens_source_map(mapping, layer)
+        elif readout_format == "jacobian":
+            path = Path(spec["path"]).expanduser()
+            mapping = torch.load(path, map_location="cpu", weights_only=True, mmap=True)
+            if not isinstance(mapping, dict) or not isinstance(mapping.get("J"), dict):
+                raise ValueError("Jacobian Lens checkpoint must contain source maps under 'J'")
+            model_id = spec.get("model_id", mapping.get("model_id", lens.model_id))
+            if (
+                model_id != lens.model_id
+                or mapping.get("d_model") != lens.hidden_size
+                or lens.activation_site != "resid_post"
+                or lens.layer_indexing != "block_output_zero_based"
+            ):
+                raise ValueError("Jacobian Lens is incompatible with this ICA Lens")
+            from ._capture import transformer_blocks
+
+            final_block = len(transformer_blocks(lens._analysis_model)) - 1
+            target_layer = int(spec.get("target_layer", mapping.get("target_layer", final_block)))
+            if target_layer != final_block:
+                raise ValueError("Jacobian Lens target must be the final transformer block")
+            source_map = (
+                torch.eye(lens.hidden_size)
+                if layer == target_layer
+                else _r_lens_source_map(mapping, layer)
+            )
+            metadata = {
+                "model_id": model_id,
+                "target_layer": target_layer,
+                "filename": path.name,
+                "n_prompts": mapping.get("n_prompts"),
+            }
+        else:
+            raise ValueError(f"unsupported additional readout format: {readout_format!r}")
+        if source_map is None:
+            raise ValueError(f"{name} has no source map for layer {layer}")
+        readout_provenance[name] = {**metadata, "format": readout_format}
+        readouts[name] = _r_lens_tokens(
+            lens, artifact, source_map=source_map, top_k=top_k,
+            batch_size=batch_size, progress=progress, readout_name=name,
+        )
+    return readouts, readout_provenance
+
+
+def profile_readouts(
+    lens: Any,
+    *,
+    layer: int,
+    additional_readouts: Iterable[dict[str, Any]],
+    logit_lens_top_k: int = 20,
+    logit_lens_batch_size: int = 64,
+    r_lens_top_k: int = 20,
+    r_lens_batch_size: int = 8,
+    device: str | torch.device | None = "auto",
+    progress: bool = False,
+) -> dict[str, Any]:
+    """Compute vocabulary readouts without collecting corpus statistics."""
+    from copy import deepcopy
+
+    from .analysis import _resolve_model_and_tokenizer
+
+    specs = tuple(additional_readouts)
+    if not specs:
+        raise ValueError("provide inputs, activations, or nonempty additional_readouts")
+    if min(logit_lens_top_k, logit_lens_batch_size, r_lens_top_k, r_lens_batch_size) <= 0:
+        raise ValueError("readout top-k and batch sizes must be positive")
+    artifact = lens._get_layer(layer)
+    _resolve_model_and_tokenizer(lens, None, None, device)
+    readouts, provenance = _additional_readouts(
+        lens, artifact, layer, specs,
+        top_k=r_lens_top_k, batch_size=r_lens_batch_size, progress=progress,
+    )
+    if artifact.profile_file is not None:
+        profile = deepcopy(lens._get_profile(artifact))
+    else:
+        logit_lens = _logit_lens(
+            lens, artifact, top_k=logit_lens_top_k,
+            batch_size=logit_lens_batch_size, progress=progress,
+        )
+        profile = {
+            "format": "icalens-component-profile",
+            "format_version": 1,
+            "layer": layer,
+            "n_tokens": 0,
+            "n_inputs": 0,
+            "components": [
+                {"component": index, "logit_lens": {
+                    "method": "final_norm_then_unembed", **ranking,
+                }}
+                for index, ranking in enumerate(logit_lens)
+            ],
+        }
+    profile.setdefault("additional_readout_provenance", {}).update(provenance)
+    for index, component in enumerate(profile["components"]):
+        sign = component.get("dominant_sign")
+        rankings = component.setdefault("additional_readouts", {})
+        for name, results in readouts.items():
+            ranking = dict(results[index])
+            if sign in ranking:
+                ranking["dominant"] = ranking[sign]
+            rankings[name] = ranking
     artifact.profile_file = f"component_profiles/{lens.activation_site}/layer_{layer:02d}.json.gz"
     artifact.profile = profile
     return profile
@@ -1046,6 +1199,7 @@ def _r_lens_tokens(
     top_k: int,
     batch_size: int,
     progress: bool,
+    readout_name: str = "R-lens",
 ) -> list[dict[str, Any]]:
     model = lens._analysis_model
     tokenizer = lens._analysis_tokenizer
@@ -1066,7 +1220,7 @@ def _r_lens_tokens(
         batches = range(0, int(directions.shape[0]), batch_size)
         for start in tqdm(
             batches,
-            desc="Profile R-lens",
+            desc=f"Profile {readout_name}",
             unit="batch",
             disable=not progress,
         ):
@@ -1143,6 +1297,8 @@ def _logit_lens(
 def _final_norm(model: torch.nn.Module) -> torch.nn.Module | None:
     for path in (
         ("model", "norm"),
+        ("model", "language_model", "norm"),
+        ("language_model", "norm"),
         ("transformer", "ln_f"),
         ("model", "final_layernorm"),
         ("gpt_neox", "final_layer_norm"),

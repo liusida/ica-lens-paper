@@ -244,7 +244,7 @@ def test_analysis_result_writes_html(tmp_path) -> None:
     assert "Component profile — C${component} · ${direction}" in html
     assert "Tail selection" not in html
     assert "Skewness" in html
-    profile_layout = html[html.index("body.innerHTML = `") :]
+    profile_layout = html[html.index('body.innerHTML = `\n        <section class="profile-section">') :]
     assert profile_layout.index("Logit-lens tokens") < profile_layout.index("scoreStatistics")
     assert "Top-score occurrences · ${profile.dominant_sign}" in html
     assert "Logit-lens tokens · ${profile.dominant_sign}" in html

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -123,6 +124,39 @@ def test_analyze_raw_text_returns_scores_and_energy(mixed_signals: np.ndarray) -
     assert result.layer == 0
     assert result.input_text == "one two three"
     torch.testing.assert_close(result.energy.sum(dim=-1), torch.ones(3))
+
+
+@pytest.mark.parametrize("fitting_revision", [None, "unknown"])
+@pytest.mark.filterwarnings("error::UserWarning")
+def test_analyze_saved_lens_without_fitting_revision(
+    mixed_signals: np.ndarray,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    fitting_revision: str | None,
+) -> None:
+    from huggingface_hub import HfApi
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    revision = "a" * 40
+    monkeypatch.setattr(HfApi, "model_info", lambda *a, **kw: SimpleNamespace(sha=revision))
+
+    def load_model(model_id: str, *, revision: str) -> DummyModel:
+        assert model_id == "example/model"
+        assert revision == "a" * 40
+        return DummyModel()
+
+    monkeypatch.setattr(AutoModelForCausalLM, "from_pretrained", load_model)
+    monkeypatch.setattr(AutoTokenizer, "from_pretrained", lambda *a, **kw: DummyTokenizer())
+    lens = ICALens(
+        model_id="example/model",
+        model_revision=fitting_revision,
+        activation_site="hidden_states",
+    )
+    lens.fit(mixed_signals, layer=0)
+    restored = ICALens.from_pretrained(lens.save(tmp_path / "lens"))
+    result = restored.analyze("one two three", layer=0, device="cpu")
+    assert result.model == f"example/model@{revision}"
+    assert result.scores.shape == (3, 3)
 
 
 def test_analyze_uses_recorded_document_framing_by_default(
