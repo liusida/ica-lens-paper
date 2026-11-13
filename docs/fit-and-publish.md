@@ -553,7 +553,7 @@ lens.profile_components(
 
 Use `format="relp"` for a compatible R-lens artifact. J++ checkpoints can use `format="jacobian"` if they use the same `J` matrix format and map to the final block before normalization. Save or publish the lens to include the named readouts.
 
-To compute vocabulary readouts without collecting corpus statistics or examples, call the same method with only the layer and readouts. Existing corpus statistics and examples are preserved. For readout-only profiles, the analysis view uses the signed ICA score at the selected token, or the strongest absolute score in the prompt when no token is selected. It shows both directions when that score is zero or unavailable.
+To compute vocabulary readouts without collecting corpus statistics or examples, call the same method with only the layer and readouts. Existing corpus statistics and examples are preserved. For readout-only profiles, the analysis view uses the signed ICA score at the selected token, or the selected component’s strongest absolute score in the prompt when no token is selected. It shows both directions when that score is zero or unavailable.
 
 ```python
 lens.profile_components(layer=layer, additional_readouts=additional_readouts)

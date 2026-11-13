@@ -514,7 +514,7 @@ lens.profile_components(
 
 兼容的 R-lens 文件使用 `format="relp"`。如果 J++ Lens 采用相同的 `J` 矩阵格式，且映射到归一化前的最终层输出，则可使用 `format="jacobian"`。保存或发布 Lens 时会一并写入这些具名读出。
 
-如果只需计算词表读出，可以仅传入层编号和读出配置。已有的语料统计和样例会保留。如果该层只有读出，分析界面会根据所选 token 的 ICA 分数符号显示对应方向。未选择 token 时，使用提示中绝对值最大的分数。分数为零或不可用时，显示正负两个方向。
+如果只需计算词表读出，可以仅传入层编号和读出配置。已有的语料统计和样例会保留。如果该层只有读出，分析界面会根据所选 token 的 ICA 分数符号显示对应方向。未选择 token 时，使用所选成分在提示中绝对值最大的分数。分数为零或不可用时，显示正负两个方向。
 
 ```python
 lens.profile_components(layer=layer, additional_readouts=additional_readouts)
