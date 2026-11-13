@@ -121,7 +121,129 @@ def test_energy_is_per_position_fraction(mixed_signals: np.ndarray) -> None:
     scores = lens.transform(mixed_signals[:10], layer=2)
     energy = lens.energy(scores)
     np.testing.assert_allclose(energy.sum(axis=-1), 1.0, atol=1e-6)
-    np.testing.assert_allclose(energy, scores**2 / np.sum(scores**2, axis=-1, keepdims=True))
+    squared = scores.astype(np.float64) ** 2
+    np.testing.assert_allclose(energy, squared / squared.sum(axis=-1, keepdims=True), rtol=1e-6)
+
+
+@pytest.mark.parametrize(
+    ("dtype", "large", "small"),
+    [(np.float16, 1e3, 1e-4), (np.float32, 1e20, 1e-30), (np.float64, 1e200, 1e-200)],
+)
+def test_numpy_energy_handles_large_and_small_finite_scores(dtype, large, small) -> None:
+    scores = np.array([[large, -large], [small, -small]], dtype=dtype)
+    original = scores.copy()
+
+    energy = ICALens.energy(scores)
+
+    np.testing.assert_array_equal(energy, np.full_like(scores, 0.5))
+    np.testing.assert_array_equal(scores, original)
+    assert energy.dtype == scores.dtype
+
+
+@pytest.mark.parametrize(
+    ("dtype", "large", "small"),
+    [
+        (torch.float16, 1e3, 1e-4),
+        (torch.bfloat16, 1e20, 1e-30),
+        (torch.float32, 1e20, 1e-30),
+        (torch.float64, 1e200, 1e-200),
+    ],
+)
+def test_torch_energy_handles_large_and_small_finite_scores(dtype, large, small) -> None:
+    scores = torch.tensor([[large, -large], [small, -small]], dtype=dtype)
+    original = scores.clone()
+
+    energy = ICALens.energy(scores)
+
+    torch.testing.assert_close(energy, torch.full_like(scores, 0.5), rtol=0, atol=0)
+    torch.testing.assert_close(scores, original, rtol=0, atol=0)
+    assert energy.dtype == scores.dtype
+    assert energy.device == scores.device
+
+
+@pytest.mark.parametrize("backend", ["numpy", "torch"])
+def test_energy_is_scale_invariant_with_leading_dimensions_and_zero_rows(backend: str) -> None:
+    scores = np.array(
+        [[[1, -2, 3], [0, 0, 0]], [[-3, 1, 2], [2, 0, -1]]], dtype=np.float32
+    )
+    factors = np.array([[[1e20], [1e-30]], [[1e-30], [1e20]]], dtype=np.float32)
+    scaled = scores * factors
+    original = scaled.copy()
+    if backend == "torch":
+        scores = torch.from_numpy(scores)
+        scaled = torch.from_numpy(scaled)
+
+    energy = ICALens.energy(scaled)
+    expected = ICALens.energy(scores)
+
+    assert energy.shape == scores.shape
+    assert energy.dtype == scores.dtype
+    if backend == "torch":
+        torch.testing.assert_close(energy, expected)
+        torch.testing.assert_close(scaled, torch.from_numpy(original), rtol=0, atol=0)
+    else:
+        np.testing.assert_allclose(energy, expected, rtol=1e-6)
+        np.testing.assert_array_equal(scaled, original)
+
+
+@pytest.mark.parametrize("backend", ["numpy", "torch"])
+def test_energy_accumulates_wide_float16_rows_without_overflow(backend: str) -> None:
+    scores = np.ones((2, 70000), dtype=np.float16)
+    expected = np.full_like(scores, 1 / scores.shape[-1])
+    if backend == "torch":
+        energy = ICALens.energy(torch.from_numpy(scores))
+        torch.testing.assert_close(energy, torch.from_numpy(expected), rtol=0, atol=0)
+    else:
+        energy = ICALens.energy(scores)
+        np.testing.assert_array_equal(energy, expected)
+
+
+def test_torch_energy_has_finite_gradients_for_zero_and_small_rows() -> None:
+    scores = torch.tensor(
+        [[0, 0, 0], [1, -2, 3], [1e-30, -2e-30, 3e-30]],
+        dtype=torch.float32,
+        requires_grad=True,
+    )
+    weights = torch.tensor([1, 2, -1], dtype=scores.dtype)
+
+    (ICALens.energy(scores) * weights).sum().backward()
+
+    assert scores.grad is not None
+    assert torch.isfinite(scores.grad).all()
+    torch.testing.assert_close(scores.grad[0], torch.zeros_like(scores.grad[0]))
+    reference = scores.detach()[1:].double().requires_grad_()
+    squared = reference.square()
+    ((squared / squared.sum(dim=-1, keepdim=True)) * weights.double()).sum().backward()
+    torch.testing.assert_close(scores.grad[1:].double(), reference.grad, rtol=2e-6, atol=1e-7)
+
+
+@pytest.mark.parametrize("backend", ["numpy", "torch"])
+def test_energy_preserves_empty_shapes(backend: str) -> None:
+    for shape in [(0,), (2, 0), (0, 3), (2, 0, 3)]:
+        scores = np.empty(shape, dtype=np.float32)
+        if backend == "torch":
+            scores = torch.from_numpy(scores).requires_grad_()
+        energy = ICALens.energy(scores)
+        assert energy.shape == scores.shape
+        assert energy.dtype == scores.dtype
+        if backend == "torch":
+            assert energy.device == scores.device
+            energy.sum().backward()
+            assert scores.grad is not None
+            assert scores.grad.shape == scores.shape
+
+
+@pytest.mark.parametrize("backend", ["numpy", "torch"])
+def test_energy_preserves_nonfinite_score_behavior(backend: str) -> None:
+    scores = np.array([[np.inf, 1], [-np.inf, 1], [np.nan, 1]], dtype=np.float32)
+    expected = np.array([[np.nan, 0], [np.nan, 0], [0, 0]], dtype=np.float32)
+    if backend == "torch":
+        torch.testing.assert_close(
+            ICALens.energy(torch.from_numpy(scores)), torch.from_numpy(expected), equal_nan=True
+        )
+    else:
+        with np.errstate(invalid="ignore"):
+            np.testing.assert_array_equal(ICALens.energy(scores), expected)
 
 
 def test_keep_and_ablate_topk_scores_per_vector() -> None:

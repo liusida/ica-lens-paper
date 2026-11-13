@@ -320,20 +320,42 @@ class ICALens:
         if isinstance(scores, torch.Tensor):
             if scores.ndim < 1 or not scores.is_floating_point():
                 raise TypeError("scores must be a floating-point array")
-            squared = scores.square()
+            if scores.shape[-1] == 0:
+                return scores.clone()
+            values = scores.float() if scores.dtype in (torch.float16, torch.bfloat16) else scores
+            # The scale cancels in the ratio; it needs no gradient path of its own.
+            scale = values.detach().abs().amax(dim=-1, keepdim=True)
+            safe_scale = torch.where(
+                torch.isfinite(scale) & (scale > 0), scale, torch.ones_like(scale)
+            )
+            scaled = values / safe_scale
+            squared = scaled.square()
             denominator = squared.sum(dim=-1, keepdim=True)
-            return torch.where(denominator > 0, squared / denominator, torch.zeros_like(squared))
+            safe_denominator = torch.where(
+                denominator > 0, denominator, torch.ones_like(denominator)
+            )
+            energy = torch.where(
+                denominator > 0, squared / safe_denominator, torch.zeros_like(squared)
+            )
+            return energy.to(dtype=scores.dtype)
         array = np.asarray(scores)
         if array.ndim < 1 or not np.issubdtype(array.dtype, np.floating):
             raise TypeError("scores must be a floating-point array")
-        squared_array = np.square(array)
+        if array.shape[-1] == 0:
+            return array.copy()
+        values_array = array.astype(np.float32) if array.dtype.itemsize < 4 else array
+        scale_array = np.max(np.abs(values_array), axis=-1, keepdims=True)
+        safe_scale_array = np.where(np.isfinite(scale_array) & (scale_array > 0), scale_array, 1)
+        scaled_array = values_array / safe_scale_array
+        squared_array = np.square(scaled_array)
         denominator_array = squared_array.sum(axis=-1, keepdims=True)
-        return np.divide(
+        energy_array = np.divide(
             squared_array,
             denominator_array,
             out=np.zeros_like(squared_array),
             where=denominator_array > 0,
         )
+        return energy_array.astype(array.dtype, copy=False)
 
     @staticmethod
     def keep_topk(scores: Any, k: int) -> Any:
