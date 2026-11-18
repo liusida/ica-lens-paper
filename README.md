@@ -174,6 +174,16 @@ The documentation covers:
 - [Fitting and publishing](https://icalens.readthedocs.io/en/latest/fit-and-publish/)
 - [Python API](https://icalens.readthedocs.io/en/latest/api/)
 
+## Community checkpoints
+
+- [Qwen3.8-27B bilingual ICA Lens](https://huggingface.co/lmxxf/Qwen3.8-27B-ica-lens)
+  covers all 64 layers and includes component profiles with bundled J Lens
+  readouts. Thanks to [lmxxf](https://huggingface.co/lmxxf) for contributing
+  the checkpoint and sharing the fitting and evaluation results.
+  See the [checkpoint introduction](community-checkpoints/qwen3.8-27b.md)
+  and [issue #4](https://github.com/liusida/ica-lens-paper/issues/4) for
+  reproduction details.
+
 ## Authors
 
 - [Sida Liu](https://liusida.com/)
