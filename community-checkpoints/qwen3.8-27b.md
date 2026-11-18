@@ -1,5 +1,7 @@
 # Qwen3.8-27B Bilingual ICA Lens (All 64 Layers + Bundled J-Lens Readouts)
 
+> **Contributor note:** This checkpoint introduction was written by lmxxf. It describes the contributor’s experiments, findings, and interpretations of the Qwen3.8-27B ICA Lens.
+
 - **Hugging Face Checkpoint**: [`lmxxf/Qwen3.8-27B-ica-lens`](https://huggingface.co/lmxxf/Qwen3.8-27B-ica-lens) (`v3` on `main`; legacy snapshots preserved at tags `v1.0` and `v2.0`)
 - **Companion Bilingual Jacobian Lens (`N=100`)**: [`lmxxf/Qwen3.8-27B-jacobian-lens`](https://huggingface.co/lmxxf/Qwen3.8-27B-jacobian-lens)
 - **Base Model**: `Qwen/Qwen3.8-27B-FP8` (dequantized blockwise to `BF16`; residual stream block outputs `0..63`, hidden size `d = 5,120`)
