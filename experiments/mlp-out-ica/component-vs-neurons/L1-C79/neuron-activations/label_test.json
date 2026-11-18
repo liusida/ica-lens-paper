@@ -1,0 +1,2507 @@
+{
+  "kind": "neuron_label_test",
+  "up": {
+    "layer": 0,
+    "neuron": 996,
+    "threshold": 1.2421875,
+    "label": "singular entity/agent noun"
+  },
+  "down": {
+    "layer": 1,
+    "neuron": 586,
+    "threshold": 0.95703125,
+    "label": "agentive-suffix noun (-er/-or/-ist/-ant)"
+  },
+  "color_scale": {
+    "up": 4.0625,
+    "down": 4.65625
+  },
+  "cases": [
+    {
+      "title": "1 singular person, no suffix",
+      "tests": "Plain singular person nouns",
+      "prediction": {
+        "up": "high",
+        "down": "low"
+      },
+      "examples": [
+        {
+          "sentence": "The patient waited in the hallway for an hour.",
+          "word": "patient",
+          "pieces": [
+            " patient"
+          ],
+          "up": 2.32621169090271,
+          "down": 0.640213668346405,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " patient",
+              "up": 2.32621169090271,
+              "down": 0.640213668346405,
+              "target": true
+            },
+            {
+              "text": " waited",
+              "up": -0.16508065164089203,
+              "down": -0.150582954287529,
+              "target": false
+            },
+            {
+              "text": " in",
+              "up": -0.060669053345918655,
+              "down": -0.026099901646375656,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.04460512101650238,
+              "down": -0.034052181988954544,
+              "target": false
+            },
+            {
+              "text": " hallway",
+              "up": -0.1435209959745407,
+              "down": -0.15780620276927948,
+              "target": false
+            },
+            {
+              "text": " for",
+              "up": -0.0790351927280426,
+              "down": -0.04131045937538147,
+              "target": false
+            },
+            {
+              "text": " an",
+              "up": -0.1593896448612213,
+              "down": -0.043140437453985214,
+              "target": false
+            },
+            {
+              "text": " hour",
+              "up": -0.06366658955812454,
+              "down": -0.05335443466901779,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.1337565928697586,
+              "down": -0.019907386973500252,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "A woman knocked on the door last night.",
+          "word": "woman",
+          "pieces": [
+            " woman"
+          ],
+          "up": 3.0096662044525146,
+          "down": -0.11503131687641144,
+          "window": [
+            {
+              "text": "A",
+              "up": -0.1552581489086151,
+              "down": -0.06334922462701797,
+              "target": false
+            },
+            {
+              "text": " woman",
+              "up": 3.0096662044525146,
+              "down": -0.11503131687641144,
+              "target": true
+            },
+            {
+              "text": " knocked",
+              "up": -0.16927172243595123,
+              "down": -0.16995105147361755,
+              "target": false
+            },
+            {
+              "text": " on",
+              "up": -0.10205957293510437,
+              "down": -0.06396262347698212,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.07271032780408859,
+              "down": -0.049053855240345,
+              "target": false
+            },
+            {
+              "text": " door",
+              "up": 0.09613078832626343,
+              "down": -0.10947393625974655,
+              "target": false
+            },
+            {
+              "text": " last",
+              "up": -0.09345073252916336,
+              "down": -0.10745051503181458,
+              "target": false
+            },
+            {
+              "text": " night",
+              "up": -0.07267226278781891,
+              "down": -0.05818997696042061,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.13393159210681915,
+              "down": -0.02972560189664364,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Every citizen has the right to vote.",
+          "word": "citizen",
+          "pieces": [
+            " citizen"
+          ],
+          "up": 3.057518482208252,
+          "down": 0.1014668270945549,
+          "window": [
+            {
+              "text": "Every",
+              "up": -0.07682149857282639,
+              "down": -0.07446179538965225,
+              "target": false
+            },
+            {
+              "text": " citizen",
+              "up": 3.057518482208252,
+              "down": 0.1014668270945549,
+              "target": true
+            },
+            {
+              "text": " has",
+              "up": -0.15966901183128357,
+              "down": -0.029951712116599083,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.08713918924331665,
+              "down": -0.03797692432999611,
+              "target": false
+            },
+            {
+              "text": " right",
+              "up": -0.014966640621423721,
+              "down": -0.02994595468044281,
+              "target": false
+            },
+            {
+              "text": " to",
+              "up": -0.10347183793783188,
+              "down": -0.029511861503124237,
+              "target": false
+            },
+            {
+              "text": " vote",
+              "up": -0.05000554397702217,
+              "down": -0.084819495677948,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.1350088119506836,
+              "down": -0.02793954685330391,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The doctor said the results were normal.",
+          "word": "doctor",
+          "pieces": [
+            " doctor"
+          ],
+          "up": 2.1300580501556396,
+          "down": 0.42518290877342224,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " doctor",
+              "up": 2.1300580501556396,
+              "down": 0.42518290877342224,
+              "target": true
+            },
+            {
+              "text": " said",
+              "up": -0.15352417528629303,
+              "down": -0.08189371973276138,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.08472101390361786,
+              "down": -0.05606652796268463,
+              "target": false
+            },
+            {
+              "text": " results",
+              "up": -0.16036008298397064,
+              "down": -0.05948825180530548,
+              "target": false
+            },
+            {
+              "text": " were",
+              "up": -0.16574174165725708,
+              "down": -0.08445142954587936,
+              "target": false
+            },
+            {
+              "text": " normal",
+              "up": -0.1448565423488617,
+              "down": -0.01773127354681492,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.13524426519870758,
+              "down": -0.03761845827102661,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 4,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "2 plural -er agents",
+      "tests": "Plurality should switch N996 off, keep N586 on",
+      "prediction": {
+        "up": "low",
+        "down": "high"
+      },
+      "examples": [
+        {
+          "sentence": "The farmers blocked the highway with tractors.",
+          "word": "farmers",
+          "pieces": [
+            " farmers"
+          ],
+          "up": -0.16156311333179474,
+          "down": 1.9373582601547241,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " farmers",
+              "up": -0.16156311333179474,
+              "down": 1.9373582601547241,
+              "target": true
+            },
+            {
+              "text": " blocked",
+              "up": -0.14937029778957367,
+              "down": -0.1108824834227562,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.061376068741083145,
+              "down": -0.050183091312646866,
+              "target": false
+            },
+            {
+              "text": " highway",
+              "up": -0.08628594875335693,
+              "down": -0.07046717405319214,
+              "target": false
+            },
+            {
+              "text": " with",
+              "up": -0.12079975754022598,
+              "down": -0.0536319836974144,
+              "target": false
+            },
+            {
+              "text": " tract",
+              "up": -0.08875666558742523,
+              "down": -0.039595603942871094,
+              "target": false
+            },
+            {
+              "text": "ors",
+              "up": -0.08649614453315735,
+              "down": 1.5703617334365845,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.1350320428609848,
+              "down": -0.0314582884311676,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Local workers went on strike yesterday.",
+          "word": "workers",
+          "pieces": [
+            " workers"
+          ],
+          "up": -0.13462695479393005,
+          "down": 1.2602077722549438,
+          "window": [
+            {
+              "text": "Local",
+              "up": -0.16348974406719208,
+              "down": -0.0691411942243576,
+              "target": false
+            },
+            {
+              "text": " workers",
+              "up": -0.13462695479393005,
+              "down": 1.2602077722549438,
+              "target": true
+            },
+            {
+              "text": " went",
+              "up": -0.15383605659008026,
+              "down": -0.10672061890363693,
+              "target": false
+            },
+            {
+              "text": " on",
+              "up": -0.06773342937231064,
+              "down": -0.04430453106760979,
+              "target": false
+            },
+            {
+              "text": " strike",
+              "up": -0.16579702496528625,
+              "down": -0.09134067595005035,
+              "target": false
+            },
+            {
+              "text": " yesterday",
+              "up": -0.13397587835788727,
+              "down": -0.1700349748134613,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.10088028013706207,
+              "down": -0.03260721266269684,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The teachers handed out the new books.",
+          "word": "teachers",
+          "pieces": [
+            " teachers"
+          ],
+          "up": -0.03232961893081665,
+          "down": 1.6098816394805908,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " teachers",
+              "up": -0.03232961893081665,
+              "down": 1.6098816394805908,
+              "target": true
+            },
+            {
+              "text": " handed",
+              "up": -0.16756586730480194,
+              "down": -0.06672108918428421,
+              "target": false
+            },
+            {
+              "text": " out",
+              "up": -0.12799541652202606,
+              "down": -0.06867029517889023,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.05780765041708946,
+              "down": -0.0447910837829113,
+              "target": false
+            },
+            {
+              "text": " new",
+              "up": -0.13932281732559204,
+              "down": -0.014205596409738064,
+              "target": false
+            },
+            {
+              "text": " books",
+              "up": -0.07432318478822708,
+              "down": -0.059810470789670944,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.11997292935848236,
+              "down": -0.03585582971572876,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Thousands of voters stayed home.",
+          "word": "voters",
+          "pieces": [
+            " voters"
+          ],
+          "up": -0.12674354016780853,
+          "down": 2.121116876602173,
+          "window": [
+            {
+              "text": "Thousands",
+              "up": -0.06920131295919418,
+              "down": -0.13437315821647644,
+              "target": false
+            },
+            {
+              "text": " of",
+              "up": -0.061808157712221146,
+              "down": -0.04841936007142067,
+              "target": false
+            },
+            {
+              "text": " voters",
+              "up": -0.12674354016780853,
+              "down": 2.121116876602173,
+              "target": true
+            },
+            {
+              "text": " stayed",
+              "up": -0.09628283977508545,
+              "down": -0.11068498343229294,
+              "target": false
+            },
+            {
+              "text": " home",
+              "up": -0.16770315170288086,
+              "down": -0.08879516273736954,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.08076483756303787,
+              "down": -0.04349764063954353,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 4,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "3 singular -er/-or agents",
+      "tests": "Overlap case: both should fire",
+      "prediction": {
+        "up": "high",
+        "down": "high"
+      },
+      "examples": [
+        {
+          "sentence": "The teacher handed back the exams.",
+          "word": "teacher",
+          "pieces": [
+            " teacher"
+          ],
+          "up": 2.4453353881835938,
+          "down": 2.0678274631500244,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " teacher",
+              "up": 2.4453353881835938,
+              "down": 2.0678274631500244,
+              "target": true
+            },
+            {
+              "text": " handed",
+              "up": -0.16955438256263733,
+              "down": -0.06395947933197021,
+              "target": false
+            },
+            {
+              "text": " back",
+              "up": -0.16489437222480774,
+              "down": -0.10732632130384445,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.07343138754367828,
+              "down": -0.0416499562561512,
+              "target": false
+            },
+            {
+              "text": " exams",
+              "up": -0.1616896688938141,
+              "down": -0.0712706446647644,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.13205306231975555,
+              "down": -0.03566226363182068,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Our manager approved the budget.",
+          "word": "manager",
+          "pieces": [
+            " manager"
+          ],
+          "up": 2.387052297592163,
+          "down": 2.1211228370666504,
+          "window": [
+            {
+              "text": "Our",
+              "up": -0.03830081596970558,
+              "down": -0.047403864562511444,
+              "target": false
+            },
+            {
+              "text": " manager",
+              "up": 2.387052297592163,
+              "down": 2.1211228370666504,
+              "target": true
+            },
+            {
+              "text": " approved",
+              "up": -0.16096822917461395,
+              "down": -0.15373899042606354,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.06084572523832321,
+              "down": -0.08327500522136688,
+              "target": false
+            },
+            {
+              "text": " budget",
+              "up": -0.16018931567668915,
+              "down": -0.11687348783016205,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.11148306727409363,
+              "down": -0.05620642751455307,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The actor forgot his lines.",
+          "word": "actor",
+          "pieces": [
+            " actor"
+          ],
+          "up": 2.1358749866485596,
+          "down": 2.0994155406951904,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " actor",
+              "up": 2.1358749866485596,
+              "down": 2.0994155406951904,
+              "target": true
+            },
+            {
+              "text": " forgot",
+              "up": -0.1502217948436737,
+              "down": -0.07617159932851791,
+              "target": false
+            },
+            {
+              "text": " his",
+              "up": -0.15293200314044952,
+              "down": -0.1343681514263153,
+              "target": false
+            },
+            {
+              "text": " lines",
+              "up": -0.0836976170539856,
+              "down": -0.027265381067991257,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.12723690271377563,
+              "down": -0.02677547186613083,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "A local farmer found the bones.",
+          "word": "farmer",
+          "pieces": [
+            " farmer"
+          ],
+          "up": 3.5422370433807373,
+          "down": 2.4528071880340576,
+          "window": [
+            {
+              "text": "A",
+              "up": -0.1552581489086151,
+              "down": -0.06334922462701797,
+              "target": false
+            },
+            {
+              "text": " local",
+              "up": -0.1699109524488449,
+              "down": -0.017833707854151726,
+              "target": false
+            },
+            {
+              "text": " farmer",
+              "up": 3.5422370433807373,
+              "down": 2.4528071880340576,
+              "target": true
+            },
+            {
+              "text": " found",
+              "up": -0.15258143842220306,
+              "down": -0.01327733788639307,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.10434984415769577,
+              "down": -0.04489796608686447,
+              "target": false
+            },
+            {
+              "text": " bones",
+              "up": -0.1626662015914917,
+              "down": -0.008428221568465233,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.15256568789482117,
+              "down": -0.032915446907281876,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 4,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 4,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "4 -er instruments",
+      "tests": "Device, not person",
+      "prediction": {
+        "up": "?",
+        "down": "high"
+      },
+      "examples": [
+        {
+          "sentence": "Plug the charger into the wall.",
+          "word": "charger",
+          "pieces": [
+            " charger"
+          ],
+          "up": 1.7821708917617798,
+          "down": 1.3855079412460327,
+          "window": [
+            {
+              "text": "Plug",
+              "up": -0.14026285707950592,
+              "down": -0.1465911567211151,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.05425190180540085,
+              "down": -0.07359877228736877,
+              "target": false
+            },
+            {
+              "text": " charger",
+              "up": 1.7821708917617798,
+              "down": 1.3855079412460327,
+              "target": true
+            },
+            {
+              "text": " into",
+              "up": -0.14859794080257416,
+              "down": -0.05412575230002403,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.061007194221019745,
+              "down": -0.04948864132165909,
+              "target": false
+            },
+            {
+              "text": " wall",
+              "up": -0.16910192370414734,
+              "down": -0.011371303349733353,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.12075135856866837,
+              "down": -0.03489702567458153,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The printer ran out of ink again.",
+          "word": "printer",
+          "pieces": [
+            " printer"
+          ],
+          "up": 2.244173049926758,
+          "down": 2.7212677001953125,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " printer",
+              "up": 2.244173049926758,
+              "down": 2.7212677001953125,
+              "target": true
+            },
+            {
+              "text": " ran",
+              "up": -0.1579817831516266,
+              "down": -0.12435374408960342,
+              "target": false
+            },
+            {
+              "text": " out",
+              "up": -0.14503173530101776,
+              "down": -0.053413212299346924,
+              "target": false
+            },
+            {
+              "text": " of",
+              "up": -0.09820602834224701,
+              "down": -0.0319778174161911,
+              "target": false
+            },
+            {
+              "text": " ink",
+              "up": -0.07902855426073074,
+              "down": -0.06587544828653336,
+              "target": false
+            },
+            {
+              "text": " again",
+              "up": -0.16998308897018433,
+              "down": -0.07076205313205719,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.12623648345470428,
+              "down": -0.0242399163544178,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "She bought a new blender for the kitchen.",
+          "word": "blender",
+          "pieces": [
+            " blender"
+          ],
+          "up": 1.691659927368164,
+          "down": 1.8930087089538574,
+          "window": [
+            {
+              "text": "She",
+              "up": -0.16181878745555878,
+              "down": -0.13201726973056793,
+              "target": false
+            },
+            {
+              "text": " bought",
+              "up": -0.14558292925357819,
+              "down": -0.16293863952159882,
+              "target": false
+            },
+            {
+              "text": " a",
+              "up": -0.11323071271181107,
+              "down": -0.04076499491930008,
+              "target": false
+            },
+            {
+              "text": " new",
+              "up": -0.1576511114835739,
+              "down": -0.0184572022408247,
+              "target": false
+            },
+            {
+              "text": " blender",
+              "up": 1.691659927368164,
+              "down": 1.8930087089538574,
+              "target": true
+            },
+            {
+              "text": " for",
+              "up": -0.08796895295381546,
+              "down": -0.050700828433036804,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.07025247067213058,
+              "down": -0.05700639262795448,
+              "target": false
+            },
+            {
+              "text": " kitchen",
+              "up": -0.1527092307806015,
+              "down": -0.1334197223186493,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.14735814929008484,
+              "down": -0.035181231796741486,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The computer crashed during the update.",
+          "word": "computer",
+          "pieces": [
+            " computer"
+          ],
+          "up": 1.3136365413665771,
+          "down": -0.16677188873291016,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " computer",
+              "up": 1.3136365413665771,
+              "down": -0.16677188873291016,
+              "target": true
+            },
+            {
+              "text": " crashed",
+              "up": -0.15096276998519897,
+              "down": -0.13965433835983276,
+              "target": false
+            },
+            {
+              "text": " during",
+              "up": -0.10500387847423553,
+              "down": -0.04311426728963852,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.09687965363264084,
+              "down": -0.03982441499829292,
+              "target": false
+            },
+            {
+              "text": " update",
+              "up": -0.08466822654008865,
+              "down": -0.020969286561012268,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.14816845953464508,
+              "down": -0.022310977801680565,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 4,
+          "n": 4,
+          "status": "open"
+        },
+        "down": {
+          "fired": 3,
+          "n": 4,
+          "status": "partial"
+        }
+      }
+    },
+    {
+      "title": "5 -er ending, no agent",
+      "tests": "Surface -er without agent meaning",
+      "prediction": {
+        "up": "low",
+        "down": "low"
+      },
+      "examples": [
+        {
+          "sentence": "She stood in the corner of the room.",
+          "word": "corner",
+          "pieces": [
+            " corner"
+          ],
+          "up": -0.14706535637378693,
+          "down": -0.1116504892706871,
+          "window": [
+            {
+              "text": "She",
+              "up": -0.16181878745555878,
+              "down": -0.13201726973056793,
+              "target": false
+            },
+            {
+              "text": " stood",
+              "up": -0.07948216795921326,
+              "down": -0.049602210521698,
+              "target": false
+            },
+            {
+              "text": " in",
+              "up": -0.05595725029706955,
+              "down": -0.031025568023324013,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.036364030092954636,
+              "down": -0.04728598892688751,
+              "target": false
+            },
+            {
+              "text": " corner",
+              "up": -0.14706535637378693,
+              "down": -0.1116504892706871,
+              "target": true
+            },
+            {
+              "text": " of",
+              "up": -0.11675530672073364,
+              "down": -0.031240573152899742,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.053309086710214615,
+              "down": -0.03408140689134598,
+              "target": false
+            },
+            {
+              "text": " room",
+              "up": -0.12814289331436157,
+              "down": -0.0441637821495533,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.11714746057987213,
+              "down": -0.031381722539663315,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "He drank a glass of water after the run.",
+          "word": "water",
+          "pieces": [
+            " water"
+          ],
+          "up": -0.11746995151042938,
+          "down": -0.04695317894220352,
+          "window": [
+            {
+              "text": "He",
+              "up": -0.15006667375564575,
+              "down": -0.14539840817451477,
+              "target": false
+            },
+            {
+              "text": " drank",
+              "up": -0.17002886533737183,
+              "down": -0.1160038560628891,
+              "target": false
+            },
+            {
+              "text": " a",
+              "up": -0.1296817660331726,
+              "down": -0.032646507024765015,
+              "target": false
+            },
+            {
+              "text": " glass",
+              "up": -0.10355165600776672,
+              "down": -0.05969347804784775,
+              "target": false
+            },
+            {
+              "text": " of",
+              "up": -0.15724819898605347,
+              "down": -0.03400566801428795,
+              "target": false
+            },
+            {
+              "text": " water",
+              "up": -0.11746995151042938,
+              "down": -0.04695317894220352,
+              "target": true
+            },
+            {
+              "text": " after",
+              "up": -0.1244753748178482,
+              "down": -0.08889982104301453,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.11476971209049225,
+              "down": -0.030405836179852486,
+              "target": false
+            },
+            {
+              "text": " run",
+              "up": -0.15021148324012756,
+              "down": -0.08401703089475632,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.15638472139835358,
+              "down": -0.02355821616947651,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "We will meet again in December next year.",
+          "word": "December",
+          "pieces": [
+            " December"
+          ],
+          "up": -0.09263405203819275,
+          "down": -0.10516177117824554,
+          "window": [
+            {
+              "text": "We",
+              "up": -0.022438695654273033,
+              "down": -0.08891550451517105,
+              "target": false
+            },
+            {
+              "text": " will",
+              "up": -0.10597100853919983,
+              "down": -0.13143464922904968,
+              "target": false
+            },
+            {
+              "text": " meet",
+              "up": -0.026714487001299858,
+              "down": -0.005601170472800732,
+              "target": false
+            },
+            {
+              "text": " again",
+              "up": -0.15443070232868195,
+              "down": -0.07602416723966599,
+              "target": false
+            },
+            {
+              "text": " in",
+              "up": -0.04234541580080986,
+              "down": -0.016940586268901825,
+              "target": false
+            },
+            {
+              "text": " December",
+              "up": -0.09263405203819275,
+              "down": -0.10516177117824554,
+              "target": true
+            },
+            {
+              "text": " next",
+              "up": -0.15886256098747253,
+              "down": -0.03374428674578667,
+              "target": false
+            },
+            {
+              "text": " year",
+              "up": -0.12017000466585159,
+              "down": -0.029837606474757195,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.07656411081552505,
+              "down": -0.027822405099868774,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The cat slept under the cover all day.",
+          "word": "cover",
+          "pieces": [
+            " cover"
+          ],
+          "up": -0.1696728616952896,
+          "down": -0.05206803232431412,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " cat",
+              "up": 0.9698125720024109,
+              "down": -0.057529766112565994,
+              "target": false
+            },
+            {
+              "text": " slept",
+              "up": -0.1363678276538849,
+              "down": -0.10516386479139328,
+              "target": false
+            },
+            {
+              "text": " under",
+              "up": -0.16366006433963776,
+              "down": -0.0748683288693428,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.07178252935409546,
+              "down": -0.035518672317266464,
+              "target": false
+            },
+            {
+              "text": " cover",
+              "up": -0.1696728616952896,
+              "down": -0.05206803232431412,
+              "target": true
+            },
+            {
+              "text": " all",
+              "up": -0.07747795432806015,
+              "down": -0.010969978757202625,
+              "target": false
+            },
+            {
+              "text": " day",
+              "up": -0.09009537845849991,
+              "down": -0.021654369309544563,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.13026438653469086,
+              "down": -0.02003253437578678,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "6 comparatives",
+      "tests": "Adjective -er",
+      "prediction": {
+        "up": "low",
+        "down": "low"
+      },
+      "examples": [
+        {
+          "sentence": "He bought a bigger car than last year.",
+          "word": "bigger",
+          "pieces": [
+            " bigger"
+          ],
+          "up": -0.169210284948349,
+          "down": -0.14549283683300018,
+          "window": [
+            {
+              "text": "He",
+              "up": -0.15006667375564575,
+              "down": -0.14539840817451477,
+              "target": false
+            },
+            {
+              "text": " bought",
+              "up": -0.14493423700332642,
+              "down": -0.16023039817810059,
+              "target": false
+            },
+            {
+              "text": " a",
+              "up": -0.10804468393325806,
+              "down": -0.036648768931627274,
+              "target": false
+            },
+            {
+              "text": " bigger",
+              "up": -0.169210284948349,
+              "down": -0.14549283683300018,
+              "target": true
+            },
+            {
+              "text": " car",
+              "up": 0.22036397457122803,
+              "down": -0.06582294404506683,
+              "target": false
+            },
+            {
+              "text": " than",
+              "up": -0.08082178235054016,
+              "down": -0.040372684597969055,
+              "target": false
+            },
+            {
+              "text": " last",
+              "up": -0.061182886362075806,
+              "down": -0.10842560231685638,
+              "target": false
+            },
+            {
+              "text": " year",
+              "up": -0.1568227857351303,
+              "down": -0.020143942907452583,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.10368067026138306,
+              "down": -0.02409861423075199,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The new model is much faster than the old one.",
+          "word": "faster",
+          "pieces": [
+            " faster"
+          ],
+          "up": -0.13548149168491364,
+          "down": -0.08846598863601685,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " new",
+              "up": -0.14705662429332733,
+              "down": -0.015130371786653996,
+              "target": false
+            },
+            {
+              "text": " model",
+              "up": 0.337823748588562,
+              "down": -0.14681781828403473,
+              "target": false
+            },
+            {
+              "text": " is",
+              "up": -0.13468430936336517,
+              "down": -0.051961347460746765,
+              "target": false
+            },
+            {
+              "text": " much",
+              "up": -0.1440788060426712,
+              "down": -0.032628100365400314,
+              "target": false
+            },
+            {
+              "text": " faster",
+              "up": -0.13548149168491364,
+              "down": -0.08846598863601685,
+              "target": true
+            },
+            {
+              "text": " than",
+              "up": -0.057023562490940094,
+              "down": -0.068162702023983,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.04342794418334961,
+              "down": -0.04507850483059883,
+              "target": false
+            },
+            {
+              "text": " old",
+              "up": -0.16915009915828705,
+              "down": -0.024160968139767647,
+              "target": false
+            },
+            {
+              "text": " one",
+              "up": -0.16250890493392944,
+              "down": -0.04897541552782059,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.12681938707828522,
+              "down": -0.016943594440817833,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "It was colder than we expected.",
+          "word": "colder",
+          "pieces": [
+            " colder"
+          ],
+          "up": -0.16638411581516266,
+          "down": 0.2580126225948334,
+          "window": [
+            {
+              "text": "It",
+              "up": -0.09621880948543549,
+              "down": -0.0397941991686821,
+              "target": false
+            },
+            {
+              "text": " was",
+              "up": -0.14327175915241241,
+              "down": -0.05756107345223427,
+              "target": false
+            },
+            {
+              "text": " colder",
+              "up": -0.16638411581516266,
+              "down": 0.2580126225948334,
+              "target": true
+            },
+            {
+              "text": " than",
+              "up": -0.05446534603834152,
+              "down": -0.06862636655569077,
+              "target": false
+            },
+            {
+              "text": " we",
+              "up": -0.014980907551944256,
+              "down": -0.08692635595798492,
+              "target": false
+            },
+            {
+              "text": " expected",
+              "up": -0.12338507920503616,
+              "down": -0.043661028146743774,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.09362978488206863,
+              "down": -0.02944740280508995,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Prices are higher this month.",
+          "word": "higher",
+          "pieces": [
+            " higher"
+          ],
+          "up": -0.16766957938671112,
+          "down": -0.16061845421791077,
+          "window": [
+            {
+              "text": "Pr",
+              "up": -0.16997037827968597,
+              "down": -0.044677041471004486,
+              "target": false
+            },
+            {
+              "text": "ices",
+              "up": -0.012052296660840511,
+              "down": -0.10300063341856003,
+              "target": false
+            },
+            {
+              "text": " are",
+              "up": -0.11984185874462128,
+              "down": -0.08621599525213242,
+              "target": false
+            },
+            {
+              "text": " higher",
+              "up": -0.16766957938671112,
+              "down": -0.16061845421791077,
+              "target": true
+            },
+            {
+              "text": " this",
+              "up": -0.05975628271698952,
+              "down": -0.037069953978061676,
+              "target": false
+            },
+            {
+              "text": " month",
+              "up": -0.16954445838928223,
+              "down": -0.07403495162725449,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.07915336638689041,
+              "down": -0.03179270774126053,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "7 plural people, no suffix",
+      "tests": "Group of people without suffix",
+      "prediction": {
+        "up": "low",
+        "down": "?"
+      },
+      "examples": [
+        {
+          "sentence": "The children ran across the field.",
+          "word": "children",
+          "pieces": [
+            " children"
+          ],
+          "up": -0.053323470056056976,
+          "down": -0.13809965550899506,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " children",
+              "up": -0.053323470056056976,
+              "down": -0.13809965550899506,
+              "target": true
+            },
+            {
+              "text": " ran",
+              "up": -0.15928716957569122,
+              "down": -0.07931587845087051,
+              "target": false
+            },
+            {
+              "text": " across",
+              "up": -0.08720975369215012,
+              "down": -0.0159181896597147,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.05334344878792763,
+              "down": -0.031191669404506683,
+              "target": false
+            },
+            {
+              "text": " field",
+              "up": -0.11391102522611618,
+              "down": -0.020908374339342117,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.14825642108917236,
+              "down": -0.02270454727113247,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Many people attended the meeting.",
+          "word": "people",
+          "pieces": [
+            " people"
+          ],
+          "up": -0.03293829411268234,
+          "down": -0.17000459134578705,
+          "window": [
+            {
+              "text": "Many",
+              "up": -0.07275742292404175,
+              "down": -0.10719642788171768,
+              "target": false
+            },
+            {
+              "text": " people",
+              "up": -0.03293829411268234,
+              "down": -0.17000459134578705,
+              "target": true
+            },
+            {
+              "text": " attended",
+              "up": -0.11359027028083801,
+              "down": -0.04261758178472519,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.04636268690228462,
+              "down": -0.04686018452048302,
+              "target": false
+            },
+            {
+              "text": " meeting",
+              "up": -0.06660842150449753,
+              "down": -0.014678281731903553,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.10345519334077835,
+              "down": -0.03295385092496872,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The women signed the petition.",
+          "word": "women",
+          "pieces": [
+            " women"
+          ],
+          "up": -0.040448639541864395,
+          "down": -0.1598486602306366,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " women",
+              "up": -0.040448639541864395,
+              "down": -0.1598486602306366,
+              "target": true
+            },
+            {
+              "text": " signed",
+              "up": -0.13997049629688263,
+              "down": -0.09713394194841385,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.04860172048211098,
+              "down": -0.06591138243675232,
+              "target": false
+            },
+            {
+              "text": " petition",
+              "up": -0.0772741287946701,
+              "down": -0.007681719958782196,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.11076879501342773,
+              "down": -0.05216439068317413,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Several students complained about the exam.",
+          "word": "students",
+          "pieces": [
+            " students"
+          ],
+          "up": -0.06776651740074158,
+          "down": 0.30271029472351074,
+          "window": [
+            {
+              "text": "Several",
+              "up": -0.11184363067150116,
+              "down": -0.10362415015697479,
+              "target": false
+            },
+            {
+              "text": " students",
+              "up": -0.06776651740074158,
+              "down": 0.30271029472351074,
+              "target": true
+            },
+            {
+              "text": " complained",
+              "up": -0.16709338128566742,
+              "down": -0.13329282402992249,
+              "target": false
+            },
+            {
+              "text": " about",
+              "up": -0.056991979479789734,
+              "down": -0.011270236223936081,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.04497325420379639,
+              "down": -0.0426226444542408,
+              "target": false
+            },
+            {
+              "text": " exam",
+              "up": -0.16912876069545746,
+              "down": -0.106491819024086,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.10641779750585556,
+              "down": -0.03526284918189049,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 0,
+          "n": 4,
+          "status": "open"
+        }
+      }
+    },
+    {
+      "title": "8 singular animals",
+      "tests": "Non-human entity, no suffix",
+      "prediction": {
+        "up": "high",
+        "down": "low"
+      },
+      "examples": [
+        {
+          "sentence": "A fox crossed the road at night.",
+          "word": "fox",
+          "pieces": [
+            " fox"
+          ],
+          "up": 0.7091449499130249,
+          "down": -0.08296312391757965,
+          "window": [
+            {
+              "text": "A",
+              "up": -0.1552581489086151,
+              "down": -0.06334922462701797,
+              "target": false
+            },
+            {
+              "text": " fox",
+              "up": 0.7091449499130249,
+              "down": -0.08296312391757965,
+              "target": true
+            },
+            {
+              "text": " crossed",
+              "up": -0.15669740736484528,
+              "down": -0.021777473390102386,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.07164774090051651,
+              "down": -0.047695714980363846,
+              "target": false
+            },
+            {
+              "text": " road",
+              "up": -0.1631113737821579,
+              "down": -0.024043317884206772,
+              "target": false
+            },
+            {
+              "text": " at",
+              "up": -0.08754262328147888,
+              "down": -0.014074594713747501,
+              "target": false
+            },
+            {
+              "text": " night",
+              "up": -0.05027192831039429,
+              "down": -0.07128334045410156,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.12199660390615463,
+              "down": -0.022957416251301765,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The dog barked at the mailman.",
+          "word": "dog",
+          "pieces": [
+            " dog"
+          ],
+          "up": 1.8467108011245728,
+          "down": -0.12621881067752838,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " dog",
+              "up": 1.8467108011245728,
+              "down": -0.12621881067752838,
+              "target": true
+            },
+            {
+              "text": " bark",
+              "up": -0.01988767459988594,
+              "down": -0.15973709523677826,
+              "target": false
+            },
+            {
+              "text": "ed",
+              "up": -0.16806647181510925,
+              "down": -0.10987934470176697,
+              "target": false
+            },
+            {
+              "text": " at",
+              "up": -0.10559491813182831,
+              "down": -0.024624764919281006,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.08781281858682632,
+              "down": -0.0398905947804451,
+              "target": false
+            },
+            {
+              "text": " mail",
+              "up": -0.15195728838443756,
+              "down": -0.03803274780511856,
+              "target": false
+            },
+            {
+              "text": "man",
+              "up": 2.294736862182617,
+              "down": 1.7737897634506226,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.16274118423461914,
+              "down": -0.03621746972203255,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "A horse stood alone in the field.",
+          "word": "horse",
+          "pieces": [
+            " horse"
+          ],
+          "up": 1.3107279539108276,
+          "down": -0.1080775260925293,
+          "window": [
+            {
+              "text": "A",
+              "up": -0.1552581489086151,
+              "down": -0.06334922462701797,
+              "target": false
+            },
+            {
+              "text": " horse",
+              "up": 1.3107279539108276,
+              "down": -0.1080775260925293,
+              "target": true
+            },
+            {
+              "text": " stood",
+              "up": -0.11592381447553635,
+              "down": -0.03178422152996063,
+              "target": false
+            },
+            {
+              "text": " alone",
+              "up": -0.1569928228855133,
+              "down": -0.11833913624286652,
+              "target": false
+            },
+            {
+              "text": " in",
+              "up": -0.05774923041462898,
+              "down": -0.01848364993929863,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.04814321547746658,
+              "down": -0.037124913185834885,
+              "target": false
+            },
+            {
+              "text": " field",
+              "up": -0.10324932634830475,
+              "down": -0.02303185872733593,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.13658413290977478,
+              "down": -0.031126923859119415,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The snake hid under a rock.",
+          "word": "snake",
+          "pieces": [
+            " snake"
+          ],
+          "up": 1.2665650844573975,
+          "down": -0.16661956906318665,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " snake",
+              "up": 1.2665650844573975,
+              "down": -0.16661956906318665,
+              "target": true
+            },
+            {
+              "text": " hid",
+              "up": -0.1546635627746582,
+              "down": -0.0067403786815702915,
+              "target": false
+            },
+            {
+              "text": " under",
+              "up": -0.16884876787662506,
+              "down": -0.05607903376221657,
+              "target": false
+            },
+            {
+              "text": " a",
+              "up": -0.1382509469985962,
+              "down": -0.018927492201328278,
+              "target": false
+            },
+            {
+              "text": " rock",
+              "up": -0.1313479095697403,
+              "down": -0.01719045266509056,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.16233713924884796,
+              "down": -0.02409481443464756,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 3,
+          "n": 4,
+          "status": "partial"
+        },
+        "down": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "9 abstract singular nouns",
+      "tests": "Singular noun that is not an entity",
+      "prediction": {
+        "up": "low",
+        "down": "low"
+      },
+      "examples": [
+        {
+          "sentence": "The idea seemed simple at first.",
+          "word": "idea",
+          "pieces": [
+            " idea"
+          ],
+          "up": -0.16730821132659912,
+          "down": -0.015055101364850998,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " idea",
+              "up": -0.16730821132659912,
+              "down": -0.015055101364850998,
+              "target": true
+            },
+            {
+              "text": " seemed",
+              "up": -0.10426410287618637,
+              "down": -0.04076003655791283,
+              "target": false
+            },
+            {
+              "text": " simple",
+              "up": -0.1637631356716156,
+              "down": -0.0328880213201046,
+              "target": false
+            },
+            {
+              "text": " at",
+              "up": -0.05049104988574982,
+              "down": -0.01692076586186886,
+              "target": false
+            },
+            {
+              "text": " first",
+              "up": -0.10752395540475845,
+              "down": -0.09580966085195541,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.09095749258995056,
+              "down": -0.023748384788632393,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "Her decision surprised everyone.",
+          "word": "decision",
+          "pieces": [
+            " decision"
+          ],
+          "up": -0.15178769826889038,
+          "down": -0.06048056483268738,
+          "window": [
+            {
+              "text": "Her",
+              "up": -0.16336023807525635,
+              "down": -0.158416748046875,
+              "target": false
+            },
+            {
+              "text": " decision",
+              "up": -0.15178769826889038,
+              "down": -0.06048056483268738,
+              "target": true
+            },
+            {
+              "text": " surprised",
+              "up": -0.10026286542415619,
+              "down": -0.10350313782691956,
+              "target": false
+            },
+            {
+              "text": " everyone",
+              "up": -0.0629764273762703,
+              "down": -0.11109789460897446,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.07894986867904663,
+              "down": -0.040422044694423676,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The problem was never solved.",
+          "word": "problem",
+          "pieces": [
+            " problem"
+          ],
+          "up": -0.16068635880947113,
+          "down": -0.07907553017139435,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " problem",
+              "up": -0.16068635880947113,
+              "down": -0.07907553017139435,
+              "target": true
+            },
+            {
+              "text": " was",
+              "up": -0.13406310975551605,
+              "down": -0.055249471217393875,
+              "target": false
+            },
+            {
+              "text": " never",
+              "up": -0.040132537484169006,
+              "down": -0.06688690185546875,
+              "target": false
+            },
+            {
+              "text": " solved",
+              "up": -0.1256435364484787,
+              "down": -0.09401711821556091,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.0803263932466507,
+              "down": -0.026747677475214005,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "There is no evidence for that claim.",
+          "word": "evidence",
+          "pieces": [
+            " evidence"
+          ],
+          "up": -0.052237238734960556,
+          "down": -0.03146503120660782,
+          "window": [
+            {
+              "text": "There",
+              "up": -0.06637546420097351,
+              "down": -0.07492385059595108,
+              "target": false
+            },
+            {
+              "text": " is",
+              "up": -0.14337903261184692,
+              "down": -0.033911701291799545,
+              "target": false
+            },
+            {
+              "text": " no",
+              "up": -0.07300431281328201,
+              "down": -0.002832487691193819,
+              "target": false
+            },
+            {
+              "text": " evidence",
+              "up": -0.052237238734960556,
+              "down": -0.03146503120660782,
+              "target": true
+            },
+            {
+              "text": " for",
+              "up": -0.0498226024210453,
+              "down": -0.05040659010410309,
+              "target": false
+            },
+            {
+              "text": " that",
+              "up": -0.030669789761304855,
+              "down": -0.03585987910628319,
+              "target": false
+            },
+            {
+              "text": " claim",
+              "up": -0.17003683745861053,
+              "down": -0.05618954449892044,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.11207606643438339,
+              "down": -0.0307240542024374,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 0,
+          "n": 4,
+          "status": "pass"
+        }
+      }
+    },
+    {
+      "title": "10 other agent suffixes",
+      "tests": "-ist / -ian / -ant",
+      "prediction": {
+        "up": "high",
+        "down": "high"
+      },
+      "examples": [
+        {
+          "sentence": "The pianist bowed to the audience.",
+          "word": "pianist",
+          "pieces": [
+            " pian",
+            "ist"
+          ],
+          "up": 2.3782777786254883,
+          "down": 3.165503740310669,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " pian",
+              "up": 0.19499029219150543,
+              "down": 0.06456742435693741,
+              "target": false
+            },
+            {
+              "text": "ist",
+              "up": 2.3782777786254883,
+              "down": 3.165503740310669,
+              "target": true
+            },
+            {
+              "text": " bowed",
+              "up": -0.089518241584301,
+              "down": -0.0649133175611496,
+              "target": false
+            },
+            {
+              "text": " to",
+              "up": -0.11152760684490204,
+              "down": -0.04663263261318207,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.05632077902555466,
+              "down": -0.04618248715996742,
+              "target": false
+            },
+            {
+              "text": " audience",
+              "up": 0.30898433923721313,
+              "down": -0.10704120248556137,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.13345742225646973,
+              "down": -0.04046611860394478,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The librarian smiled and nodded.",
+          "word": "librarian",
+          "pieces": [
+            " l",
+            "ibrarian"
+          ],
+          "up": 2.338322639465332,
+          "down": 1.79621422290802,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " l",
+              "up": -0.16959060728549957,
+              "down": -0.043370358645915985,
+              "target": false
+            },
+            {
+              "text": "ibrarian",
+              "up": 2.338322639465332,
+              "down": 1.79621422290802,
+              "target": true
+            },
+            {
+              "text": " smiled",
+              "up": -0.1501813381910324,
+              "down": -0.15095818042755127,
+              "target": false
+            },
+            {
+              "text": " and",
+              "up": -0.06806866824626923,
+              "down": -0.07395067065954208,
+              "target": false
+            },
+            {
+              "text": " nodded",
+              "up": -0.1699562519788742,
+              "down": -0.013266186229884624,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.09649176150560379,
+              "down": -0.048620130866765976,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "The assistant booked the flights.",
+          "word": "assistant",
+          "pieces": [
+            " assistant"
+          ],
+          "up": 1.5003886222839355,
+          "down": -0.13238415122032166,
+          "window": [
+            {
+              "text": "The",
+              "up": -0.08438796550035477,
+              "down": -0.08550075441598892,
+              "target": false
+            },
+            {
+              "text": " assistant",
+              "up": 1.5003886222839355,
+              "down": -0.13238415122032166,
+              "target": true
+            },
+            {
+              "text": " booked",
+              "up": -0.15125182271003723,
+              "down": -0.11718045920133591,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.06066058203577995,
+              "down": -0.07026618719100952,
+              "target": false
+            },
+            {
+              "text": " flights",
+              "up": -0.07505115121603012,
+              "down": -0.1659422516822815,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.11264044046401978,
+              "down": -0.04137158393859863,
+              "target": false
+            }
+          ]
+        },
+        {
+          "sentence": "A scientist explained the results.",
+          "word": "scientist",
+          "pieces": [
+            " scientist"
+          ],
+          "up": 2.6878607273101807,
+          "down": 1.7697933912277222,
+          "window": [
+            {
+              "text": "A",
+              "up": -0.1552581489086151,
+              "down": -0.06334922462701797,
+              "target": false
+            },
+            {
+              "text": " scientist",
+              "up": 2.6878607273101807,
+              "down": 1.7697933912277222,
+              "target": true
+            },
+            {
+              "text": " explained",
+              "up": -0.16882222890853882,
+              "down": -0.11055783927440643,
+              "target": false
+            },
+            {
+              "text": " the",
+              "up": -0.08497697114944458,
+              "down": -0.07143387943506241,
+              "target": false
+            },
+            {
+              "text": " results",
+              "up": -0.1699410378932953,
+              "down": -0.0505877286195755,
+              "target": false
+            },
+            {
+              "text": ".",
+              "up": -0.1242152526974678,
+              "down": -0.04928832873702049,
+              "target": false
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "up": {
+          "fired": 4,
+          "n": 4,
+          "status": "pass"
+        },
+        "down": {
+          "fired": 3,
+          "n": 4,
+          "status": "partial"
+        }
+      }
+    }
+  ]
+}

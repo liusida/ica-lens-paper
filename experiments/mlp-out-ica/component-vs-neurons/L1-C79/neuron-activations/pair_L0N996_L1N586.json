@@ -1,0 +1,105 @@
+{
+  "up": {
+    "layer": 0,
+    "neuron": 996
+  },
+  "down": {
+    "layer": 1,
+    "neuron": 586
+  },
+  "tokens": 1000000,
+  "pearson": 0.5329624060614055,
+  "pearson_both_positive": 0.5790031508983646,
+  "up_fraction_positive": 0.076539,
+  "thresholds": {
+    "90": {
+      "up_threshold": -0.043701171875,
+      "down_threshold": -0.0224609375,
+      "P(down strong | up strong)": 0.1651424744885211,
+      "P(up strong | down strong)": 0.16278817733990147,
+      "base rate": 0.1015
+    },
+    "99": {
+      "up_threshold": 1.2421875,
+      "down_threshold": 0.95703125,
+      "P(down strong | up strong)": 0.5512974051896208,
+      "P(up strong | down strong)": 0.5514074665601917,
+      "base rate": 0.010018
+    },
+    "99.9": {
+      "up_threshold": 2.84375,
+      "down_threshold": 2.890625,
+      "P(down strong | up strong)": 0.16519174041297935,
+      "P(up strong | down strong)": 0.16184971098265896,
+      "base rate": 0.001038
+    }
+  },
+  "down_by_up_band": [
+    {
+      "up_band": [
+        -1.0,
+        0.0
+      ],
+      "tokens": 923446,
+      "down_mean": -0.06088099674115917,
+      "down_median": -0.052734375,
+      "P(down >= 1)": 0.0033645713988690188,
+      "P(down >= 2)": 0.0012680763141537242
+    },
+    {
+      "up_band": [
+        0.0,
+        0.5
+      ],
+      "tokens": 52113,
+      "down_mean": -0.08152642577267237,
+      "down_median": -0.11962890625,
+      "P(down >= 1)": 0.008558325177978623,
+      "P(down >= 2)": 0.001554314662368315
+    },
+    {
+      "up_band": [
+        0.5,
+        1.0
+      ],
+      "tokens": 11905,
+      "down_mean": -0.015551483525993543,
+      "down_median": -0.1484375,
+      "P(down >= 1)": 0.04082318353632927,
+      "P(down >= 2)": 0.009575808483830323
+    },
+    {
+      "up_band": [
+        1.0,
+        2.0
+      ],
+      "tokens": 8115,
+      "down_mean": 0.7086582589869285,
+      "down_median": 0.2080078125,
+      "P(down >= 1)": 0.3355514479359211,
+      "P(down >= 2)": 0.15194085027726434
+    },
+    {
+      "up_band": [
+        2.0,
+        3.0
+      ],
+      "tokens": 3735,
+      "down_mean": 1.642559770535593,
+      "down_median": 1.78125,
+      "P(down >= 1)": 0.6888888888888889,
+      "P(down >= 2)": 0.43427041499330654
+    },
+    {
+      "up_band": [
+        3.0,
+        100.0
+      ],
+      "tokens": 686,
+      "down_mean": 1.594219063183309,
+      "down_median": 1.55078125,
+      "P(down >= 1)": 0.6749271137026239,
+      "P(down >= 2)": 0.37755102040816324
+    }
+  ]
+}

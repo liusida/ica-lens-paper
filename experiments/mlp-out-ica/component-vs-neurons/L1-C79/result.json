@@ -1,0 +1,126 @@
+{
+  "model": "openai-community/gpt2@607a30d783dfa663caf39e06633721c8d4cfcd7e",
+  "lens": "/home/liusida/research/ICA-paper/icalens_pypi/local-icalens-models/experimental/icalens-gpt2-small-mlp-out-pile10k",
+  "layer": 1,
+  "component": 79,
+  "tail_direction": "positive",
+  "orientation": "component sign flipped so its selected tail is positive",
+  "profile_summary": {
+    "excess_kurtosis": 28.830140680853983,
+    "top_tail_tokens": [
+      "oder",
+      "ators",
+      "er",
+      "or",
+      "ter",
+      " composer",
+      " generator",
+      " reviewer",
+      "Writer",
+      "ator"
+    ],
+    "logit_lens": [
+      " beware",
+      "sonian",
+      " Beware",
+      " extraord",
+      "loo",
+      "rors",
+      "'s",
+      "iate",
+      "paces",
+      "ial"
+    ],
+    "r_lens": [
+      " Writer",
+      " driver",
+      " accelerator",
+      " writer",
+      "writer",
+      " killer",
+      " burner",
+      " builder",
+      "caster",
+      " marker"
+    ]
+  },
+  "nearest_by_writing_direction": [
+    {
+      "neuron": 586,
+      "cos": 0.8123108327633667,
+      "abs_cos": 0.8123108327633667,
+      "w_out_norm": 2.3372859007012923
+    },
+    {
+      "neuron": 1248,
+      "cos": -0.47673831020744895,
+      "abs_cos": 0.47673831020744895,
+      "w_out_norm": 3.1539938698619565
+    },
+    {
+      "neuron": 1331,
+      "cos": 0.44829491490598516,
+      "abs_cos": 0.44829491490598516,
+      "w_out_norm": 2.6599706650793054
+    },
+    {
+      "neuron": 905,
+      "cos": 0.3453893323202577,
+      "abs_cos": 0.3453893323202577,
+      "w_out_norm": 2.9107688861794623
+    },
+    {
+      "neuron": 1716,
+      "cos": 0.3407308133515382,
+      "abs_cos": 0.3407308133515382,
+      "w_out_norm": 2.4386507888021334
+    }
+  ],
+  "nearest_by_reading_direction": [
+    {
+      "neuron": 586,
+      "cos": 0.3699117759699706,
+      "abs_cos": 0.3699117759699706,
+      "w_out_norm": 2.3372859007012923
+    },
+    {
+      "neuron": 1248,
+      "cos": -0.1858052256914937,
+      "abs_cos": 0.1858052256914937,
+      "w_out_norm": 3.1539938698619565
+    },
+    {
+      "neuron": 1331,
+      "cos": 0.12248778724346616,
+      "abs_cos": 0.12248778724346616,
+      "w_out_norm": 2.6599706650793054
+    },
+    {
+      "neuron": 905,
+      "cos": 0.10859811500457514,
+      "abs_cos": 0.10859811500457514,
+      "w_out_norm": 2.9107688861794623
+    },
+    {
+      "neuron": 249,
+      "cos": 0.07283901099620776,
+      "abs_cos": 0.07283901099620776,
+      "w_out_norm": 2.1044693844432185
+    }
+  ],
+  "baselines": {
+    "random_direction_max_abs_cos": {
+      "samples": 10000,
+      "mean": 0.13348396608505864,
+      "p99": 0.1670279174064392,
+      "max": 0.20336038281430519
+    },
+    "this_layer_components_max_abs_cos": {
+      "median": 0.3611969369263219,
+      "p90": 0.6195620814966771,
+      "max": 0.9050464064966359,
+      "this_component": 0.812310832763367,
+      "this_component_rank_of_768": 9
+    }
+  }
+}
