@@ -759,7 +759,8 @@ def refresh_profile_statistics_from_activations(
         }
         component["score_statistics"] = _component_score_statistics(statistics, index)
         for readout in (
-            component.get("logit_lens"), component.get("r_lens"),
+            component.get("logit_lens"),
+            component.get("r_lens"),
             *component.get("additional_readouts", {}).values(),
         ):
             if isinstance(readout, dict) and tail_direction in readout:
@@ -831,8 +832,13 @@ def _finish_profile(
                 progress=progress,
             )
     readouts, readout_provenance = _additional_readouts(
-        lens, artifact, layer, additional_readouts,
-        top_k=r_lens_top_k, batch_size=r_lens_batch_size, progress=progress,
+        lens,
+        artifact,
+        layer,
+        additional_readouts,
+        top_k=r_lens_top_k,
+        batch_size=r_lens_batch_size,
+        progress=progress,
     )
     components = []
     statistics = _population_score_statistics(score_moments, token_count)
@@ -917,12 +923,14 @@ def _finish_profile(
         previous_provenance = previous.get("additional_readout_provenance", {})
         if previous_provenance:
             profile["additional_readout_provenance"] = {
-                **previous_provenance, **readout_provenance,
+                **previous_provenance,
+                **readout_provenance,
             }
         for old, new in zip(previous["components"], components, strict=True):
             for name, ranking in old.get("additional_readouts", {}).items():
                 new.setdefault("additional_readouts", {}).setdefault(
-                    name, {**ranking, "dominant": ranking[new["dominant_sign"]]},
+                    name,
+                    {**ranking, "dominant": ranking[new["dominant_sign"]]},
                 )
     artifact.profile_file = f"component_profiles/{lens.activation_site}/layer_{layer:02d}.json.gz"
     artifact.profile = profile
@@ -985,8 +993,13 @@ def _additional_readouts(
             raise ValueError(f"{name} has no source map for layer {layer}")
         readout_provenance[name] = {**metadata, "format": readout_format}
         readouts[name] = _r_lens_tokens(
-            lens, artifact, source_map=source_map, top_k=top_k,
-            batch_size=batch_size, progress=progress, readout_name=name,
+            lens,
+            artifact,
+            source_map=source_map,
+            top_k=top_k,
+            batch_size=batch_size,
+            progress=progress,
+            readout_name=name,
         )
     return readouts, readout_provenance
 
@@ -1016,15 +1029,23 @@ def profile_readouts(
     artifact = lens._get_layer(layer)
     _resolve_model_and_tokenizer(lens, None, None, device)
     readouts, provenance = _additional_readouts(
-        lens, artifact, layer, specs,
-        top_k=r_lens_top_k, batch_size=r_lens_batch_size, progress=progress,
+        lens,
+        artifact,
+        layer,
+        specs,
+        top_k=r_lens_top_k,
+        batch_size=r_lens_batch_size,
+        progress=progress,
     )
     if artifact.profile_file is not None:
         profile = deepcopy(lens._get_profile(artifact))
     else:
         logit_lens = _logit_lens(
-            lens, artifact, top_k=logit_lens_top_k,
-            batch_size=logit_lens_batch_size, progress=progress,
+            lens,
+            artifact,
+            top_k=logit_lens_top_k,
+            batch_size=logit_lens_batch_size,
+            progress=progress,
         )
         profile = {
             "format": "icalens-component-profile",
@@ -1033,9 +1054,13 @@ def profile_readouts(
             "n_tokens": 0,
             "n_inputs": 0,
             "components": [
-                {"component": index, "logit_lens": {
-                    "method": "final_norm_then_unembed", **ranking,
-                }}
+                {
+                    "component": index,
+                    "logit_lens": {
+                        "method": "final_norm_then_unembed",
+                        **ranking,
+                    },
+                }
                 for index, ranking in enumerate(logit_lens)
             ],
         }
@@ -1109,6 +1134,11 @@ def _tail_direction(skewness: float, positive_squared_fraction: float) -> str:
     return "positive" if positive_squared_fraction >= 0.5 else "negative"
 
 
+# Sites whose writes enter resid_post(l) additively and unchanged, so the resid_post
+# layer-l R-lens source map applies to their writing directions exactly.
+R_LENS_SITES = frozenset({"resid_post", "mlp_out"})
+
+
 def _load_r_lens(
     lens: Any,
     layer_artifact: Any,
@@ -1158,14 +1188,24 @@ def _load_r_lens(
         raise ValueError(
             f"R-lens hidden size {d_model} does not match ICA layer hidden size {hidden_size}"
         )
-    if lens.activation_site != "resid_post":
+    if lens.activation_site not in R_LENS_SITES:
         raise ValueError(
-            "R-lens profiling currently requires activation_site='resid_post', "
+            f"R-lens profiling supports activation sites {sorted(R_LENS_SITES)}, "
             f"got {lens.activation_site!r}"
         )
     stored_provenance = dict(provenance)
     if digest is not None:
         stored_provenance["sha256"] = digest
+    if lens.activation_site != "resid_post":
+        stored_provenance["site_reuse"] = {
+            "source_site": "resid_post",
+            "target_site": lens.activation_site,
+            "justification": (
+                f"{lens.activation_site} is added unchanged to resid_post at the same layer, "
+                "so a write w at the site moves resid_post by exactly w; the resid_post "
+                "source map applies to its writing directions without approximation"
+            ),
+        }
     if transfer:
         stored_provenance["transfer"] = {
             "kind": "base_to_instruct",

@@ -10,7 +10,7 @@ from typing import Any, Literal, cast
 
 import torch
 
-from ._capture import capture_resid_post, clamp_resid_post
+from ._capture import MLP_OUT, RESID_POST, capture_sites, clamp_resid_post
 
 
 class ComponentProfile(dict[str, Any]):
@@ -64,6 +64,9 @@ class CaptureResult:
     token_ids: torch.Tensor
     positions: torch.Tensor
     activations: torch.Tensor
+    # resid_post at the same layer and tokens, captured alongside non-residual sites
+    # (e.g. mlp_out) so edits can be propagated into the residual stream.
+    residual: torch.Tensor | None = field(default=None, kw_only=True)
 
 
 @dataclass(frozen=True)
@@ -206,14 +209,30 @@ def capture(
         f"Capturing {len(selected)} token activations at {lens.activation_site} layer {layer}...",
     )
     capture_started = perf_counter()
-    if lens.activation_site == "resid_post":
-        activations = capture_resid_post(
+    residual: torch.Tensor | None = None
+    if lens.activation_site == RESID_POST:
+        activations = capture_sites(
             model,
             model_inputs=kwargs,
-            layers=(layer,),
+            requests=((RESID_POST, layer),),
             positions=selected,
-        )[layer].float()
-    else:
+        )[(RESID_POST, layer)].float()
+    elif lens.activation_site == MLP_OUT:
+        if lens.layer_indexing != "transformer_blocks_zero_based":
+            raise ValueError(
+                "activation_site='mlp_out' requires layer_indexing='transformer_blocks_zero_based'"
+            )
+        captured_sites = capture_sites(
+            model,
+            model_inputs=kwargs,
+            requests=((MLP_OUT, layer), (RESID_POST, layer)),
+            positions=selected,
+        )
+        activations = captured_sites[(MLP_OUT, layer)].float()
+        residual = captured_sites[(RESID_POST, layer)].float()
+    elif lens.activation_site == "hidden_states" or str(lens.layer_indexing).startswith(
+        "hidden_states"
+    ):
         with torch.inference_mode():
             outputs = model(**kwargs, output_hidden_states=True, use_cache=False)
         if outputs.hidden_states is None:
@@ -226,6 +245,12 @@ def capture(
         if hidden_index < 0 or hidden_index >= len(outputs.hidden_states):
             raise ValueError(f"layer {layer} is unavailable in model hidden states")
         activations = outputs.hidden_states[hidden_index][0].index_select(0, selected).float()
+    else:
+        raise ValueError(
+            f"analysis does not support activation_site={lens.activation_site!r} with "
+            f"layer_indexing={lens.layer_indexing!r}; supported hooked sites: "
+            f"{RESID_POST!r}, {MLP_OUT!r}"
+        )
     _analysis_log(
         verbose,
         f"Captured activations in {perf_counter() - capture_started:.2f}s.",
@@ -248,6 +273,7 @@ def capture(
         token_ids=ids,
         positions=positions,
         activations=activations,
+        residual=residual,
     )
     _analysis_log(verbose, f"Capture complete in {perf_counter() - started:.2f}s.")
     return result
@@ -309,6 +335,7 @@ def analyze(
         token_ids=captured.token_ids,
         positions=captured.positions,
         activations=captured.activations,
+        residual=captured.residual,
         scores=scores,
         energy=energy,
         model=f"{lens.model_id}@{lens.model_revision}",
@@ -395,6 +422,17 @@ def add_logit_effects(
     references = result.activations[token_indices]
     edited_hidden = lens.restore_norm(reconstructed, reference=references)
     original_hidden = references
+    if lens.activation_site == MLP_OUT:
+        # mlp_out writes additively into resid_post, so an
+        # edit of delta at the site moves resid_post by exactly delta.
+        if result.residual is None:
+            raise ValueError(
+                f"logit effects for activation_site={lens.activation_site!r} need the "
+                "resid_post reference captured by analyze()"
+            )
+        delta = edited_hidden - references
+        original_hidden = result.residual[token_indices].to(delta.device)
+        edited_hidden = original_hidden + delta
     weight = output_embeddings.weight
     device = weight.device
     dtype = weight.dtype
