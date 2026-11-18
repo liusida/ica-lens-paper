@@ -11,10 +11,12 @@ from __future__ import annotations
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from time import perf_counter
-from typing import cast
+from typing import Any, cast
 
 import torch
 from tqdm.auto import tqdm
+
+from .kurtosis import Moments, excess_from_moments, merge_moments
 
 
 @dataclass(frozen=True)
@@ -28,6 +30,8 @@ class FastICAResult:
     component_objectives: list[float]
     component_strengths: list[float]
     gaussian_objective: float
+    kurtosis_history: dict[str, Any] | None = None
+    component_excess_kurtosis: dict[str, list[float]] | None = None
 
 
 def geometric_median(
@@ -110,6 +114,9 @@ def fit_fastica(
     | None = None,
     initial_unmixing: torch.Tensor | None = None,
     start_iteration: int = 0,
+    heldout: torch.Tensor | None = None,
+    heldout_every: int = 10,
+    track_kurtosis: bool = True,
 ) -> FastICAResult:
     """Fit unit-variance-whitened FastICA without moving all samples to CUDA."""
     if values.ndim != 2:
@@ -125,6 +132,10 @@ def fit_fastica(
         raise ValueError("batch_size must be positive")
     if objective_every <= 0:
         raise ValueError("objective_every must be positive")
+    if heldout_every <= 0:
+        raise ValueError("heldout_every must be positive")
+    if heldout is not None and (heldout.ndim != 2 or int(heldout.shape[1]) != n_features):
+        raise ValueError("held-out activations must be [tokens, hidden] with the fitting width")
     if start_iteration < 0 or start_iteration >= max_iter:
         raise ValueError("start_iteration must be non-negative and smaller than max_iter")
     if start_iteration > 0 and initial_unmixing is None:
@@ -196,7 +207,18 @@ def fit_fastica(
             if checkpoint_callback is not None:
                 checkpoint_callback(iteration, unmixing, whitening, center)
 
-        unmixing, n_iter, objective_iterations, objective_history = _fit_parallel(
+        def heldout_kurtosis(unmixing: torch.Tensor) -> torch.Tensor:
+            assert heldout is not None
+            return _score_kurtosis(heldout, unmixing=unmixing, batch_kwargs=batch_kwargs)
+
+        (
+            unmixing,
+            n_iter,
+            objective_iterations,
+            objective_history,
+            train_kurtosis,
+            heldout_history,
+        ) = _fit_parallel(
             values,
             initial,
             nonlinearity,
@@ -208,6 +230,9 @@ def fit_fastica(
             checkpoint_callback=emit_checkpoint if checkpoint_callback is not None else None,
             initial_unmixing=initial_unmixing,
             start_iteration=start_iteration,
+            track_kurtosis=track_kurtosis,
+            heldout_kurtosis=heldout_kurtosis if heldout is not None else None,
+            heldout_every=heldout_every,
         )
     else:
         unmixing, n_iter = _fit_deflation(
@@ -221,8 +246,10 @@ def fit_fastica(
         )
         objective_history = None
         objective_iterations = None
+        train_kurtosis = []
+        heldout_history = []
 
-    final_objectives = _component_objectives(
+    final_objectives, final_train_kurtosis = _component_objectives(
         values,
         unmixing=unmixing,
         objective=objective,
@@ -232,9 +259,32 @@ def fit_fastica(
     gaussian_objective = GAUSSIAN_OBJECTIVES[fun]
     strengths = torch.abs(final_objectives - gaussian_objective)
     order = torch.argsort(strengths, descending=True, stable=True)
+    final_heldout_kurtosis = None
+    if heldout is not None:
+        if heldout_history and heldout_history[-1][0] == n_iter:
+            final_heldout_kurtosis = heldout_history[-1][1]
+        else:
+            final_heldout_kurtosis = _score_kurtosis(
+                heldout, unmixing=unmixing, batch_kwargs=batch_kwargs
+            )
+            heldout_history.append((n_iter, final_heldout_kurtosis))
+    train_kurtosis.append((n_iter, final_train_kurtosis))
+    kurtosis_history: dict[str, Any] = {
+        "percentiles": list(OBJECTIVE_PERCENTILES),
+        "iteration_convention": "iteration k describes the unmixing after k fixed-point updates",
+        "train": _summarize_history(train_kurtosis),
+    }
+    if heldout is not None:
+        kurtosis_history["heldout"] = _summarize_history(heldout_history)
+        kurtosis_history["heldout"]["every"] = int(heldout_every)
+        kurtosis_history["heldout"]["n_samples"] = int(heldout.shape[0])
+
     unmixing = unmixing.index_select(0, order)
     final_objectives = final_objectives.index_select(0, order)
     strengths = strengths.index_select(0, order)
+    component_kurtosis = {"train": _to_list(final_train_kurtosis.index_select(0, order))}
+    if final_heldout_kurtosis is not None:
+        component_kurtosis["heldout"] = _to_list(final_heldout_kurtosis.index_select(0, order))
 
     if progress:
         tqdm.write("FastICA finalization: ordering components and computing matrices...")
@@ -253,7 +303,45 @@ def fit_fastica(
         component_objectives=[float(value) for value in final_objectives.detach().cpu().tolist()],
         component_strengths=[float(value) for value in strengths.detach().cpu().tolist()],
         gaussian_objective=gaussian_objective,
+        kurtosis_history=kurtosis_history,
+        component_excess_kurtosis=component_kurtosis,
     )
+
+
+def _to_list(values: torch.Tensor) -> list[float]:
+    return [float(value) for value in values.detach().cpu().tolist()]
+
+
+def _summarize_history(history: list[tuple[int, torch.Tensor]]) -> dict[str, Any]:
+    iterations: list[int] = []
+    means: list[float] = []
+    values: list[list[float]] = []
+    for iteration, kurtosis in history:
+        kurtosis = kurtosis.to(torch.float64)
+        quantiles = torch.quantile(
+            kurtosis,
+            torch.linspace(
+                0, 1, len(OBJECTIVE_PERCENTILES), dtype=kurtosis.dtype, device=kurtosis.device
+            ),
+        )
+        iterations.append(int(iteration))
+        means.append(float(kurtosis.mean()))
+        values.append(_to_list(quantiles))
+    return {"iterations": iterations, "mean": means, "values": values}
+
+
+def _score_kurtosis(
+    source: torch.Tensor,
+    *,
+    unmixing: torch.Tensor,
+    batch_kwargs: dict[str, object],
+) -> torch.Tensor:
+    """Excess kurtosis of every component's scores, using the training transform."""
+    state: Moments | None = None
+    for whitened in _whitened_batches(source, **batch_kwargs):
+        state = merge_moments(state, (unmixing @ whitened).T)
+    assert state is not None
+    return excess_from_moments(state).to(unmixing.dtype)
 
 
 def _component_objectives(
@@ -263,9 +351,10 @@ def _component_objectives(
     objective: Callable[[torch.Tensor], torch.Tensor],
     progress: bool,
     batch_kwargs: dict[str, object],
-) -> torch.Tensor:
-    """Evaluate the final contrast of every component in a blockwise pass."""
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Evaluate the final contrast and excess kurtosis of every component."""
     objective_sum = torch.zeros(unmixing.shape[0], dtype=unmixing.dtype, device=unmixing.device)
+    state: Moments | None = None
     progress_bar = tqdm(
         total=int(source.shape[0]),
         desc="FastICA component objectives",
@@ -277,11 +366,15 @@ def _component_objectives(
     try:
         for whitened in _whitened_batches(source, **batch_kwargs):
             batch_count = int(whitened.shape[1])
-            objective_sum += objective(unmixing @ whitened) * batch_count
+            projected = unmixing @ whitened
+            objective_sum += objective(projected) * batch_count
+            state = merge_moments(state, projected.T)
             progress_bar.update(batch_count)
     finally:
         progress_bar.close()
-    return objective_sum / int(source.shape[0])
+    assert state is not None
+    kurtosis = excess_from_moments(state).to(unmixing.dtype)
+    return objective_sum / int(source.shape[0]), kurtosis
 
 
 def _mean(
@@ -396,7 +489,17 @@ def _fit_parallel(
     checkpoint_callback: Callable[[int, torch.Tensor], None] | None = None,
     initial_unmixing: torch.Tensor | None = None,
     start_iteration: int = 0,
-) -> tuple[torch.Tensor, int, list[int], list[list[float]]]:
+    track_kurtosis: bool = True,
+    heldout_kurtosis: Callable[[torch.Tensor], torch.Tensor] | None = None,
+    heldout_every: int = 10,
+) -> tuple[
+    torch.Tensor,
+    int,
+    list[int],
+    list[list[float]],
+    list[tuple[int, torch.Tensor]],
+    list[tuple[int, torch.Tensor]],
+]:
     if initial_unmixing is None:
         weights = _symmetric_decorrelation(initial)
         if checkpoint_callback is not None:
@@ -420,6 +523,10 @@ def _fit_parallel(
     )
     objective_iterations: list[int] = []
     objective_history: list[list[float]] = []
+    train_kurtosis: list[tuple[int, torch.Tensor]] = []
+    heldout_history: list[tuple[int, torch.Tensor]] = []
+    if heldout_kurtosis is not None and start_iteration == 0:
+        heldout_history.append((0, heldout_kurtosis(weights)))
     for iteration_index in iterations:
         iteration = iteration_index + 1
         record_objective = iteration % objective_every == 0 or iteration == max_iter
@@ -430,6 +537,10 @@ def _fit_parallel(
             if record_objective
             else None
         )
+        # Training kurtosis of the unmixing entering this pass (after
+        # ``iteration_index`` updates), accumulated from the scores already computed.
+        record_kurtosis = track_kurtosis and iteration_index % objective_every == 0
+        moments: Moments | None = None
         for whitened in _whitened_batches(source, **batch_kwargs):
             projected = weights @ whitened
             transformed, derivative_mean = nonlinearity(projected)
@@ -438,6 +549,10 @@ def _fit_parallel(
             derivative_sum += derivative_mean * batch_count
             if objective_sum is not None:
                 objective_sum += objective(projected) * batch_count
+            if record_kurtosis:
+                moments = merge_moments(moments, projected.T)
+        if moments is not None:
+            train_kurtosis.append((iteration_index, excess_from_moments(moments)))
         updated = term_sum / n_samples - (derivative_sum / n_samples)[:, None] * weights
         updated = _symmetric_decorrelation(updated)
         limit = torch.max(torch.abs(torch.abs(torch.sum(updated * weights, dim=1)) - 1.0))
@@ -457,11 +572,26 @@ def _fit_parallel(
             objective_iterations.append(iteration)
             objective_history.append([float(value) for value in quantiles])
             postfix["obj"] = f"{float(component_objectives.mean()):.2f}"
-        iterations.set_postfix(postfix)
         weights = updated
+        if heldout_kurtosis is not None and (
+            iteration % heldout_every == 0 or iteration == max_iter
+        ):
+            heldout_values = heldout_kurtosis(weights)
+            heldout_history.append((iteration, heldout_values))
+            postfix["heldout_kurt"] = f"{float(heldout_values.mean()):.2f}"
+        if train_kurtosis and train_kurtosis[-1][0] == iteration_index:
+            postfix["train_kurt"] = f"{float(train_kurtosis[-1][1].mean()):.2f}"
+        iterations.set_postfix(postfix)
         if checkpoint_callback is not None:
             checkpoint_callback(iteration, weights)
-    return weights, max_iter, objective_iterations, objective_history
+    return (
+        weights,
+        max_iter,
+        objective_iterations,
+        objective_history,
+        train_kurtosis,
+        heldout_history,
+    )
 
 
 def _fit_deflation(

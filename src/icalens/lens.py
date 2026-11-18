@@ -32,6 +32,7 @@ from ._artifact import (
 )
 from ._fastica import OBJECTIVE_PERCENTILES, fit_fastica, geometric_median
 from .exceptions import ArtifactError, NotFittedError
+from .kurtosis import STATISTIC as KURTOSIS_STATISTIC
 
 if TYPE_CHECKING:
     from .analysis import ComponentProfile
@@ -186,8 +187,17 @@ class ICALens:
         batch_size: int = 8192,
         objective_every: int = 1,
         provenance: dict[str, Any] | None = None,
+        heldout: Any | None = None,
+        heldout_every: int = 10,
+        heldout_provenance: dict[str, Any] | None = None,
     ) -> ICALens:
-        """Fit or replace the ICA transformation for one layer."""
+        """Fit or replace the ICA transformation for one layer.
+
+        Training (fitting) excess kurtosis is recorded every ``objective_every``
+        iterations. When ``heldout`` activations are given, held-out excess kurtosis
+        is recorded every ``heldout_every`` iterations using the training center and
+        whitening, analogous to a test loss.
+        """
         layer = _validate_layer(layer)
         values = _as_fit_tensor(activations)
         hidden_size = int(values.shape[1])
@@ -212,6 +222,14 @@ class ICALens:
         if objective_every <= 0:
             raise ValueError("objective_every must be positive")
         provenance = _validate_provenance(provenance)
+        heldout_values = None if heldout is None else _as_fit_tensor(heldout)
+        if heldout_values is not None and int(heldout_values.shape[1]) != hidden_size:
+            raise ValueError("held-out activations must have the same hidden size")
+        if heldout_every <= 0:
+            raise ValueError("heldout_every must be positive")
+        heldout_provenance = (
+            None if heldout_provenance is None else _validate_provenance(heldout_provenance)
+        )
 
         preprocessing_center = None
         if self.icalens_preprocessing == "geometric-median-l2":
@@ -238,7 +256,14 @@ class ICALens:
             preprocessing_center=preprocessing_center,
             norm_eps=self.norm_eps,
             objective_every=objective_every,
+            heldout=heldout_values,
+            heldout_every=heldout_every,
         )
+        kurtosis_history = result.kurtosis_history
+        if kurtosis_history is not None:
+            kurtosis_history = {"statistic": KURTOSIS_STATISTIC, **kurtosis_history}
+            if "heldout" in kurtosis_history:
+                kurtosis_history["heldout"]["provenance"] = heldout_provenance
 
         center = _to_numpy(result.center)
         reading = _to_numpy(result.components)
@@ -277,6 +302,8 @@ class ICALens:
                 "gaussian_objective": result.gaussian_objective,
                 "component_objectives": result.component_objectives,
                 "component_strengths": result.component_strengths,
+                "kurtosis_history": kurtosis_history,
+                "component_excess_kurtosis": result.component_excess_kurtosis,
                 "n_samples": int(values.shape[0]),
                 "input_dtype": str(values.dtype).removeprefix("torch."),
                 "fit_device": str(result.center.device),
@@ -814,8 +841,10 @@ class ICALens:
                 readouts.update(component.get("additional_readouts", {}))
                 summaries[component_index] = {
                     "output_readouts": {
-                        name: {side: ranking[side]["top_tokens"][:10]
-                               for side in ("positive", "negative")}
+                        name: {
+                            side: ranking[side]["top_tokens"][:10]
+                            for side in ("positive", "negative")
+                        }
                         for name, ranking in readouts.items()
                     },
                 }

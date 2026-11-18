@@ -31,6 +31,18 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--fit-batch-size", type=int, default=8192)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--max-vram-gb", type=float, default=None)
+    parser.add_argument(
+        "--heldout-activations",
+        type=Path,
+        default=None,
+        help="Captured held-out activation directory for held-out kurtosis (optional).",
+    )
+    parser.add_argument(
+        "--heldout-every",
+        type=int,
+        default=10,
+        help="Record held-out kurtosis every N FastICA iterations (default: 10).",
+    )
     return parser.parse_args(argv)
 
 
@@ -46,8 +58,19 @@ def main(argv: Sequence[str] | None = None) -> None:
         raise ValueError("--max-iter and --objective-every must be positive")
     torch.cuda.reset_peak_memory_stats()
 
+    if args.heldout_every <= 0:
+        raise ValueError("--heldout-every must be positive")
     dataset = ActivationDataset(args.input)
     requested_layers = _parse_layers(args.layers, dataset.available_layers)
+    heldout = (
+        None if args.heldout_activations is None else ActivationDataset(args.heldout_activations)
+    )
+    if heldout is not None:
+        validate_heldout_dataset(dataset, heldout, requested_layers)
+        log(
+            f"Held-out kurtosis from {heldout.path} ({heldout.sample_count} tokens) "
+            f"every {args.heldout_every} iterations."
+        )
     log(f"Requested layers: {','.join(map(str, requested_layers))}")
     model = dataset.model
     model_type = str(model.get("type") or "base")
@@ -108,12 +131,73 @@ def main(argv: Sequence[str] | None = None) -> None:
             batch_size=batch_size,
             objective_every=args.objective_every,
             provenance=dataset.provenance,
+            heldout=None if heldout is None else heldout.layer(layer),
+            heldout_every=args.heldout_every,
+            heldout_provenance=None if heldout is None else heldout_provenance(heldout),
         )
+        _log_kurtosis(lens, layer)
         lens.save(output)
         log(f"Checkpointed layer {layer} to {output}")
     log(f"Available layers: {lens.available_layers}")
     log(f"Peak PyTorch CUDA memory reserved: {torch.cuda.max_memory_reserved() / 1024**3:.2f} GiB")
     log(f"Peak process resident memory (RSS): {peak_rss_gib():.2f} GiB")
+
+
+def validate_heldout_dataset(
+    training: ActivationDataset, heldout: ActivationDataset, layers: tuple[int, ...]
+) -> None:
+    """Refuse held-out activations that were not captured like the training set."""
+    checks = {
+        "model": (training.model, heldout.model),
+        "activation_site": (
+            training.manifest["activation_site"],
+            heldout.manifest["activation_site"],
+        ),
+        "layer_indexing": (
+            training.manifest["layer_indexing"],
+            heldout.manifest["layer_indexing"],
+        ),
+        "hidden_size": (training.hidden_size, heldout.hidden_size),
+        "context_length": (
+            training.provenance.get("context_length"),
+            heldout.provenance.get("context_length"),
+        ),
+        "document_framing.strategy": (
+            (training.provenance.get("document_framing") or {}).get("strategy"),
+            (heldout.provenance.get("document_framing") or {}).get("strategy"),
+        ),
+    }
+    mismatches = [f"{name}: {a!r} != {b!r}" for name, (a, b) in checks.items() if a != b]
+    missing = [layer for layer in layers if layer not in heldout.available_layers]
+    if missing:
+        mismatches.append(f"held-out activations lack layers {missing}")
+    if mismatches:
+        raise ValueError("held-out activations are incompatible: " + "; ".join(mismatches))
+
+
+def heldout_provenance(heldout: ActivationDataset) -> dict[str, object]:
+    provenance = heldout.provenance
+    return {
+        "activations": str(heldout.path),
+        "dataset": provenance.get("dataset"),
+        "text_field": provenance.get("text_field"),
+        "heldout_tokens": heldout.sample_count,
+        "sampling_seed": provenance.get("sampling_seed"),
+        "context_length": provenance.get("context_length"),
+    }
+
+
+def _log_kurtosis(lens: ICALens, layer: int) -> None:
+    fitting = lens._get_layer(layer).fitting
+    values = fitting.get("component_excess_kurtosis") or {}
+    message = f"Layer {layer} mean excess kurtosis: fit={_mean(values.get('train')):.4g}"
+    if "heldout" in values:
+        message += f", held-out={_mean(values['heldout']):.4g}"
+    log(message)
+
+
+def _mean(values: list[float] | None) -> float:
+    return float("nan") if not values else sum(values) / len(values)
 
 
 def _validate_resume(lens: ICALens, dataset: ActivationDataset, preprocessing: str) -> None:

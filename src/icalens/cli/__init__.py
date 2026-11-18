@@ -28,6 +28,10 @@ def main(argv: Sequence[str] | None = None) -> None:
 
         with compact_output("ICA Lens · component profiling", args):
             profile_main(args)
+    elif command == "kurtosis":
+        from .kurtosis import main as kurtosis_main
+
+        kurtosis_main(args)
     elif command == "plot":
         _dispatch_plot(args)
     elif command == "smoke-test":
@@ -188,6 +192,7 @@ commands:
   fit text     Fit from a raw-text dataset
   fit chat     Fit from a conversation dataset
   fit activations  Fit from a reusable activation dataset
+  kurtosis     Score component excess kurtosis on captured activations
   profile      Add component statistics, examples, and logit-lens tokens
   plot         Plot diagnostics from saved ICA Lens artifacts
   publish      Publish a local artifact to Hugging Face

@@ -138,6 +138,30 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default=0,
         help="Capture and fit this many layers per model pass; 0 uses all requested layers.",
     )
+    heldout = parser.add_argument_group(
+        "held-out kurtosis",
+        "Optionally score components on a separate dataset during fitting, like a test loss.",
+    )
+    heldout.add_argument(
+        "--heldout-dataset",
+        default=None,
+        help="Held-out dataset repository or local JSONL/Parquet file (default: none).",
+    )
+    heldout.add_argument("--heldout-dataset-revision", default=None)
+    heldout.add_argument("--heldout-split", default="train")
+    heldout.add_argument("--heldout-text-field", default="text")
+    heldout.add_argument(
+        "--heldout-tokens",
+        type=int,
+        default=1_000_000,
+        help="First N usable held-out tokens to score (default: 1000000).",
+    )
+    heldout.add_argument(
+        "--heldout-every",
+        type=int,
+        default=10,
+        help="Record held-out kurtosis every N FastICA iterations (default: 10).",
+    )
     return parser.parse_args(argv)
 
 
@@ -155,6 +179,8 @@ def main(argv: Sequence[str] | None = None) -> None:
         raise ValueError("--objective-every must be positive")
     if args.capture_layers_at_once < 0:
         raise ValueError("--capture-layers-at-once must be non-negative")
+    if args.heldout_every <= 0 or args.heldout_tokens <= 0:
+        raise ValueError("--heldout-every and --heldout-tokens must be positive")
     torch.cuda.reset_peak_memory_stats()
 
     log(f"Resolving model {args.model} and dataset {args.dataset} revisions...")
@@ -205,6 +231,35 @@ def main(argv: Sequence[str] | None = None) -> None:
     token_budget = sum(int(positions.shape[0]) for positions in selected_positions.values())
     if args.token_budget is None:
         log(f"Resolved --token-budget all to {token_budget} usable tokens.")
+    heldout_documents: list[TextDocument] | None = None
+    heldout_positions: dict[int, torch.Tensor] = {}
+    heldout_provenance: dict[str, Any] | None = None
+    if args.heldout_dataset is not None:
+        heldout_revision, heldout_dataset_provenance = resolve_text_dataset(
+            args.heldout_dataset,
+            split=args.heldout_split,
+            api=api,
+            revision=args.heldout_dataset_revision,
+        )
+        log(f"Loading {args.heldout_tokens} held-out tokens from {args.heldout_dataset}...")
+        heldout_documents = load_pile_documents(
+            tokenizer,
+            dataset_id=args.heldout_dataset,
+            dataset_revision=str(heldout_revision),
+            split=args.heldout_split,
+            text_field=args.heldout_text_field,
+            candidate_token_budget=args.heldout_tokens,
+            context_length=args.context_length,
+            document_framing=document_framing,
+        )
+        heldout_positions = sample_positions(heldout_documents, token_budget=None, seed=args.seed)
+        heldout_provenance = {
+            "dataset": heldout_dataset_provenance,
+            "text_field": args.heldout_text_field,
+            "heldout_tokens": args.heldout_tokens,
+            "selection": "first N usable tokens",
+            "context_length": args.context_length,
+        }
 
     log(f"Loading {args.model}@{revision} on CUDA...")
     model = load_model_to_cuda(
@@ -244,6 +299,15 @@ def main(argv: Sequence[str] | None = None) -> None:
             selected_positions=selected_positions,
             layers=layer_group,
         )
+        heldout_by_layer: dict[int, torch.Tensor] = {}
+        if heldout_documents is not None:
+            log(f"Capturing {args.heldout_tokens} held-out activations...")
+            heldout_by_layer = capture_activations(
+                model,
+                documents=heldout_documents,
+                selected_positions=heldout_positions,
+                layers=layer_group,
+            )
         for layer in layer_group:
             activations = activations_by_layer[layer]
             sample_count = int(activations.shape[0])
@@ -285,12 +349,21 @@ def main(argv: Sequence[str] | None = None) -> None:
                     "context_length": args.context_length,
                     "document_framing": document_framing,
                 },
+                heldout=heldout_by_layer.get(layer),
+                heldout_every=args.heldout_every,
+                heldout_provenance=heldout_provenance,
             )
+            fitting = lens._get_layer(layer).fitting
+            kurtosis = fitting["component_excess_kurtosis"]
+            message = f"Layer {layer} mean excess kurtosis: fit={np.mean(kurtosis['train']):.4g}"
+            if "heldout" in kurtosis:
+                message += f", held-out={np.mean(kurtosis['heldout']):.4g}"
+            log(message)
             output = lens.save(output)
             log(
                 f"Checkpointed layer {layer} to {output}; available layers: {lens.available_layers}"
             )
-        del activations, activations_by_layer
+        del activations, activations_by_layer, heldout_by_layer
 
     log(f"Saved {len(layers)} layer(s) to {output}")
     log(f"Available layers: {lens.available_layers}")

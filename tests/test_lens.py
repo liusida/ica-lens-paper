@@ -98,10 +98,7 @@ def test_geometric_median_preprocessing_round_trip(
 
 def test_icalens_preprocessing_compatibility_arguments() -> None:
     assert ICALens(model_id="example/model").icalens_preprocessing == "l2"
-    assert (
-        ICALens(model_id="example/model", row_normalize=False).icalens_preprocessing
-        == "none"
-    )
+    assert ICALens(model_id="example/model", row_normalize=False).icalens_preprocessing == "none"
     with pytest.raises(ValueError, match="conflicts"):
         ICALens(
             model_id="example/model",
@@ -163,9 +160,7 @@ def test_torch_energy_handles_large_and_small_finite_scores(dtype, large, small)
 
 @pytest.mark.parametrize("backend", ["numpy", "torch"])
 def test_energy_is_scale_invariant_with_leading_dimensions_and_zero_rows(backend: str) -> None:
-    scores = np.array(
-        [[[1, -2, 3], [0, 0, 0]], [[-3, 1, 2], [2, 0, -1]]], dtype=np.float32
-    )
+    scores = np.array([[[1, -2, 3], [0, 0, 0]], [[-3, 1, 2], [2, 0, -1]]], dtype=np.float32)
     factors = np.array([[[1e20], [1e-30]], [[1e-30], [1e20]]], dtype=np.float32)
     scaled = scores * factors
     original = scaled.copy()
@@ -411,12 +406,17 @@ def test_render_fitting_summary_writes_png_and_pdf(
         [lens], titles=["Example"], output=tmp_path / "figures", force=False
     )
 
-    assert [path.name for path in outputs] == ["fitting-curves.png", "fitting-curves.pdf"]
+    assert [path.name for path in outputs] == [
+        "fitting-curves.png",
+        "fitting-curves.pdf",
+        "fitting-kurtosis.png",
+        "fitting-kurtosis.pdf",
+        "fitting-kurtosis-layers.png",
+        "fitting-kurtosis-layers.pdf",
+    ]
     assert all(path.is_file() for path in outputs)
     with pytest.raises(FileExistsError, match="--force"):
-        render_fitting_summary(
-            [lens], titles=["Example"], output=tmp_path / "figures", force=False
-        )
+        render_fitting_summary([lens], titles=["Example"], output=tmp_path / "figures", force=False)
 
 
 @pytest.mark.parametrize("columns", [0, -1])
@@ -503,3 +503,26 @@ def test_full_components_require_one_more_sample_than_features() -> None:
     values = np.eye(3, dtype=np.float32)
     with pytest.raises(ValueError, match="centering limits the data rank"):
         make_lens().fit(values, layer=1, n_components=3)
+
+
+def test_render_fitting_summary_tolerates_layers_without_kurtosis_history(
+    mixed_signals: np.ndarray, tmp_path: Path
+) -> None:
+    from icalens.cli.plot_fitting import render_fitting_summary
+
+    lens = make_lens()
+    for layer in (1, 2, 3):
+        lens.fit(mixed_signals, layer=layer, n_components=3, max_iter=2)
+    # An older or partially written layer: no kurtosis history at all.
+    lens._get_layer(2).fitting.pop("kurtosis_history")
+    # A layer fitted with a different iteration grid stays plottable per layer.
+    lens.fit(mixed_signals, layer=3, n_components=3, max_iter=3)
+
+    outputs = render_fitting_summary(
+        [lens], titles=["Partial"], output=tmp_path / "figures", force=False
+    )
+
+    names = [path.name for path in outputs]
+    assert "fitting-kurtosis.png" in names
+    assert "fitting-kurtosis-layers.png" in names
+    assert all(path.is_file() for path in outputs)
