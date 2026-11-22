@@ -193,8 +193,8 @@ The documentation covers:
 
 ```bibtex
 @article{liu2026icalens,
-  title={ICA Lens: Interpreting Language Models Without Training Another Dictionary},
-  author={Liu, Sida and Han, Feijiang},
+  title={ICA Lens: Non-Gaussianity Reveals Interpretable Directions in Language Models},
+  author={Liu, Sida and Han, Feijiang and Wiegreffe, Sarah and Huang, Furong},
   journal={arXiv preprint arXiv:2606.11722},
   year={2026}
 }
